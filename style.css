@@ -1,0 +1,127 @@
+body{
+	background-color: #FFFFCC;
+}
+
+.home-top{
+	background-image: url('abstract-speed-of-light copy.jpg'); 
+	background-size: cover; 
+	width:100%; 
+	height:560px;
+}
+
+.home-top-head{
+	width:100%;
+	height:120px;
+	float:left;
+	padding:10px 10px 10px 10px;
+	position:relative;
+}
+
+.home-top-logo{
+	width:80px; 
+	height:80px; 
+	float:left; 
+	position:relative; 
+	margin-top:10px;
+}
+
+.home-top-name{
+	width:400px; 
+	height:80px; 
+	margin-top:10px; 
+	margin-left:50px; 
+	float:left; 
+	padding-left:0px
+}
+
+.home-top-select{
+	margin-top:15px;
+	margin-right:10px;
+	min-width:100px;
+	width: 25%;
+	border-style:solid;
+	border-width:1px;
+	border-color:white;
+	float:right;
+	position: relative;
+	padding-right: 15px;
+  	padding-left: 15px;
+}
+
+.home-top-selectrow{
+	width:60%; 
+	min-width:350px; 
+	height:100%; 
+	float:right;
+}
+
+.home-top-body{
+	height:420px; 
+	padding-top:30px;
+}
+
+.home-top-map{
+	background-color:white; 
+	width:300px; 
+	height:300px; 
+	margin-top:20px; 
+	padding-top:100px;
+	margin-right: auto;
+  	margin-left: auto;
+}
+
+.home-top-pacel{
+	width:100px; 
+	height:100px; 
+	margin:0 auto; 
+	padding-top:10px;
+}
+
+.home-body{
+	width:70%; 
+	height:400px; 
+	padding: 20px 20px 20px 20px;
+	margin-right: auto;
+  	margin-left: auto;
+}
+
+.home-body-messenger{
+	position:relative; 
+	float:left;
+}
+
+.home-body-introbox{
+	width:55%; height:350px; 
+	position:relative; 
+	border-style:solid; 
+	border-width:1px; 
+	border-color:black; 
+	float:right; 
+	padding:0px 20px 20px 20px;
+	margin-right: auto;
+  	margin-left: auto;
+}
+
+.home-body-tip{
+	width:100%; 
+	height:150px; 
+	position:relative; 
+	padding:0px 20px 20px 20px;
+}
+
+.home-body-woman{
+	float:left;
+	position:relative; 
+}
+
+.home-body-man{
+	float:right;
+	position:relative; 
+
+.home-body-mandw{
+	padding:10px 5px 5px 5px;
+}
+
+.home-footer{
+
+}
