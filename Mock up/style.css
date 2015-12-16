@@ -75,26 +75,25 @@ body{
 
 .home-body{
 	width:70%; 
-	height:400px; 
+	min-width: 500px;
+	height:350px; 
 
 	margin-right: auto;
   	margin-left: auto;
 }
 
 .home-body-messenger{
-	width:500px; height:350px; 
+	width:60%; height:350px; 
 	position:relative; 
 	float:left;
 }
 
 .home-body-introbox{
-	width:400px; height:350px; 
+	width:40%; height:350px; 
 	position:relative; 
 	background-color: lightgreen;
-	float:right; 
+	float:left; 
 	padding:0px 20px 20px 20px;
-	margin-right: auto;
-  	margin-left: auto;
 }
 
 .home-body-tip{
