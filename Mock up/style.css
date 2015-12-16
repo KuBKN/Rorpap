@@ -1,5 +1,4 @@
 body{
-	background-color: #FFFFCC;
 }
 
 .home-top{
@@ -49,7 +48,6 @@ body{
 
 .home-top-selectrow{
 	width:60%; 
-	min-width:350px; 
 	height:100%; 
 	float:right;
 }
@@ -60,7 +58,6 @@ body{
 }
 
 .home-top-map{
-	background-color:white; 
 	width:300px; 
 	height:300px; 
 	margin-top:20px; 
@@ -70,31 +67,30 @@ body{
 }
 
 .home-top-pacel{
-	width:100px; 
-	height:100px; 
-	margin:0 auto; 
+	width:40px; 
+	height:50px; 
+	margin:auto auto; 
 	padding-top:10px;
 }
 
 .home-body{
 	width:70%; 
 	height:400px; 
-	padding: 20px 20px 20px 20px;
+
 	margin-right: auto;
   	margin-left: auto;
 }
 
 .home-body-messenger{
+	width:500px; height:350px; 
 	position:relative; 
 	float:left;
 }
 
 .home-body-introbox{
-	width:55%; height:350px; 
+	width:400px; height:350px; 
 	position:relative; 
-	border-style:solid; 
-	border-width:1px; 
-	border-color:black; 
+	background-color: lightgreen;
 	float:right; 
 	padding:0px 20px 20px 20px;
 	margin-right: auto;
@@ -106,19 +102,6 @@ body{
 	height:150px; 
 	position:relative; 
 	padding:0px 20px 20px 20px;
-}
-
-.home-body-woman{
-	float:left;
-	position:relative; 
-}
-
-.home-body-man{
-	float:right;
-	position:relative; 
-
-.home-body-mandw{
-	padding:10px 5px 5px 5px;
 }
 
 .home-footer{
