@@ -1,24 +1,7 @@
-<!doctype html>
-<html>
-	<head>
-		<title>Index</title>
-		<script src="js/shared/angular.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.6-dist/css/bootstrap.css">
-	</head>
-	<body ng-app="rorpap">
+<div class="header">
+	<h1>What is RORPAP?</h1>
+	<div ng-view></div>
+</div>
 
-		<div class="header">
-			<h1>What is RORPAP?</h1>
-			<div ng-view></div>
-		</div>
-
-		<div class="main" ng-controller="MainController">
-		</div>
-
-			<!-- Modules -->
-	    <script src="js/app.js"></script>
-
-	    <!-- Controllers -->
-	    <script src="js/controllers/MainController.js"></script>
-	</body>
-</html>
+<div class="main" ng-controller="MainController">
+</div>
