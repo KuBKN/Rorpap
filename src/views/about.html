@@ -1,7 +1,21 @@
 <div class="header">
-	<h1>What is RORPAP?</h1>
-	<div ng-view></div>
+	<h1><center><b>What is RORPAP?</b></center></h1>
 </div>
 
 <div class="main" ng-controller="MainController">
+	<div class="container">
+		<div class="row">
+			<div class="item col-md-4" ng-repeat="about in abouts">
+				<img ng-src="{{ about.url }}">
+				<p class="about-content">{{ about.contents }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="about">
+	<div class="container">
+		<img ng-src="{{ photo.url }}">
+		<p class="about-detail">{{ scope.contents }}</p>
+	</div>
 </div>
