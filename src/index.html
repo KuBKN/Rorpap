@@ -9,19 +9,24 @@
 
 	<body ng-app="rorpap">
 		<div class="container" style="width: 100%; background-color: #fcfcfc; box-shadow: 0 1px 5px rgba(0,0,0,0.4);">
-			<div class="row" style="padding: 8px 8px;" ng-controller="HeaderController">
-				<img src="images/Banner-Logo-OR.png" height="65" widht="195">
-				<div style="background-image: url('images/menu-bg.jpg'); float: right; height: 50px">
+			<div class="row" style="padding: 8px 8px;">
+				<a href="#/">
+					<img src="images/Banner-Logo-OR.png" height="65" widht="195">
+				</a>
+				<div style="background-image: url('images/menu-bg.jpg'); float: right; height: 50px" ng-controller="HeaderController">
 					<div class="col-sm-2" ng-repeat="menu in menus" style="background-color: #fcfcfc; width: 130px; padding: 15px 15px; margin: 0 2px 0 0;">
-					
-						<font size="5" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
-					
+						<a href="#/{{ menu.name }}">
+							<font size="5" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
+						</a>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		kkkk
+		<br>
+		<div ng-view>
+		</div>
+		<br>
 
 		<div class="container" style="width: 100%; height: 300px; background-color: #6d6d6d; padding: 10px">
 			<div class="row" ng-controller="FooterController">
@@ -36,9 +41,7 @@
 			</div>
 		</div>
 
-		
-
-			<!-- Modules -->
+		<!-- Modules -->
 	    <script src="js/app.js"></script>
 
 	    <!-- Controllers -->
