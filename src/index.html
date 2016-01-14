@@ -3,21 +3,26 @@
 	<head>
 		<title>Index</title>
 		<link rel="stylesheet" href="css/bootstrap-3.3.6-dist/css/bootstrap.min.css">
-		<script src="js/shared/angular.min.js"></script>
+		<script src="js/shared/angular.js"></script>
+		<script src="js/shared/angular-route.js"></script>
 	</head>
+
 	<body ng-app="rorpap">
 		<div class="container" style="width: 100%; background-color: #fcfcfc; box-shadow: 0 1px 5px rgba(0,0,0,0.4);">
 			<div class="row" style="padding: 8px 8px;" ng-controller="HeaderController">
 				<img src="images/Banner-Logo-OR.png" height="65" widht="195">
 				<div style="background-image: url('images/menu-bg.jpg'); float: right; height: 50px">
 					<div class="col-sm-2" ng-repeat="menu in menus" style="background-color: #fcfcfc; width: 130px; padding: 15px 15px; margin: 0 2px 0 0;">
+					
 						<font size="5" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
+					
 					</div>
 				</div>
-
 			</div>
 		</div>
-		<div style="height: 270px"></div>
+
+		kkkk
+
 		<div class="container" style="width: 100%; height: 300px; background-color: #6d6d6d; padding: 10px">
 			<div class="row" ng-controller="FooterController">
 				<div class="col-sm-2" style="width: 200px; float: right; color: white" ng-repeat="column in columns">
@@ -39,5 +44,7 @@
 	    <!-- Controllers -->
 	    <script src="js/controllers/HeaderController.js"></script>
 	    <script src="js/controllers/FooterController.js"></script>
+	    <script src="js/controllers/HomeController.js"></script>
+	    <script src="js/controllers/AboutController.js"></script>
 	</body>
 </html>

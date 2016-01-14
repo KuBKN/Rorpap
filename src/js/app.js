@@ -1,11 +1,12 @@
-var app = angular.module("rorpap", ['ngRoute']);
+var app = angular.module('rorpap', ['ngRoute']);
+
 app.config(function($routeProvider) {
   $routeProvider.when('/', {
     controller: 'HomeController',
-    templateUrl: 'home.html'
+    templateUrl: 'views/home.html'
   }).when('/about', {
     controller: 'AboutController',
-    templateUrl: 'about.html'
+    templateUrl: 'views/about.html'
   }).otherwise({
     redirectTo: '/'
   });
