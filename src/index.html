@@ -15,7 +15,7 @@
 				</a>
 				<div style="background-image: url('images/menu-bg.jpg'); float: right; height: 50px" ng-controller="HeaderController">
 					<div class="col-sm-2" ng-repeat="menu in menus" style="background-color: #fcfcfc; width: 130px; padding: 15px 15px; margin: 0 2px 0 0;">
-						<a href="#/{{ menu.name }}">
+						<a href="{{ menu.link }}">
 							<font size="5" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
 						</a>
 					</div>
