@@ -1,4 +1,4 @@
-var app = angular.module('rorpap', ['ngRoute','ui.bootstrap']);
+var app = angular.module('rorpap', ['ngRoute', 'ui.bootstrap']);
 
 app.config(function($routeProvider) {
 	$routeProvider.when('/',{
