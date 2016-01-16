@@ -7,7 +7,8 @@ app.controller('HeaderController',['$scope','$uibModal','$log',function($scope,$
 		modal: function(){
 			var modalInst = $uibModal.open({
 				animation: true,
-				templateUrl: './views/logIn.html'
+				templateUrl: './views/logIn.html',
+				size: 'sm'
 			});
 		}
 	},{
