@@ -2,14 +2,13 @@ app.controller('HeaderController',['$scope',function($scope){
 	$scope.menus = [
 	{
 		name: 'About',
-		link: 'views/about.html'
+		link: '#/About'
 	},{
 		name: 'Sign Up',
-		link: 'views/signUp.html'
+		link: '#/Sign Up'
 	},{
 		name: 'Log In',
 		link: '/'
 	}
 	];
 }]);
-
