@@ -8,7 +8,5 @@ app.config(function($routeProvider) {
 	}).when('/About',{
 		controller: 'AboutController',
         templateUrl: './views/about.html'
-	}).when('/Sign Up',{
-		templateUrl: './views/signUp.html'
 	});
 });

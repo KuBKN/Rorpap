@@ -1,14 +1,28 @@
-app.controller('HeaderController',['$scope',function($scope){
+app.controller('HeaderController',['$scope','$uibModal','$log',function($scope,$uibModal,$log){
+
 	$scope.menus = [
 	{
-		name: 'About',
-		link: '#/About'
+		name: 'Log In',
+		link: 'javascript:void(0)',
+		modal: function(){
+			var modalInst = $uibModal.open({
+				animation: true,
+				templateUrl: './views/logIn.html'
+			});
+		}
 	},{
 		name: 'Sign Up',
-		link: '#/Sign Up'
+		link: 'javascript:void(0)',
+		modal: function(){
+			var modalInst = $uibModal.open({
+				animation: true,
+				templateUrl: './views/signUp.html'
+			});
+		}
 	},{
-		name: 'Log In',
-		link: '/'
-	}
-	];
+		name: 'About',
+		link: '#/About',
+		modal: ''
+	}];
+
 }]);

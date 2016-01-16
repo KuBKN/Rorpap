@@ -5,19 +5,19 @@
 		<link rel="stylesheet" href="css/bootstrap-3.3.6-dist/css/bootstrap.min.css">
 		<script src="js/shared/angular.js"></script>
 		<script src="js/shared/angular-route.js"></script>
-		<script src="js/shared/ui-bootstrap-1.0.3.js"></script>
+		<script src="js/shared/angular-animate.js"></script>
 		<script src="js/shared/ui-bootstrap-tpls-1.0.3.min.js"></script>
 	</head>
 
 	<body ng-app="rorpap">
 		<div class="container" style="width: 100%; background-color: #fcfcfc; box-shadow: 0 1px 5px rgba(0,0,0,0.4);">
-			<div class="row" style="padding: 8px 8px;">
+			<div class="row" style="padding: 8px 8px;" ng-controller="HeaderController">
 				<a href="#/">
 					<img src="images/Banner-Logo-OR.png" height="65" widht="195">
 				</a>
-				<div style="background-image: url('images/menu-bg.jpg'); float: right; height: 50px" ng-controller="HeaderController">
-					<div class="col-sm-2" ng-repeat="menu in menus" style="background-color: #fcfcfc; width: 130px; padding: 15px 15px; margin: 0 2px 0 0;">
-						<a href="{{ menu.link }}">
+				<div ng-repeat="menu in menus" style="background-image: url('images/menu-bg.jpg'); float: right; height: 50px">
+					<div class="col-sm-2" style="background-color: #fcfcfc; width: 130px; padding: 15px 15px; margin: 0 2px 0 0;">
+						<a href="{{ menu.link }}" ng-click="menu.modal()">
 							<font size="5" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
 						</a>
 					</div>
