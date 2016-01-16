@@ -1,11 +1,12 @@
-var app = angular.module('rorpap', ['ngRoute']);
+var app = angular.module('rorpap', ['ngRoute','ui.bootstrap']);
 
 app.config(function($routeProvider) {
 	$routeProvider.when('/',{
-		templateUrl: 'views/home.html',
-		controller: 'HomeController'
+		controller: 'HomeController',	
+        templateUrl: './views/home.html'
+        
 	}).when('/About',{
-		templateUrl: 'views/about.html',
-		controller: 'AboutController'
-	})
+		controller: 'AboutController',
+        templateUrl: './views/about.html'
+	});
 });

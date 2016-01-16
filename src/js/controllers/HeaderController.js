@@ -10,5 +10,5 @@ app.controller('HeaderController',['$scope',function($scope){
 		name: 'Log In',
 		link: '/'
 	}
-	]
+	];
 }]);
