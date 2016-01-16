@@ -22,7 +22,7 @@ app.controller('HeaderController',['$scope','$uibModal','$log',function($scope,$
 	},{
 		name: 'About',
 		link: '#/About',
-		modal: ''
+		modal: function(){}
 	}];
 
 }]);

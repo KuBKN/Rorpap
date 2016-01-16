@@ -15,8 +15,8 @@
 				<a href="#/">
 					<img src="images/Banner-Logo-OR.png" height="65" widht="195">
 				</a>
-				<div ng-repeat="menu in menus" style="background-image: url('images/menu-bg.jpg'); float: right; height: 50px">
-					<div class="col-sm-2" style="background-color: #fcfcfc; width: 130px; padding: 15px 15px; margin: 0 2px 0 0;">
+				<div style="background-image: url('images/menu-bg.jpg'); float: right; height: 50px">
+					<div ng-repeat="menu in menus" class="col-sm-2" style="background-color: #fcfcfc; width: 130px; padding: 15px 15px; margin: 0 2px 0 0;">
 						<a href="{{ menu.link }}" ng-click="menu.modal()">
 							<font size="5" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
 						</a>
