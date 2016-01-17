@@ -10,3 +10,23 @@ app.config(function($routeProvider) {
         templateUrl: './views/about.html'
 	});
 });
+
+app.service('loginService',function($window){
+
+	var status = false;
+
+	var login = function(){
+		status = true;
+		$window.location.reload();
+	};
+
+	var logout = function(){
+		status = false;
+	}
+
+	return {
+		status : status,
+		login : login,
+		logout : logout,
+	}
+});

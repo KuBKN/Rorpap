@@ -16,7 +16,7 @@
 					<img src="images/Banner-Logo-OR.png" height="65" widht="195">
 				</a>
 				<div style="background-image: url('images/menu-bg.jpg'); background-size:100% 100%; float: right;">
-					<div ng-repeat="menu in menus | orderBy: orderBy" ng-if="!menu.depLog  || menu.reqLog == logIn" class="col-sm-2" style="background-color: #fcfcfc; width: 130px; height: 65px; line-height: 65px; margin: 0 2px 0 0;">
+					<div ng-repeat="menu in menus | orderBy: orderBy" ng-if="!menu.depLog  || menu.reqLog == logIned" class="col-sm-2" style="background-color: #fcfcfc; width: 130px; height: 65px; line-height: 65px; margin: 0 2px 0 0;">
 						<a href="{{ menu.link }}" ng-click="menu.modal()">
 							<font size="{{ menu.fontSize }}" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
 						</a>
@@ -51,5 +51,6 @@
 	    <script src="js/controllers/FooterController.js"></script>
 	    <script src="js/controllers/HomeController.js"></script>
 	    <script src="js/controllers/AboutController.js"></script>
+	    <script src="js/controllers/LogInController.js"></script>
 	</body>
 </html>

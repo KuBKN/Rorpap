@@ -1,6 +1,6 @@
-app.controller('HeaderController',['$scope','$uibModal','$log',function($scope,$uibModal,$log){
+app.controller('HeaderController',['$scope','$uibModal','$log','loginService',function($scope,$uibModal,$log,loginService){
 
-	$scope.logIn = false;
+	$scope.logIned = loginService.status;
 	$scope.orderBy = 'order';
 
 	$scope.menus = [
@@ -52,6 +52,7 @@ app.controller('HeaderController',['$scope','$uibModal','$log',function($scope,$
 			var modalInst = $uibModal.open({
 				animation: true,
 				templateUrl: './views/logIn.html',
+				controller: 'LogInController',
 				size: 'sm',
 			});
 		}
