@@ -1,19 +1,40 @@
 app.controller('HeaderController',['$scope','$uibModal','$log',function($scope,$uibModal,$log){
 
+	$scope.logIn = false;
+	$scope.orderBy = 'order';
+
 	$scope.menus = [
 	{
-		name: 'Log In',
-		link: 'javascript:void(0)',
-		modal: function(){
-			var modalInst = $uibModal.open({
-				animation: true,
-				templateUrl: './views/logIn.html',
-				size: 'sm'
-			});
-		}
+		order: 1,
+		name: 'My Request',
+		link: '#/My Request',
+		fontSize: 3,
+		depLog: true,
+		reqLog: true,
+		modal: function(){}
 	},{
+		order: 2,
+		name: 'Notification',
+		link: '#/Notification',
+		fontSize: 3,
+		depLog: true,
+		reqLog: true,
+		modal: function(){}
+	},{
+		order: 3,
+		name: 'About',
+		link: '#/About',
+		fontSize: 5,
+		depLog: false,
+		reqLog: false,
+		modal: function(){}
+	},{
+		order: 4,
 		name: 'Sign Up',
 		link: 'javascript:void(0)',
+		fontSize: 5,
+		depLog: true,
+		reqLog: false,
 		modal: function(){
 			var modalInst = $uibModal.open({
 				animation: true,
@@ -21,8 +42,27 @@ app.controller('HeaderController',['$scope','$uibModal','$log',function($scope,$
 			});
 		}
 	},{
-		name: 'About',
-		link: '#/About',
+		order: 5,
+		name: 'Log In',
+		link: 'javascript:void(0)',
+		fontSize: 5,
+		depLog: true,
+		reqLog: false,
+		modal: function(){
+			var modalInst = $uibModal.open({
+				animation: true,
+				templateUrl: './views/logIn.html',
+				size: 'sm',
+			});
+		}
+	},
+	{
+		order: 6,
+		name: 'Profile',
+		link: '#/Profile',
+		fontSize: 5,
+		depLog: true,
+		reqLog: true,
 		modal: function(){}
 	}];
 
