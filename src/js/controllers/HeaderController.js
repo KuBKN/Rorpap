@@ -8,7 +8,6 @@ app.controller('HeaderController',['$scope','$uibModal','$log','loginService',fu
 		order: 1,
 		name: 'My Request',
 		link: '#/My Request',
-		fontSize: 3,
 		depLog: true,
 		reqLog: true,
 		modal: function(){}
@@ -16,7 +15,6 @@ app.controller('HeaderController',['$scope','$uibModal','$log','loginService',fu
 		order: 2,
 		name: 'Notification',
 		link: '#/Notification',
-		fontSize: 3,
 		depLog: true,
 		reqLog: true,
 		modal: function(){}
@@ -24,7 +22,6 @@ app.controller('HeaderController',['$scope','$uibModal','$log','loginService',fu
 		order: 3,
 		name: 'About',
 		link: '#/About',
-		fontSize: 5,
 		depLog: false,
 		reqLog: false,
 		modal: function(){}
@@ -32,7 +29,6 @@ app.controller('HeaderController',['$scope','$uibModal','$log','loginService',fu
 		order: 4,
 		name: 'Sign Up',
 		link: 'javascript:void(0)',
-		fontSize: 5,
 		depLog: true,
 		reqLog: false,
 		modal: function(){
@@ -45,7 +41,6 @@ app.controller('HeaderController',['$scope','$uibModal','$log','loginService',fu
 		order: 5,
 		name: 'Log In',
 		link: 'javascript:void(0)',
-		fontSize: 5,
 		depLog: true,
 		reqLog: false,
 		modal: function(){
@@ -61,7 +56,6 @@ app.controller('HeaderController',['$scope','$uibModal','$log','loginService',fu
 		order: 6,
 		name: 'Profile',
 		link: '#/Profile',
-		fontSize: 5,
 		depLog: true,
 		reqLog: true,
 		modal: function(){}

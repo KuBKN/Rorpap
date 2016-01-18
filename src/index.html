@@ -7,7 +7,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
-		<link rel="stylesheet" href="css/bootstrap-3.3.6-dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/materialize/css/materialize.css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -19,48 +18,52 @@
 	</head>
 
 	<body ng-app="rorpap">
-		<nav role="navigation" style="height: 75px; background-color: #fcfcfc;">
-			<div class="row" style="padding: 5px 5px;" ng-controller="HeaderController">
-				<a href="#/">
-					<img src="images/Banner-Logo-OR.png" height="65" widht="195">
-				</a>
-				<ul class="right hide-on-med-and-down" style="background-image: url('images/menu-bg.jpg'); background-size:100% 100%;">
-					<li ng-repeat="menu in menus | orderBy: orderBy" ng-if="!menu.depLog  || menu.reqLog == logIned" class="col-sm-2" style="background-color: #fcfcfc; width: 130px; height: 65px; line-height: 65px; margin: 0 2px 0 0; padding: 0 0;">
-						<a style="text-decoration: none" href="{{ menu.link }}" ng-click="menu.modal()">
-							<font size="{{ menu.fontSize }}" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
-						</a>
-					</li>	
-				</ul>
-
-				<ul id="nav-mobile" class="side-nav">
-        			<li ng-repeat="menu in menus | orderBy: orderBy" ng-if="!menu.depLog  || menu.reqLog == logIned" style="background-color: #fcfcfc">
-						<a style="text-decoration: none" href="{{ menu.link }}" ng-click="menu.modal()">
-							<font size="{{ menu.fontSize }}" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
-						</a>
-					</li>	
-      			</ul>
-      			<a href="#" style="text-decoration: none" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-		   	
-			</div>
+		<nav class="nav-wrapper" style="background-color: #ffa337;" ng-controller="HeaderController">
+			<a href="#/" class="brand-logo">
+				<img src="images/Banner-Logo-White.png" height="60" widht="180">
+			</a>
+			<ul class="right hide-on-med-and-down">
+				<li ng-repeat="menu in menus | orderBy: orderBy" ng-if="!menu.depLog  || menu.reqLog == logIned" >
+					<a style="text-decoration: none" href="{{ menu.link }}" ng-click="menu.modal()">
+						<font size="4"><center><b> {{ menu.name }} </b></center></font>
+					</a>
+				</li>	
+			</ul>
+			<ul id="nav-mobile" class="side-nav">
+        		<li ng-repeat="menu in menus | orderBy: orderBy" ng-if="!menu.depLog  || menu.reqLog == logIned" style="background-color: #fcfcfc">
+					<a style="text-decoration: none" href="{{ menu.link }}" ng-click="menu.modal()">
+						<font size="4" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
+					</a>
+				</li>	
+   			</ul>
+   			<a href="#" style="text-decoration: none; color: #ffa337" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 		</nav>
 
-		<br>
 		<div ng-view>
 		</div>
-		<br>
 
-		<div class="container" style="width: 100%; height: 300px; background-color: #6d6d6d; padding: 10px">
-			<div class="row" ng-controller="FooterController">
-				<div class="col-sm-2" style="width: 200px; float: right; color: white" ng-repeat="column in columns">
-					<font size="6"><b>{{ column.title }}<b></font>
-					<br>
-					<br>
-					<div ng-repeat="line in column.lines">
-						<font size="4">{{ line.topic }}</font>
-					</div>
-				</div>
-			</div>
-		</div>
+		<footer class="page-footer" style="background-color: #ffa337;">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Presented by</h5>
+                <p class="grey-text text-lighten-4">B at  : Poramate Homprakob<br>
+                	K not : Supavit Kongwudhikunakorn<br>
+                	N op  : Apiwat Jierakulpanit
+                </p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Contact</h5>
+       			<p class="grey-text text-lighten-4">Kasetsart University</p>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2016 Copyright BKN@KU
+            </div>
+          </div>
+        </footer>
 
 		<!-- Modules -->
 	    <script src="js/app.js"></script>
