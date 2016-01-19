@@ -1,4 +1,4 @@
-app.controller('HeaderController',['$scope','$uibModal','$log','loginService',function($scope,$uibModal,$log,loginService){
+app.controller('HeaderController',['$scope','loginService',function($scope,loginService){
 
 	$scope.logIned = loginService.status;
 	$scope.orderBy = 'order';
@@ -10,47 +10,37 @@ app.controller('HeaderController',['$scope','$uibModal','$log','loginService',fu
 		link: '#/My Request',
 		depLog: true,
 		reqLog: true,
-		modal: function(){}
+		useModal: false
 	},{
 		order: 2,
 		name: 'Notification',
 		link: '#/Notification',
 		depLog: true,
 		reqLog: true,
-		modal: function(){}
+		useModal: false
 	},{
 		order: 3,
 		name: 'About',
 		link: '#/About',
 		depLog: false,
 		reqLog: false,
-		modal: function(){}
+		useModal: false
 	},{
 		order: 4,
 		name: 'Sign Up',
 		link: 'javascript:void(0)',
 		depLog: true,
 		reqLog: false,
-		modal: function(){
-			var modalInst = $uibModal.open({
-				animation: true,
-				templateUrl: './views/signUp.html'
-			});
-		}
+		useModal: true,
+		modal: 'modalSignup'
 	},{
 		order: 5,
 		name: 'Log In',
 		link: 'javascript:void(0)',
 		depLog: true,
 		reqLog: false,
-		modal: function(){
-			var modalInst = $uibModal.open({
-				animation: true,
-				templateUrl: './views/logIn.html',
-				controller: 'LogInController',
-				size: 'sm',
-			});
-		}
+		useModal: true,
+		modal: 'modalLogin'
 	},
 	{
 		order: 6,
@@ -58,7 +48,7 @@ app.controller('HeaderController',['$scope','$uibModal','$log','loginService',fu
 		link: '#/Profile',
 		depLog: true,
 		reqLog: true,
-		modal: function(){}
+		useModal: false
 	}];
 
 }]);

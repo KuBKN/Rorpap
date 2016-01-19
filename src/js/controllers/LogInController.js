@@ -1,6 +1,5 @@
-app.controller('LogInController',['$scope','$uibModalInstance','loginService',function($scope,$uibModalInstance,loginService){
+app.controller('LogInController',['$scope','loginService',function($scope,loginService){
 	$scope.logIn = function(){
 		loginService.login();
-		$uibModalInstance.close();
 	};
 }]);
