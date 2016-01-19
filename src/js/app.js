@@ -22,11 +22,11 @@ app.service('loginService',function($window){
 
 	var logout = function(){
 		status = false;
-	}
+	};
 
 	return {
 		status : status,
 		login : login,
-		logout : logout,
+		logout : logout
 	}
 });
