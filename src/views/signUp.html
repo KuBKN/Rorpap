@@ -55,8 +55,11 @@
         <input type="text" required ng-model="user.dateOfBirth" datepicker />
       </div>
       <br>
-      <label>Please upload your ID card or passport</label>
-      <!-- TODO: Uploading picture function goes here -->
+      <div>
+        <label>Please upload your ID card or passport</label>
+        <input type="file" id="idCard" name="user.idCard" required />
+        <button ng-click="upload">Upload File</button>
+      </div>
       <br>
       <label><input type="checkbox" ng-required="">Accept our usage policy and privacy policy.</label>
       <br>
