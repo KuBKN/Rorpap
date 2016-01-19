@@ -1,15 +1,37 @@
-<div id="index-banner" style="min-height: 600px; background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('images/index_banner.jpg'); background-size: cover;  background-position: center center;">
+<div id="index-banner" style="min-height: 500px; background: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url('images/index_banner.jpg'); background-size: cover;  background-position: center center;">
   <div class="section no-pad-bot">
     <div class="container">
-      <br><br>
+      <br><br><br>
       <h1 class="header center white-text">Start a new Shipment</h1>
       <div class="row center">
         <h5 class="header col s12 light white-text">Select a destinaton for your shipping on the map</h5>
       </div>
       <div class="row center">
-        <div class="card col s6 offset-s3 medium"></div>
+        <a class="waves-effect waves-light btn" style="background-color: #ffa337">Get Start</a>
       </div>
       <br><br>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container">
+  <div class="card row center" style="background-color: #FFE1BF;">
+    <div class="card-image col s12 m8 l6" style="padding: 0 0">
+      <img src="images/messenger.jpg">
+    </div>
+    <div class="col s12 m3 l5" style="margin: 15px; text-align: left">
+      <h5>Be a messenger</h5>
+      <p>bla bla bla bla bla bla bla bla bla bla bla bla bla</p>
+      <br>
+      <center><a class="waves-effect waves-light btn center" style="background-color: #ffa337">Join Us</a></center>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col s12 m6 l4" style="height: 300px; overflow: hidden;" ng-repeat="image in images">
+      <img src="{{image}}" width="100%" height="100%">
     </div>
   </div>
 </div>
