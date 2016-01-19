@@ -1,5 +1,3 @@
-var app = angular.module('rorpap');
-
 app.controller('SignUpController', ['$scope', function($scope) {
     $scope.passwordPattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
     $scope.upload = function(){

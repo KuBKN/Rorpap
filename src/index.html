@@ -17,10 +17,11 @@
 	</head>
 
 	<body ng-app="rorpap">
-		<nav class="nav-wrapper" style="background-color: #ffa337;" ng-controller="HeaderController">
-			<a href="#/" class="brand-logo">
-				<img src="images/Banner-Logo-White.png" height="60" widht="180">
-			</a>
+		<nav class="nav-wrapper" style="background-color: #ffa337; height: 65px" ng-controller="HeaderController">
+      <a href="#/" class="brand-logo">
+        <img src="images/Banner-Logo-White.png" height="60">
+      </a>
+
 
 			<ul class="right hide-on-med-and-down">
 				<li ng-repeat="menu in menus | orderBy: orderBy" ng-if="!menu.depLog  || menu.reqLog == logIned" >
@@ -34,13 +35,13 @@
 			</ul>
 
 			<ul id="nav-mobile" class="side-nav">
-        		<li ng-repeat="menu in menus | orderBy: orderBy" ng-if="!menu.depLog  || menu.reqLog == logIned" style="background-color: #fcfcfc">
+        <li ng-repeat="menu in menus | orderBy: orderBy" ng-if="!menu.depLog  || menu.reqLog == logIned" style="background-color: #fcfcfc">
 					<a style="text-decoration: none" href="{{ menu.link }}">
 						<font size="4" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
 					</a>
 				</li>	
    			</ul>
-   			<a href="#" style="text-decoration: none; color: #ffa337" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+   			<a href="#" style="text-decoration: none;" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 		</nav>
 
 		<div ng-view>
@@ -70,94 +71,87 @@
         </footer>
 
     <!-- Modal Structure -->
-  <div id="modalLogin" class="modal" style="width: 350px" ng-controller="LogInController">
-    <div class="modal-content">
-      <div style="padding: 20px 10px;">
-        <div style="margin: 5px; height: 200px">
-          <div style="margin-bottom: 10px;">
-            E-mail Address
-            <input class="form-control" style="width:150px; height: 20px; float: right">
-          </div>         
-          <div style="margin-bottom: 10px;">
-            Password
-            <input class="form-control" style="width:150px; height: 20px; float: right">
+    <div id="modalSignup" class="modal" style="width:40%; min-width: 320px" ng-controller="SignUpController">
+      <div class="modal-content" style="padding: 20px 10px">
+      <form name="signUpForm">
+        <div class="row">
+          <div class="input-field col s12 m6">
+            <input type="text" id="firstName" name="firstName" required ng-model="user.firstName" placeholder="First Name" class="validate">
+            <label for="firstName">First Name</label>
           </div>
-          <div class="container" style="width: 95%; margin: auto">
-            <div style="float: left">
-              <label class="checkbox-inline">
-                <input type="checkbox"><font size="2">Remember me</font>
-              </label>
-            </div>
-            <div style="float: right">
-              <a href="#"><font size="2">Forget password?</font></a>
-            </div>
+          <div class="input-field col s12 m6">
+            <input type="text" id="lastName" name="lastName" required ng-model="user.lastName" placeholder="Last Name" class="validate">
+            <label for="lastName">Last Name</label>
           </div>
-          <div class="container" style="margin: 20px auto 10px auto; width: 40%;">
-            <button type="button" class="btn btn-warning btn-md" style"background-color: #ffa338; width:100px; height:30px;" ng-click="logIn()">Log In</button>
+          <div class="input-field col s12">
+            <input type="email" id="emailAddress" name="emailAddress" required ng-model="user.emailAddress" placeholder="e-mail" class="validate">
+            <label for="emailAddress">E-mail address</label>
           </div>
-          <div class="container" style="width: 60%; margin: auto;">
-            <font size="2">No account?</font>
-            <a href="#"><font size="2">Sign Up</font></a>
+          <div class="input-field col s12 m6">
+            <input type="password" placeholder="Password" id="password1" name="password1" ng-model="user.password" required ng-pattern="passwordPattern">
+            <label for="password1">Password</label>
           </div>
-        </div>
-        <div class="container" style="width: 100%">
-          <img src="images/login_or.png" width="100%">
-        </div>
-        <div style="margin: auto; width: 80%; height: 100px;">
+          <div class="input-field col s12 m6">
+            <input type="password" placeholder="Repeat password" id="password2" name="password2" ng-model="user.repeatPassword" required password-confirmation="password1">
+            <label for="password2">Repeat Password: </label>
+          </div>
+          <div class="col s12">
+            <label for="birthdate">Date of Birth</label>
+            <input type="date" id="birthdate" name="birthdate" required ng-model="user.dateOfBirth" datepicker />
+          </div>
+          <center>
+            <input type="checkbox" class="filled-in" id="filled-in-box" required/>
+            <label for="filled-in-box">Accept our usage policy and privacy policy</label>
+          </center>
           <br>
-          <a href="javascript:void(0)"><img src="images/login_facebook.png" width="100%"></a>
-          <br><br>
-          <a href="javascript:void(0)"><img src="images/login_google.png" width="100%"></a>
+        <center><button type="submit" class="btn btn-default" style="background-color: #ffa338" ng-disabled="signUpForm.$invalid">Sign Up</button></center>
         </div>
-      </div>    
+      </form>
+      </div>
     </div>
-  </div>
-
-  <div id="modalSignup" class="modal" style="width: 350px" ng-controller="SignUpController">
-    <form name="signUpForm">
-      <label for="emailAddress">E-mail address: </label>
-      <input type="email" id="emailAddress" name="emailAddress" required ng-model="user.emailAddress" placeholder="e-mail">
-      <br>
-      <label for="password1">Password: </label>
-      <input type="password" placeholder="Password" id="password1" name="password1" ng-model="user.password" required ng-pattern="passwordPattern">
-      <br>
-      <label for="password2">Repeat Password: </label>
-      <input type="password" placeholder="Repeat password" id="password2" name="password2" ng-model="user.repeatPassword" required password-confirmation="password1">
-      <br>
-      <div id="msg-error" ng-show="signUpForm.$error">
-        <span ng-show="signUpForm.password1.$dirty && signUpForm.password1.$error.required">Please enter a password</span>
-        <span ng-show="signUpForm.password2.$dirty && signUpForm.password2.$error.required">Please confirm password</span>
-        <span ng-show="signUpForm.password1.$dirty && signUpForm.password1.$error.pattern">Your password should be at least 8 characters long, and contain an uppercase letter and a number</span>
-        <span ng-show="signUpForm.password2.$dirty && signUpForm.password2.$error.equals">Passwords do not match</span>
+      
+    <div id="modalLogin" class="modal" style="width: 320px" ng-controller="LogInController">
+      <div class="modal-content">
+        <div style="padding: 20px 10px;">
+          <div style="margin: 5px; height: 200px">
+            <div style="margin-bottom: 10px;">
+              E-mail Address
+              <input class="form-control" style="width:150px; height: 20px; float: right">
+            </div>         
+            <div style="margin-bottom: 10px;">
+              Password
+              <input class="form-control" style="width:150px; height: 20px; float: right">
+            </div>
+            <div class="container" style="width: 95%; margin: auto">
+              <div style="float: left">
+                <label class="checkbox-inline">
+                  <input type="checkbox"><font size="2">Remember me</font>
+                </label>
+              </div>
+              <div style="float: right">
+                <a href="#"><font size="2">Forget password?</font></a>
+              </div>
+            </div>
+            <div class="container" style="margin: 20px auto 10px auto; width: 40%;">
+              <button type="button" class="btn btn-warning btn-md" style"background-color: #ffa338; width:100px; height:30px;" ng-click="logIn()">Log In</button>
+            </div>
+            <div class="container" style="width: 60%; margin: auto;">
+              <font size="2">No account?</font>
+              <a href="#"><font size="2">Sign Up</font></a>
+            </div>
+          </div>
+          <div class="container" style="width: 100%">
+            <img src="images/login_or.png" width="100%">
+          </div>
+          <div style="margin: auto; width: 80%; height: 100px;">
+            <br>
+            <a href="javascript:void(0)"><img src="images/login_facebook.png" width="100%"></a>
+            <br><br>
+            <a href="javascript:void(0)"><img src="images/login_google.png" width="100%"></a>
+          </div>
+        </div>    
       </div>
-      <br>
-      <label for="firstName">First Name: </label>
-      <input type="text" id="firstName" name="firstName" required ng-model="user.firstName" placeholder="First Name">
-
-      <label for="lastName">Last Name: </label>
-      <input type="text" id="lastName" name="lastName" required ng-model="user.lastName" placeholder="Last Name">
-      <br>
-      <label for="mobilePhoneNumber">Mobile Phone Number: </label>
-      <input type="text" id="mobilePhoneNumber" name="mobilePhoneNumber" required ng-model="user.mobilePhoneNumber" placeholder="Mobile Phone Number">
-      <br>
-      <label>Date of Birth: </label>
-      <div>
-        <p>{{datePicker | date}}</p>
-        <input type="text" required ng-model="user.dateOfBirth" datepicker />
-      </div>
-      <br>
-      <div>
-        <label>Please upload your ID card or passport</label>
-        <input type="file" id="idCard" name="user.idCard" required />
-        <button ng-click="upload">Upload File</button>
-      </div>
-      <br>
-      <label><input type="checkbox" ng-required="">Accept our usage policy and privacy policy.</label>
-      <br>
-      <button type="submit" class="btn btn-default" ng-disabled="signUpForm.$invalid">Sign Up</button>
-    </form>
-    <pre>user = {{user | json}}</pre>
-  </div>
+    </div>
 
 		<!-- Modules -->
 	    <script src="js/app.js"></script>
@@ -173,8 +167,15 @@
 	  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	  <script src="css/materialize/js/materialize.js"></script>
 	 <script> $(document).ready(function(){
+
+    $('.button-collapse').sideNav();
+
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal-trigger').leanModal();
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15 // Creates a dropdown of 15 years to control year
+    });
   });</script>
 	</body>
 </html>
