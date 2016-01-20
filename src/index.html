@@ -36,9 +36,12 @@
 
 			<ul id="nav-mobile" class="side-nav">
         <li ng-repeat="menu in menus | orderBy: orderBy" ng-if="!menu.depLog  || menu.reqLog == logIned" style="background-color: #fcfcfc">
-					<a style="text-decoration: none" href="{{ menu.link }}">
+					<a ng-if="!menu.useModal" style="text-decoration: none" href="{{ menu.link }}">
 						<font size="4" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
 					</a>
+          <a ng-if="menu.useModal" style="text-decoration: none" class="modal-trigger" data-target="{{menu.modal}}">
+            <font size="4" color="#ffa337"><center><b>{{ menu.name }}</b></center></font>
+          </a>
 				</li>	
    			</ul>
    			<a href="#" style="text-decoration: none;" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -144,7 +147,8 @@
 	    <script src="js/controllers/FooterController.js"></script>
 	    <script src="js/controllers/HomeController.js"></script>
 	    <script src="js/controllers/AboutController.js"></script>
-	    <script src="js/controllers/LogInController.js"></script>
+	    <script src="js/controllers/SignUpController.js"></script>
+      <script src="js/controllers/LogInController.js"></script>
 
 	    <!--  Scripts-->
 	  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
