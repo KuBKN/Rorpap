@@ -48,27 +48,27 @@
 		</div>
 
 		<footer class="page-footer" style="background-color: #ffa337;">
-          <div class="container">
-            <div class="row">
-              <div class="col l6 s12">
-                <h5 class="white-text">Presented by</h5>
-                <p class="grey-text text-lighten-4">B at  : Poramate Homprakob<br>
-                	K not : Supavit Kongwudhikunakorn<br>
-                	N op  : Apiwat Jierakulpanit
-                </p>
-              </div>
-              <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Contact</h5>
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Presented by</h5>
+            <p class="grey-text text-lighten-4">B at  : Poramate Homprakob<br>
+            	K not : Supavit Kongwudhikunakorn<br>
+            	N op  : Apiwat Jierakulpanit
+            </p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Contact</h5>
        			<p class="grey-text text-lighten-4">Kasetsart University</p>
-              </div>
-            </div>
           </div>
-          <div class="footer-copyright">
-            <div class="container">
-            © 2016 Copyright BKN@KU
-            </div>
-          </div>
-        </footer>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          © 2016 Copyright BKN@KU
+        </div>
+      </div>
+    </footer>
 
     <!-- Modal Structure -->
     <div id="modalSignup" class="modal" style="width:40%; min-width: 320px" ng-controller="SignUpController">
@@ -100,8 +100,8 @@
             <input type="date" id="birthdate" name="birthdate" required ng-model="user.dateOfBirth" datepicker />
           </div>
           <center>
-            <input type="checkbox" class="filled-in" id="filled-in-box" required/>
-            <label for="filled-in-box">Accept our usage policy and privacy policy</label>
+            <input type="checkbox" class="filled-in" id="filled-in-signup" required/>
+            <label for="filled-in-signup">Accept our usage policy and privacy policy</label>
           </center>
           <br>
         <center><button type="submit" class="btn btn-default" style="background-color: #ffa338" ng-disabled="signUpForm.$invalid">Sign Up</button></center>
@@ -110,46 +110,29 @@
       </div>
     </div>
       
-    <div id="modalLogin" class="modal" style="width: 320px" ng-controller="LogInController">
-      <div class="modal-content">
-        <div style="padding: 20px 10px;">
-          <div style="margin: 5px; height: 200px">
-            <div style="margin-bottom: 10px;">
-              E-mail Address
-              <input class="form-control" style="width:150px; height: 20px; float: right">
-            </div>         
-            <div style="margin-bottom: 10px;">
-              Password
-              <input class="form-control" style="width:150px; height: 20px; float: right">
+    <div id="modalLogin" class="modal" style="width: 240px" ng-controller="LogInController">
+      <div class="modal-content" style="padding: 20px 10px;">
+        
+        <div style="margin: 5px; height: 200px">
+          <input type="text" placeholder="e-mail" id="email" name="email">       
+          <input type="password" placeholder="password" id="password" name="password">
+          <br>
+          <div class="row">
+            <div class="col offset-s1">
+              <input type="checkbox" class="filled-in" id="filled-in-login"/>
+              <label for="filled-in-login" font-size="1">Remember me</label>
             </div>
-            <div class="container" style="width: 95%; margin: auto">
-              <div style="float: left">
-                <label class="checkbox-inline">
-                  <input type="checkbox"><font size="2">Remember me</font>
-                </label>
-              </div>
-              <div style="float: right">
-                <a href="#"><font size="2">Forget password?</font></a>
-              </div>
-            </div>
-            <div class="container" style="margin: 20px auto 10px auto; width: 40%;">
-              <button type="button" class="btn btn-warning btn-md" style"background-color: #ffa338; width:100px; height:30px;" ng-click="logIn()">Log In</button>
-            </div>
-            <div class="container" style="width: 60%; margin: auto;">
-              <font size="2">No account?</font>
-              <a href="#"><font size="2">Sign Up</font></a>
-            </div>
-          </div>
-          <div class="container" style="width: 100%">
-            <img src="images/login_or.png" width="100%">
-          </div>
-          <div style="margin: auto; width: 80%; height: 100px;">
-            <br>
-            <a href="javascript:void(0)"><img src="images/login_facebook.png" width="100%"></a>
-            <br><br>
-            <a href="javascript:void(0)"><img src="images/login_google.png" width="100%"></a>
-          </div>
-        </div>    
+            <a href="#" class="col offset-s3">Forget password?</a>
+          </div>   
+        </div>
+        <div class="container" style="width: 70%;">
+           <button type="submit" class="btn btn-default" style="background-color: #ffa338; width: 150px">Log In</button>
+        </div>
+        <br>
+        <div class="container" style="width: 60%; margin: auto;">
+          <font size="2">No account?</font>
+          <a href="#"><font size="2">Sign Up</font></a>
+        </div>
       </div>
     </div>
 
