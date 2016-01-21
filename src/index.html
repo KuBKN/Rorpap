@@ -56,6 +56,11 @@
 			</ul>
 
 			<ul id="nav-mobile" class="side-nav">
+        <li ng-if="logIned">
+          <a style="text-decoration: none" href="#/Profile">
+            <font size="4" color="#ffa337"><center><b>Profile</b></center></font>
+          </a>
+        </li>
         <li ng-if="logIned" >
           <a style="text-decoration: none" href="#/My Request">
             <font size="4" color="#ffa337"><center><b>My Request</b></center></font>
@@ -66,9 +71,14 @@
             <font size="4" color="#ffa337"><center><b>Notification</b></center></font>
           </a>
         </li>
+        <li ng-if="logIned" >
+          <a style="text-decoration: none" href="#/Account">
+            <font size="3" color="#ffa337"><center>Account</center></font>
+          </a>
+        </li>
         <li>
           <a style="text-decoration: none" href="#/About">
-            <font size="4" color="#ffa337"><center><b>About</b></center></font>
+            <font size="3" color="#ffa337"><center>About</center></font>
           </a>
         </li>
         <li ng-if="!logIned">
@@ -81,9 +91,9 @@
             <font size="4" color="#ffa337"><center><b>Log In</b></center></font>
           </a>
         </li>
-         <li ng-if="logIned">
-          <a style="text-decoration: none" class="dropdown-button" data-activates="dropdown2">
-            <font size="4" color="#ffa337"><center><b>Profile</b></center></font>
+        <li ng-if="logIned" >
+          <a style="text-decoration: none" href="#/Log Out">
+            <font size="3" color="#ffa337"><center>Log Out</center></font>
           </a>
         </li>
    		</ul>
@@ -150,7 +160,7 @@
             <label for="filled-in-signup">Accept our usage policy and privacy policy</label>
           </center>
           <br>
-        <center><button type="submit" class="btn btn-default" style="background-color: #ffa338" ng-disabled="signUpForm.$invalid">Sign Up</button></center>
+        <center><button type="submit" class="btn btn-default" style="background-color: #ffa338" >Sign Up</button></center>
         </div>
       </form>
       </div>
@@ -226,10 +236,19 @@
         alignment: 'left' // Displays dropdown with edge aligned to the left of button
       });
 
-      $('.button-collapse').sideNav();
+      $('.button-collapse').sideNav({
+        menuWidth: 180, // Default is 240
+        edge: 'left', // Choose the horizontal origin
+        closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+      });
 
       // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-      $('.modal-trigger').leanModal();
+      $('.modal-trigger').leanModal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal
+        opacity: .5, // Opacity of modal background
+        in_duration: 300, // Transition in duration
+        out_duration: 200 // Transition out duration
+      });
       $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
         selectYears: 15 // Creates a dropdown of 15 years to control year
