@@ -1,0 +1,34 @@
+<form name="signUpForm">
+  <div class="row">
+    <div class="input-field col s12 m6">
+      <input type="text" id="firstName" name="firstName" required ng-model="user.firstName" placeholder="First Name" class="validate">
+      <label for="firstName">First Name</label>
+    </div>
+    <div class="input-field col s12 m6">
+      <input type="text" id="lastName" name="lastName" required ng-model="user.lastName" placeholder="Last Name" class="validate">
+      <label for="lastName">Last Name</label>
+    </div>
+    <div class="input-field col s12">
+      <input type="email" id="emailAddress" name="emailAddress" required ng-model="user.emailAddress" placeholder="e-mail" class="validate">
+      <label for="emailAddress">E-mail address</label>
+    </div>
+    <div class="input-field col s12 m6">
+      <input type="password" placeholder="Password" id="password1" name="password1" ng-model="user.password" required ng-pattern="passwordPattern">
+      <label for="password1">Password</label>
+    </div>
+    <div class="input-field col s12 m6">
+      <input type="password" placeholder="Repeat password" id="password2" name="password2" ng-model="user.repeatPassword" required password-confirmation="password1">
+      <label for="password2">Repeat Password: </label>
+    </div>
+    <div class="col s12">
+      <label for="birthdate">Date of Birth</label>
+      <input type="date" id="birthdate" name="birthdate" required ng-model="user.dateOfBirth" datepicker />
+    </div>
+    <center>
+      <input type="checkbox" class="filled-in" id="filled-in-signup" required/>
+      <label for="filled-in-signup">Accept our usage policy and privacy policy</label>
+    </center>
+    <br>
+  <center><button type="submit" class="btn btn-default" style="background-color: #ffa338" >Sign Up</button></center>
+  </div>
+</form>

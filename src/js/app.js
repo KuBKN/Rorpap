@@ -6,14 +6,15 @@ app.config(function($routeProvider) {
         templateUrl: './views/home.html'
         
 	}).when('/About',{
-		controller: 'AboutController',
         templateUrl: './views/about.html'
+	}).when('/My Request',{
+		templateUrl: './views/myrequest.html'
 	});
 });
 
 app.service('loginService',function($window){
 
-	var status = true;
+	var status = false;
 
 	var login = function(){
 		status = true;
