@@ -1,10 +1,43 @@
 <br>
 <div ng-controller="MyRequestController">
-	<div class="container" style="height: 500px; width:100%; border-style: solid; border-color: black; border-size: 1px">
-		<div class="left hide-on-med-and-down collection" style="width: 200px; border-style: solid; border-color: black; border-size: 1px">
-			<a class="collection-item"> Pendding</a>
-			<a class="collection-item"> In Progress</a>
-			<a class="collection-item"> Finish</a>
+	<div class="container row" style="height: 600px; width:85%">
+		
+		<div class="container hide-on-med-and-down col l2">
+			<div class="collection" style="margin-top: 0; border-style: none">
+				<a class="collection-item inactiveLink" style="border-style: none; background-color: #FFE2C2"><font size="4"><b>My Request</b></font></a>
+				<a href="#" class="collection-item"><font size="3" style="font-weight:normal">Pendding</font></a>
+				<a href="#" class="collection-item"><font size="3" style="font-weight:normal">In Progress</font></a>
+				<a href="#" class="collection-item"><font size="3" style="font-weight:normal">Finished</font></a>
+				<a href="#" class="collection-item" style="background-color: #FFE2C2"><font size="4"><b>My Dashboard</b></font></a>
+			</div>
 		</div>
+
+			<div class="col l7 m8 s12">
+				<div style="background-color: #FFE2C2">
+					 
+					 <ul class="collapsible" data-collapsible="accordion">
+					    <li>
+					      <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+					      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+					    </li>
+					    <li>
+					      <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+					      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+					    </li>
+					    <li>
+					      <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+					      <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+					    </li>
+					  </ul>
+        
+				</div>
+			</div>
+
+			<div class="right col l3 m4 s12">
+				<div style="background-color: #FFE2C2">
+					Nop Nop Nop Nop
+				</div>
+			</div>
+	
 	</div>
 </div>

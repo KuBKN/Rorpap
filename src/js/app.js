@@ -8,13 +8,14 @@ app.config(function($routeProvider) {
 	}).when('/About',{
         templateUrl: './views/about.html'
 	}).when('/My Request',{
+		controller: 'MyRequestController',
 		templateUrl: './views/myrequest.html'
 	});
 });
 
 app.service('loginService',function($window){
 
-	var status = false;
+	var status = true;
 
 	var login = function(){
 		status = true;
