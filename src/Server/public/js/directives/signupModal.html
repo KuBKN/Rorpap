@@ -1,31 +1,31 @@
 <form name="signUpForm">
   <div class="row">
     <div class="input-field col s12 m6">
-      <input type="text" id="firstName" name="firstName" required ng-model="user.firstname" placeholder="First Name" class="validate">
+      <input type="text" id="firstName" ng-model="user.firstname" placeholder="First Name" class="validate" required>
       <label for="firstName">First Name</label>
     </div>
     <div class="input-field col s12 m6">
-      <input type="text" id="lastName" name="lastName" required ng-model="user.lastname" placeholder="Last Name" class="validate">
+      <input type="text" id="lastName" ng-model="user.lastname" placeholder="Last Name" class="validate" required>
       <label for="lastName">Last Name</label>
     </div>
     <div class="input-field col s12">
-      <input type="email" id="emailAddress" name="emailAddress" required ng-model="user.email" placeholder="e-mail" class="validate">
+      <input type="email" id="emailAddress" ng-model="user.email" placeholder="E-mail" class="validate" required>
       <label for="emailAddress">E-mail address</label>
     </div>
     <div class="input-field col s12 m6">
-      <input type="password" placeholder="Password" id="password1" name="password1" required ng-pattern="passwordPattern">
+      <input type="password" id="password1" placeholder="Password" required>
       <label for="password1">Password</label>
     </div>
     <div class="input-field col s12 m6">
-      <input type="password" placeholder="Repeat password" id="password2" name="password2" ng-model="user.password" required password-confirmation="password1">
+      <input type="password" id="password2" ng-model="user.password" placeholder="Repeat password" password-confirmation="password1" required>
       <label for="password2">Repeat Password: </label>
     </div>
     <div class="col s12">
-      <label for="birthdate">Date of Birth</label>
-      <input type="date" id="birthdate" name="birthdate" required ng-model="user.dateOfBirth" datepicker />
+      <label for="dateOfBirth">Date of Birth</label>
+      <input type="date" id="dateOfBirth" ng-model="user.dateOfBirth" datepicker />
     </div>
     <center>
-      <input type="checkbox" class="filled-in" id="filled-in-signup" required/>
+      <input type="checkbox" class="filled-in" id="filled-in-signup" required>
       <label for="filled-in-signup">Accept our usage policy and privacy policy</label>
     </center>
     <br>

@@ -1,5 +1,5 @@
-app.controller('HeaderController',['$scope','loginService',function($scope,loginService){
+app.controller('HeaderController',['$scope', '$cookies', function($scope, $cookies){
 
-	$scope.logIned = loginService.status;
+	$scope.logIned = $cookies.get('_id') != undefined;
 
 }]);

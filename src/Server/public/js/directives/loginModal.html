@@ -1,19 +1,23 @@
-<div style="margin: 5px; height: 200px">
-  <input type="text" placeholder="e-mail" id="email" name="email">       
-  <input type="password" placeholder="password" id="password" name="password">
-  <br>
+<form name="LoginForm">
   <div class="row">
-    <div class="col offset-s1">
-      <input type="checkbox" class="filled-in" id="filled-in-login"/>
-      <label for="filled-in-login" font-size="1">Remember me</label>
+    <div class="input-field col s12">
+      <input type="email" id="emailAddress" ng-model="user.email" placeholder="E-mail" class="validate" required>
+      <label for="emailAddress">E-mail address</label>
     </div>
+    <div class="input-field col s12">
+      <input type="password"  id="password" ng-model="user.password" placeholder="Password" required>
+      <label for="password">Password</label>
+    </div>
+
+    <center>
+      <input type="checkbox" class="filled-in" id="filled-in-login">
+      <label for="filled-in-login" font-size="1">Remember me</label>
+    </center>
     <a href="#" class="col offset-s3">Forget password?</a>
-  </div>   
-</div>
-<div class="container" style="width: 70%;">
-   <button type="submit" class="btn btn-default" style="background-color: #ffa338; width: 150px">Log In</button>
-</div>
-<br>
+  </div>
+  <br>
+  <center><button type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="logIn()">Log in</button></center>
+
 <div class="container" style="width: 60%; margin: auto;">
   <font size="2">No account?</font>
   <a href="#"><font size="2">Sign Up</font></a>
