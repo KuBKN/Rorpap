@@ -8,6 +8,8 @@ app.controller('MyRequestController',['$scope',function($scope){
 
 	$scope.load();
 
+	$scope.reqtype = "All";
+
 	$scope.lists = [{
 
 		type: 'Pending',
