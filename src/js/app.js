@@ -15,7 +15,7 @@ app.config(function($routeProvider) {
 
 app.service('loginService',function($window){
 
-	var status = false;
+	var status = true;
 
 	var login = function(){
 		status = true;

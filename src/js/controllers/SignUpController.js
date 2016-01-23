@@ -1,5 +1,7 @@
 app.controller('SignUpController', ['$scope', function($scope) {
+    
     $scope.passwordPattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+    
     $scope.upload = function(){
         var f = $document.getElementById('file').files[0],
             r = new FileReader();
@@ -8,4 +10,5 @@ app.controller('SignUpController', ['$scope', function($scope) {
         };
         r.readAsBinaryString(f);
     };
+    
 }]);

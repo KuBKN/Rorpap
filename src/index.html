@@ -150,23 +150,33 @@
       </div>
     </div>
 
+    <div id="modalLogout" class="modal" style="width: 320px" ng-controller="LoginController">
+      <div class="modal-content" style="padding: 20px 10px;">
+        
+        Confirm for log out?<br>
+
+        <a class="btn">Log out</a>
+        <a class="btn">Cancel</a>
+
+      </div>
+    </div>
+
     <!-- Dropdown Structure -->
     <ul id="dropdown1" class="dropdown-content">
       <li><a href="#!">Profile</a></li>
       <li class="divider"></li>
       <li><a href="#!">Account</a></li>
       <li class="divider"></li>
-      <li><a href="#!">Log Out</a></li>
+      <li><a class="modal-trigger" data-target="modalLogout">Log Out</a></li>
     </ul>
 
     <ul id="dropdown2" class="dropdown-content">
-      <li><a href="#!">Profile</a></li>
+      <li><a href="#!">Noti1</a></li>
       <li class="divider"></li>
-      <li><a href="#!">Account</a></li>
+      <li><a href="#!">Noti2</a></li>
       <li class="divider"></li>
-      <li><a href="#!">Log Out</a></li>
+      <li><a href="#!">Noti3</a></li>
     </ul>
-
 
 		<!-- Modules -->
 	  <script src="js/app.js"></script>
@@ -178,6 +188,7 @@
     <script src="js/controllers/MyRequestController.js"></script>
     <script src="js/controllers/SignUpController.js"></script>
     <script src="js/controllers/LogInController.js"></script>
+    <script src="js/controllers/LogOutController.js"></script>
 
     <!-- Directves -->
     <script src="js/directives/navComponents.js"></script>
@@ -218,3 +229,4 @@
    </script>
 	</body>
 </html>
+
