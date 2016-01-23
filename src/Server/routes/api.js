@@ -9,32 +9,34 @@ mongoose.connect('mongodb://188.166.180.204/rorpap');
 var HTTP_CREATED = 201;
 var HTTP_NOT_MODIFIED = 304;
 var HTTP_INTERNAL_SERVER_ERROR = 500;
-var User = mongoose.model('users', {firstname: String, lastname: String, emailAddress: String, password: String, dateOfBirth: String});
+var User = mongoose.model('users', {firstname: String, lastname: String, email: String, password: String, dateOfBirth: String});
 
 /*
  POST /user
  add user to sign up
  body: user = {firstname: String,
             lastname: String,
-            emailAddress: String,
+            email: String,
             password: String,
             dateOfBirth: String}
  */
 router.post('/user', function(req, res, next) {
-    console.log(22);
+    // console.log(22);
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
-    var emailAddress = req.body.emailAddress;
+    var email = req.body.email;
     var password = req.body.password;
     var dateOfBirth = req.body.dateOfBirth;
 
+    console.log(req.body);
 
-    var user = new User({firstname: firstname, lastname: lastname, emailAddress: emailAddress, password: password, dateOfBirth: dateOfBirth});
+
+    var user = new User({firstname: firstname, lastname: lastname, email: email, password: password, dateOfBirth: dateOfBirth});
     console.log(user);
 
-    User.find({emailAddress: emailAddress, password: password}, function(err, users) {
+    User.find({email: email, password: password}, function(err, users) {
         if (err) {
-            console.log(1);
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
         else {
             if (users.length) {
@@ -43,15 +45,13 @@ router.post('/user', function(req, res, next) {
             else {
                 user.save(function(err) {
                     if (err) {
-                        res.status(HTTP_INTERNAL_SERVER_ERROR).send(2);
+                        res.status(HTTP_INTERNAL_SERVER_ERROR).send();
                     }
                     res.status(HTTP_CREATED).send();
                 });
             }
         }
     });
-
-    console.log(0);
 });
 
 /*
@@ -61,13 +61,12 @@ router.post('/user', function(req, res, next) {
 router.get('/user', function(req, res, next) {
     User.find(function(err, users) {
         if (err) {
-            res.send('nok2');
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
-
-        console.log(users);
         res.send(users);
     })
 });
+
 //
 // /*
 //  GET /user/:id
