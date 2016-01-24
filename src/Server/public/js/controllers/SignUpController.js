@@ -1,5 +1,5 @@
 app.controller('SignUpController', ['$scope', '$http', function($scope,$http) {
-    // $scope.passwordPattern = "/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/";
+    // $scope.passwordPattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
     $scope.user = {};
 
