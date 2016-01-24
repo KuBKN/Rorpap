@@ -10,5 +10,8 @@ app.config(function($routeProvider) {
 	}).when('/My Request',{
 		controller: 'MyRequestController',
 		templateUrl: './views/myrequest.html'
-	});
+	}).when('/NewRequest',{
+        controller: 'NewRequestController',
+        templateUrl: './views/newrequest.html'
+    });
 });

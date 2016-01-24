@@ -1,6 +1,4 @@
-app.controller('LogInController',['$scope', '$http', '$cookies', function($scope, $http, $cookies){
-	$scope.passwordPattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
-
+app.controller('LogInController',['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
     $scope.user = {};
 
 	$scope.logIn = function() {
