@@ -22,6 +22,8 @@ var User = mongoose.model('users', {
 
 var Quest = mongoose.model('quests', {
     sender_id: String,
+    messenger_id: String,
+    receiver_id: String,
     title: String,
     fromLoc: String,
     toLoc: String,

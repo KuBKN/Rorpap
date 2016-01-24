@@ -1,7 +1,7 @@
 <br>
 <div ng-controller="MyRequestController">
 	<div class="container row" style="height: 600px; width:85%">
-		
+
 		<div class="container hide-on-med-and-down col l2" style="min-weight: 500px">
 			<div class="collection" style="border-style: none">
 				<a href="#" class="collection-item" style="border-style: none; background-color: #FFE2C2"><font size="4"><b>My Request</b></font></a>
@@ -12,75 +12,17 @@
 			</div>
 		</div>
 
-		<div class="col l6 m8 s12">
-			<ul class="collapsible popout" data-collapsible="accordion">
-				<li style="margin: 10px 0" ng-repeat="list in lists">
-			      <div class="collapsible-header">
-			      	<div class="row">
-			      		<div class="col m3 s12 hide-on-small-and-down" style="border-style: solid">
-				      		<br>{{list.image}}<br>
-				      	</div>
-				      	<div class="col m7 s10" ng-if="list.type !== 'Pending'">
-				      		<h5>{{list.title}}</h5>
-				    		<p>{{list.comment}}</p>
-				      	</div>
-
-				      	<div class="col m2 s2" style="margin-top: 10px" ng-if="list.type !== 'Pending'">
-				      		<div class="btn-floating btn-large waves-effect waves-light red right">
-				    			<h5>{{list.messenger}}</h5>
-				    		</div>
-				    		<br><br>
-				    		<div class="chip right" ng-repeat="vehicle in list.vehicles">{{ vehicle }}</div>
-				      	</div>
-
-				      	<div class="col m9 s12" ng-if="list.type == 'Pending'">
-				      		<h5>{{list.title}}</h5>
-				    		{{list.comment}}
-				    		<span class="right">
-				    			<a class="btn black-text" style="background-color: #FCFCFC">Edit</a>
-				      			<a class="btn" style="background-color: #e51c23">Remove</a>
-				      		</span>
-				      	</div>
-				      	
-			      	</div>
-			      </div>
-			      <div class="collapsible-body" style="background-color: #FFE2C2">
-			      	<div class="row" style="padding: 10px">
-			      		<div class="col s9">
-			      			<div style="margin-bottom: 5px">
-				      			To : 
-				      			<div class="chip">
-	    							<img>
-								    {{list.receiver}}
-								</div>
-				      		</div>
-				      		<div ng-if="list.type == 'Pending'" style="margin-bottom: 5px">
-				      			Vehicle : 
-				      			<div class="chip" style="margin-right: 5px" ng-repeat="vehicle in list.vehicles">{{ vehicle }}</div>
-				      		</div>
-				      		<div style="margin-bottom: 5px" ng-if="list.type == 'Pending'">
-				      			End in {{list.reqLimitDate}} {{list.reqLimitTime}}			
-				      		</div>
-				      		<div style="margin-bottom: 5px" ng-if="list.type !== 'Pending'">
-				      			Due in {{list.shipLimitDate}} {{list.shipLimitTime}}			
-				      		</div>
-			      		</div>
-			      		<div class="col s3 right green-text" style="text-align: right"><h5>{{list.price}}</h5></div>
-			      	</div>
-			      </div>
-			    </li>
-			</ul>
-		</div>
+		
 
 		<div class="right col l4 m4 s12">
 			<div style="margin-bottom: 50px">
 				<a href="#/NewRequest" class="btn right">New Request</a>
-			</div>			
-			
+			</div>
+
 			<div style="padding-bottom: 100%; background-color: #FFE2C2">
-				
+
 			</div>
 		</div>
-	
+
 	</div>
 </div>
