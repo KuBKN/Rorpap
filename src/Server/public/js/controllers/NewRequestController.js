@@ -22,12 +22,14 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', function(
 	// $scope.quest.shipmentEndHour = '1';
 	// $scope.quest.shipmentEndMinute = '23';
 	// $scope.quest.receiver ='r';
-	// $scope.quest.vehicle = 'v';
+	// $scope.quest.vehicles = 'v';
 	// $scope.quest.price = '43';
 	// $scope.quest.comment ='cm';
 
+	// TODO dont get vehicles
+	// TODO replace " from _id cookie
 	$scope.createQuest = function() {
-		console.log($scope.quest)
+		// console.log($scope.quest)
         $http.post('/api/quest', $scope.quest)
 			.success(function(data) {
 				$scope.quest = {};

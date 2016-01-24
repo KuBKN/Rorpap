@@ -24,14 +24,18 @@ var Quest = mongoose.model('quests', {
     sender_id: String,
     messenger_id: String,
     receiver_id: String,
+    type: String,
+    image: String,
     title: String,
     fromLoc: String,
     toLoc: String,
-    shipmentEndDate: String,
-    shipmentEndHour: String,
-    shipmentEndMinute: String,
+    reqLimitDate: String,
+    reqLimitTime: String,
+    shipLimitDate: String,
+    shipLimitHour: String,
+    shipLimitTime: String,
     receiver: String,
-    vehicle: String,
+    vehicles: String,
     price: String,
     comment: String});
 
@@ -133,19 +137,21 @@ router.post('/user/login', function(req, res, next) {
 //     var id = req.params.id;
 // });
 
+
 /*
  POST /quest
  add user to sign up
  body: quest = {
             sender_id: String,
+            image: String,
             title: String,
             fromLoc: String,
             toLoc: String,
-            shipmentEndDate: String,
-            shipmentEndHour: String,
-            shipmentEndMinute: String,
+            shipLimitDate: String,
+            shipLimitHour: String,
+            shipLimitTime: String,
             receiver: String,
-            vehicle: String,
+            vehicles: String,
             price: String,
             comment: String}
  return:
@@ -153,19 +159,25 @@ router.post('/user/login', function(req, res, next) {
   201 Created: success creating quest
  */
 router.post('/quest', function(req, res, next) {
-    var sender_id = req.body.sender_id.replace(/\"/g, "");
+    var sender_id = req.body.sender_id;
+    var type = 'Pending';
+    var image = 'temp';
     var title = req.body.title;
     var fromLoc = req.body.fromLoc;
     var toLoc = req.body.toLoc;
-    var shipmentEndDate = req.body.shipmentEndDate;
-    var shipmentEndHour = req.body.shipmentEndHour;
-    var shipmentEndMinute = req.body.shipmentEndMinute;
+    // var now = new Date();
+    var reqLimitDate = '01/01/2011'; //now.format('DD/MM/YYYY');
+    var reqLimitTime = '01:01'; //now.format('mm:hh');
+    var shipLimitDate = req.body.shipLimitDate;
+    var shipLimitHour = req.body.shipLimitHour;
+    var shipLimitTime = req.body.shipLimitTime;
     var receiver = req.body.receiver;
-    var vehicle = req.body.vehicle;
+    var vehicles = req.body.vehicles;
     var price = req.body.price;
     var comment = req.body.comment;
 
-    var quest = new Quest({sender_id: sender_id, title: title, fromLoc: fromLoc, toLoc: toLoc, shipmentEndDate: shipmentEndDate, shipmentEndHour: shipmentEndHour, shipmentEndMinute: shipmentEndMinute, receiver: receiver, vehicle: vehicle, price: price, comment: comment});
+    var quest = new Quest({sender_id: sender_id, type: type, image: image, title: title, fromLoc: fromLoc, toLoc: toLoc, reqLimitDate: reqLimitDate, reqLimitTime: reqLimitTime, shipLimitDate: shipLimitDate, shipLimitHour: shipLimitHour, shipLimitTime: shipLimitTime, receiver: receiver, vehicles: vehicles, price: price, comment: comment});
+    // res.send(quest);
     quest.save(function(err) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();

@@ -33,20 +33,20 @@
 
 				<div class="col s12 m5" style="margin-left: 42px">
 					<label for="birthdate">Shipment End Date</label>
-					<input type="date" id="reqEndDate" ng-model="quest.shipmentEndDate" datepicker/>
+					<input type="date" id="reqEndDate" ng-model="quest.shipLimitDate" datepicker/>
 				</div>
 				<div class="col s12 m5" style="margin-left: 42px">
 					<label>End Time</label>
 					<div class="row">
 						<div class="col s5">
-							<select class="browser-default" ng-model="quest.shipmentEndHour">
+							<select class="browser-default" ng-model="quest.shipLimitHour">
 								<option value="" disabled selected>Hour</option>
 								<option ng-repeat="hour in hours" value="{{hour}}">{{hour}}</option>
 							</select>
 						</div>
 						<div class="col s1"> : </div>
 						<div class="col s5">
-							<select class="browser-default" ng-model="quest.shipmentEndMinute">
+							<select class="browser-default" ng-model="quest.shipLimitTime">
 								<option value="" disabled selected>Min</option>
 								<option ng-repeat="min in mins" value="{{min}}">{{min}}</option>
 							</select>
@@ -61,9 +61,9 @@
 					<input type="text" id="receiver" ng-model="quest.receiver" class="validate" required>
 				</div>
 
-				<div ng-model="quest.vehicle" class="input-field col s11" style="margin-left: 42px" required>
+				<div class="input-field col s11" style="margin-left: 42px">
 					<label>Vehicle</label>
-					<select multiple>
+					<select ng-model="quest.vehicles" multiple required>
 						<option value="1">Bus</option>
 						<option value="2">Bike</option>
 						<option value="3">Walk</option>

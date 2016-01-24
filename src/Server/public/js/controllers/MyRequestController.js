@@ -1,11 +1,10 @@
-app.controller('MyRequestController',['$scope',function($scope){
+app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
 
-	$scope.load = function(){
+	$scope.load = function() {
 		$('.collapsible').collapsible({
         accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
         });
 	};
-
 	$scope.load();
 
 	$scope.reqtype = "All";
@@ -13,8 +12,8 @@ app.controller('MyRequestController',['$scope',function($scope){
 	$scope.lists = [{
 
 		type: 'Pending',
-		user: 'Knot',
-		receiver: 'Nop',
+		sender_id: 'Knot',
+		receiver_id: 'Nop',
 
 		image: '1st',
 		title: 'First Request',
@@ -31,9 +30,9 @@ app.controller('MyRequestController',['$scope',function($scope){
 
 	},{
 		type: 'In progress',
-		user: 'Knot',
-		messenger: 'Bat',
-		receiver: 'Nop',
+		sender_id: 'Knot',
+		messenger_id: 'Bat',
+		receiver_id: 'Nop',
 
 		image: '2nd',
 		title: 'Second Request',
@@ -57,9 +56,9 @@ app.controller('MyRequestController',['$scope',function($scope){
 		}]
 	},{
 		type: 'Finished',
-		user: 'Knot',
+		sender_id: 'Knot',
 		messenger: 'Bat',
-		receiver: 'Nop',
+		receiver_id: 'Nop',
 
 		image: '3rd',
 		title: 'Third Request',
@@ -82,5 +81,26 @@ app.controller('MyRequestController',['$scope',function($scope){
 			loc: 'Barn Knot'
 		}]
 	}];
+
+	$scope.getAllQuests = function() {
+		var sender_id = $cookies.get('_id');
+		console.log('/api/quest/' + sender_id.replace(/\"/g, ""));
+		$http.get('/api/quest/' + sender_id.replace(/\"/g, ""))
+			.success(function(data) {
+				console.log(data);
+				
+				angular.forEach(data, function(value, key) {
+					$scope.lists.push(value);
+				});
+
+				console.log($scope.lists);
+			})
+			.error(function(data) {
+				console.log(data);
+			});
+	}
+
+	// twice calling
+	$scope.getAllQuests();
 
 }]);
