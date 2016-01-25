@@ -7,7 +7,7 @@ app.config(function($routeProvider) {
 
 	}).when('/About',{
         templateUrl: './views/about.html'
-	}).when('/My Request',{
+	}).when('/MyRequest',{
 		controller: 'MyRequestController',
 		templateUrl: './views/myrequest.html'
 	}).when('/NewRequest',{

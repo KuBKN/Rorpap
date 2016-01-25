@@ -1,5 +1,5 @@
 app.controller('SignUpController', ['$scope', '$http','$window', function($scope,$http,$window) {
-    // $scope.passwordPattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+    $scope.passwordPattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
     $scope.user = {};
 
@@ -13,6 +13,7 @@ app.controller('SignUpController', ['$scope', '$http','$window', function($scope
     };
 
     $scope.signUp = function() {
+        $scope.user.password = CryptoJS.MD5($scope.user.password).toString();
         $http.post('/api/user', $scope.user)
 			.success(function(data) {
 				$scope.user = {};

@@ -17,15 +17,18 @@
       <label for="password1">Password</label>
     </div>
     <div class="input-field col s12 m6">
-      <input type="password" id="password2" ng-model="user.password" password-confirmation="password1" required>
+      <input type="password" id="password2" ng-model="user.confirmPassword" password-confirmation="password1" required>
       <label for="password2">Repeat Password: </label>
+    </div>
+    <div>
+      <span ng-show="user.password != user.confirmPassword">Password mismatch</span>
     </div>
     <div class="col s12">
       <label for="dateOfBirth">Date of Birth</label>
       <input type="date" id="dateOfBirth" ng-model="user.dateOfBirth" datepicker />
     </div>
     <center>
-      <input type="checkbox" class="filled-in" id="filled-in-signup" required>
+     <input type="checkbox" name="acceptPolicyCheckBox" class="filled-in" id="filled-in-signup" ng-required="user.agreementCheckBox">
       <label for="filled-in-signup">Accept our usage policy and privacy policy</label>
     </center>
     <br>
