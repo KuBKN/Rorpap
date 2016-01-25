@@ -1,4 +1,4 @@
-app.controller('SignUpController', ['$scope', '$http', function($scope,$http) {
+app.controller('SignUpController', ['$scope', '$http','$window', function($scope,$http,$window) {
     // $scope.passwordPattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
     $scope.user = {};
@@ -17,7 +17,7 @@ app.controller('SignUpController', ['$scope', '$http', function($scope,$http) {
 			.success(function(data) {
 				$scope.user = {};
 
-                // TODO after finish signup here
+                $window.location.reload();
 			})
 			.error(function(data) {
 				console.log('Error: ' + data);
