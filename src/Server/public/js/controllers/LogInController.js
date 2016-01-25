@@ -1,4 +1,4 @@
-app.controller('LogInController', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
+app.controller('LogInController', ['$scope', '$http', '$cookies','$window', function($scope, $http, $cookies,$window) {
     $scope.user = {};
 
 	$scope.logIn = function() {
@@ -7,6 +7,7 @@ app.controller('LogInController', ['$scope', '$http', '$cookies', function($scop
 			.success(function(data) {
 				$cookies.put('_id', data[0]._id);
 				console.log($cookies.get('_id'));
+				$window.location.reload();
 			})
 			.error(function(data) {
 				console.log(data);
