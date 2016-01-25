@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+	<head>
+
+		<title>Index</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+		<link rel="stylesheet" href="css/materialize/css/materialize.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+		<script src="js/shared/angular.js"></script>
+		<script src="js/shared/angular-route.js"></script>
+		<script src="js/shared/angular-animate.js"></script>
+
+	</head>
+
+	<body ng-app="rorpap">
+		<nav class="nav-wrapper" style="background-color: #ffa337; height: 65px;" ng-controller="HeaderController">
+      <a href="#/" class="brand-logo"><img src="images/Banner-Logo-White.png" height="60"></a>
+
+			<ul class="right hide-on-med-and-down">
+				<li ng-if="logIned" >
+					<a style="text-decoration: none" href="#/My Request">
+            <font size="4"><center><b>My Request</b></center></font>
+          </a>
+				</li>
+        <li ng-if="logIned" >
+          <a style="text-decoration: none" class="dropdown-button" data-activates="dropdown2">
+            <font size="4"><center><b>Notification</b></center></font>
+          </a>
+        </li>
+        <li>
+          <a style="text-decoration: none" href="#/About">
+            <font size="4"><center><b>About</b></center></font>
+          </a>
+        </li>
+        <li ng-if="!logIned">
+          <a style="text-decoration: none" class="modal-trigger" data-target="modalSignup">
+            <font size="4"><center><b>Sign Up</b></center></font>
+          </a>
+        </li>
+        <li ng-if="!logIned">
+          <a style="text-decoration: none" class="modal-trigger" data-target="modalLogin">
+            <font size="4"><center><b>Log In</b></center></font>
+          </a>
+        </li>
+         <li ng-if="logIned">
+          <a style="text-decoration: none" class="dropdown-button" data-activates="dropdown1">
+            <font size="4"><center><b>Profile</b></center></font>
+          </a>
+        </li>
+			</ul>
+
+			<ul id="nav-mobile" class="side-nav">
+        <li ng-if="logIned">
+          <a style="text-decoration: none" href="#/Profile">
+            <font size="4" color="#ffa337"><center><b>Profile</b></center></font>
+          </a>
+        </li>
+        <li ng-if="logIned" >
+          <a style="text-decoration: none" href="#/My Request">
+            <font size="4" color="#ffa337"><center><b>My Request</b></center></font>
+          </a>
+        </li>
+        <li ng-if="logIned" >
+          <a style="text-decoration: none" href="#/Notification">
+            <font size="4" color="#ffa337"><center><b>Notification</b></center></font>
+          </a>
+        </li>
+        <li ng-if="logIned" >
+          <a style="text-decoration: none" href="#/Account">
+            <font size="3" color="#ffa337"><center>Account</center></font>
+          </a>
+        </li>
+        <li ng-if="logIned">
+          <a style="text-decoration: none" href="#/About">
+            <font size="3" color="#ffa337"><center>About</center></font>
+          </a>
+        </li>
+        <li ng-if="!logIned">
+          <a style="text-decoration: none" href="#/About">
+            <font size="4" color="#ffa337"><center><b>About<b></center></font>
+          </a>
+        </li>
+        <li ng-if="!logIned">
+          <a style="text-decoration: none" class="modal-trigger" data-target="modalSignup">
+            <font size="4" color="#ffa337"><center><b>Sign Up</b></center></font>
+          </a>
+        </li>
+        <li ng-if="!logIned">
+          <a style="text-decoration: none" class="modal-trigger" data-target="modalLogin">
+            <font size="4" color="#ffa337"><center><b>Log In</b></center></font>
+          </a>
+        </li>
+        <li ng-if="logIned" >
+          <a style="text-decoration: none" href="#/Log Out">
+            <font size="3" color="#FF7171"><center>Log Out</center></font>
+          </a>
+        </li>
+   		</ul>
+   		<a href="#" style="text-decoration: none; padding: 5px" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+		</nav>
+
+		<div ng-view>
+		</div>
+
+		<footer class="page-footer" style="background-color: #ffa337; clear: both;
+    position: relative;
+    z-index: 10;
+    height: -4.45em;
+    margin-top: 4.45em;">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Presented by</h5>
+            <p class="grey-text text-lighten-4">B at  : Poramate Homprakob<br>
+            	K not : Supavit Kongwudhikunakorn<br>
+            	N op  : Apiwat Jierakulpanit
+            </p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Contact</h5>
+       			<p class="grey-text text-lighten-4">Kasetsart University</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          © 2016 Copyright BKN@KU
+        </div>
+      </div>
+    </footer>
+
+    <!-- Modal Structure -->
+    <div id="modalSignup" class="modal" style="width:40%; min-width: 320px" ng-controller="SignUpController">
+      <div class="modal-content" style="padding: 20px 10px">
+        
+        <signup-modal></signup-modal>
+
+      </div>
+    </div>
+      
+    <div id="modalLogin" class="modal" style="width: 240px" ng-controller="LogInController">
+      <div class="modal-content" style="padding: 20px 10px;">
+        
+        <login-modal></login-modal>
+
+      </div>
+    </div>
+
+    <div id="modalLogout" class="modal" style="width: 320px" ng-controller="LogInController">
+      <div class="modal-content" style="padding: 20px 10px;">
+        
+        Confirm for log out?<br>
+
+        <a class="btn">Log out</a>
+        <a class="btn">Cancel</a>
+
+      </div>
+    </div>
+
+    <!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content">
+      <li><a href="#!">Profile</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">Account</a></li>
+      <li class="divider"></li>
+      <li><a class="modal-trigger" data-target="modalLogout">Log Out</a></li>
+    </ul>
+
+    <ul id="dropdown2" class="dropdown-content">
+      <li><a href="#!">Noti1</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">Noti2</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">Noti3</a></li>
+    </ul>
+
+		<!-- Modules -->
+	  <script src="js/app.js"></script>
+
+	  <!-- Controllers -->
+	  <script src="js/controllers/HeaderController.js"></script>
+	  <script src="js/controllers/FooterController.js"></script>
+    <script src="js/controllers/HomeController.js"></script>
+    <script src="js/controllers/MyRequestController.js"></script>
+    <script src="js/controllers/SignUpController.js"></script>
+    <script src="js/controllers/LogInController.js"></script>
+    <script src="js/controllers/LogOutController.js"></script>
+    <script src="js/controllers/NewRequestController.js"></script>
+
+    <!-- Directves -->
+    <script src="js/directives/navComponents.js"></script>
+
+	  <!--  Scripts-->
+	  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	  <script src="css/materialize/js/materialize.js"></script>
+	  <script> $(document).ready(function(){
+
+      $('.dropdown-button').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        constrain_width: false, // Does not change width of dropdown to that of the activator
+        hover: false, // Activate on hover
+        gutter: 0, // Spacing from edge
+        belowOrigin: true, // Displays dropdown below the button
+        alignment: 'left' // Displays dropdown with edge aligned to the left of button
+      });
+
+      $('.button-collapse').sideNav({
+        menuWidth: 180, // Default is 240
+        edge: 'left', // Choose the horizontal origin
+        closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+      });
+
+      // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+      $('.modal-trigger').leanModal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal
+        opacity: .5, // Opacity of modal background
+        in_duration: 300, // Transition in duration
+        out_duration: 200 // Transition out duration
+      });
+      $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15 // Creates a dropdown of 15 years to control year
+        });
+      });
+   </script>
+	</body>
+</html>
+
