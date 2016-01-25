@@ -15,33 +15,21 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location
 	'36','37','38','39','40','41','42','43','44','45','46','47',
 	'48','49','50','51','52','53','54','55','56','57','58','59'];
 
-	$scope.quest = {};
-	$scope.quest.sender_id = $cookies.get('_id').replace(/\"/g,'');
-	// $scope.quest.title = 't';
-	// $scope.quest.fromLoc = 'fl';
-	// $scope.quest.toLoc = 'tl';
-	// $scope.quest.shipmentEndHour = '1';
-	// $scope.quest.shipmentEndMinute = '23';
-	// $scope.quest.receiver ='r';
-	// $scope.quest.vehicles = 'v';
-	// $scope.quest.price = '43';
-	// $scope.quest.comment ='cm';
+	$scope.request = {};
+	$scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
 
-	// TODO dont get vehicles
-	// TODO replace " from _id cookie
 	$scope.createQuest = function() {
-		console.log($scope.quest)
-        $http.post('/api/quest', $scope.quest)
+		console.log($scope.request)
+        $http.post('/api/request', $scope.request)
 			.success(function(data) {
-				$scope.quest = {};
-				$scope.quest.sender_id = $cookies.get('_id');
+				$scope.request = {};
+				$scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
 
-                // TODO after finish signup here
+				$location.path('/My Request');
 			})
 			.error(function(data) {
 				console.log('Error: ' + data);
 			});
-		$location.path('/My Request');
     };
 
 }]);

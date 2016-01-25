@@ -20,7 +20,7 @@ var User = mongoose.model('users', {
     dateOfBirth: String
 });
 
-var Quest = mongoose.model('quests', {
+var Request = mongoose.model('requests', {
     sender_id: String,
     messenger_id: String,
     receiver_id: String,
@@ -61,7 +61,7 @@ router.post('/user', function(req, res, next) {
     var dateOfBirth = req.body.dateOfBirth;
 
     var user = new User({firstname: firstname, lastname: lastname, email: email, password: password, dateOfBirth: dateOfBirth});
-    User.find({email: email, password: password}, function(err, users) {
+    User.find({email: email}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
@@ -114,18 +114,18 @@ router.post('/user/login', function(req, res, next) {
     });
 });
 
-// /*
-//  GET /user
-//  get all users
-//  */
-// router.get('/user', function(req, res, next) {
-//     User.find(function(err, users) {
-//         if (err) {
-//             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-//         }
-//         res.send(users);
-//     })
-// });
+/*
+ GET /user
+ get all users
+ */
+router.get('/user', function(req, res, next) {
+    User.find(function(err, users) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        res.send(users);
+    })
+});
 
 //
 // /*
@@ -139,9 +139,9 @@ router.post('/user/login', function(req, res, next) {
 
 
 /*
- POST /quest
+ POST /request
  add user to sign up
- body: quest = {
+ body: request = {
             sender_id: String,
             image: String,
             title: String,
@@ -156,9 +156,9 @@ router.post('/user/login', function(req, res, next) {
             comment: String}
  return:
   500 Internal Server Error: error occur
-  201 Created: success creating quest
+  201 Created: success creating request
  */
-router.post('/quest', function(req, res, next) {
+router.post('/request', function(req, res, next) {
     var sender_id = req.body.sender_id;
     var type = 'Pending';
     var image = 'temp';
@@ -176,9 +176,9 @@ router.post('/quest', function(req, res, next) {
     var price = req.body.price;
     var comment = req.body.comment;
 
-    var quest = new Quest({sender_id: sender_id, type: type, image: image, title: title, fromLoc: fromLoc, toLoc: toLoc, reqLimitDate: reqLimitDate, reqLimitTime: reqLimitTime, shipLimitDate: shipLimitDate, shipLimitHour: shipLimitHour, shipLimitTime: shipLimitTime, receiver: receiver, vehicles: vehicles, price: price, comment: comment});
-    // res.send(quest);
-    quest.save(function(err) {
+    var request = new Request({sender_id: sender_id, type: type, image: image, title: title, fromLoc: fromLoc, toLoc: toLoc, reqLimitDate: reqLimitDate, reqLimitTime: reqLimitTime, shipLimitDate: shipLimitDate, shipLimitHour: shipLimitHour, shipLimitTime: shipLimitTime, receiver: receiver, vehicles: vehicles, price: price, comment: comment});
+    // res.send(request);
+    request.save(function(err) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
@@ -187,21 +187,21 @@ router.post('/quest', function(req, res, next) {
 });
 
 /*
- GET /quest/:sender_id
- get quests by sender's id
+ GET /request/:sender_id
+ get requests by sender's id
  param: sender's id
  */
-router.get('/quest/:sender_id', function(req, res, next) {
+router.get('/request/:sender_id', function(req, res, next) {
     var sender_id = req.params.sender_id;
 
-    Quest.find({sender_id: sender_id}, function(err, quests) {
+    Request.find({sender_id: sender_id}, function(err, requests) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
         else {
-            if (quests.length) {
+            if (requests.length) {
                 // temp = 200, actually 302
-                res.status(200).send(quests);
+                res.status(200).send(requests);
             }
             else {
                 res.status(HTTP_NOT_FOUND).send();
