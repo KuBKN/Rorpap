@@ -1,11 +1,11 @@
 <br>
-<div ng-controller="NewRequestController">
+<div ng-controller="MyRequestController">
 	<div class="container row" style="height: 600px; width:85%; min-width: 320px;">
 
 		<div class="right col s12 hide-on-large-only" style="border-style: solid">
 
 			<div style="padding-bottom: 100%; background-color: #FFE2C2">
-				
+
 			</div>
 		</div>
 
@@ -13,6 +13,7 @@
 			<form name="newRequestForm">
 				<div class="input-field col s12">
 					<i class="material-icons prefix">info_outline</i>
+					<input type="text" id="title" class="validate">
 					<label for="title">Title</label>
 					<input type="text" id="title" ng-model="request.title" class="validate" required>
 				</div>
@@ -23,9 +24,8 @@
 					<input type="text" id="fromLoc" ng-model="request.fromLoc" class="validate" required>
 				</div>
 
-				<br>
-
 				<div class="input-field col s12">
+<<<<<<< HEAD
 					<i class="material-icons prefix">location_on</i>
 					<label for="toLoc">To Location</label>
 					<input type="text" id="toLoc" ng-model="request.toLoc" class="validate" required>
@@ -60,15 +60,6 @@
 					<label for="receiver">Receiver</label>
 					<input type="text" id="receiver" ng-model="request.receiver" class="validate" required>
 				</div>
-
-				<div class="input-field col s11" style="margin-left: 42px">
-					<select ng-model="request.vehicles" multiple>
-						<option value="Bus">Bus</option>
-						<option value="2">Bike</option>
-						<option value="3">Walk</option>
-					</select>
-				</div>
-
 				<div class="input-field col s11" style="margin-left: 42px" action="#">
 					<label>Price</label><br>
 					<p class="range-field">
@@ -77,22 +68,21 @@
 				</div>
 
 				<div class="input-field col s11" style="margin-left: 42px" action="#">
-					<div class="file-field input-field">
-						<div class="btn">
-							<span>File</span>
-							<input type="file">
-						</div>
-						<div class="file-path-wrapper">
-							<input class="file-path validate" type="text" placeholder="Upload one image files">
-						</div>
-					</div>
+				    <div class="file-field input-field">
+				      <div class="btn">
+				        <span>File</span>
+				        <input type="file">
+				      </div>
+				      <div class="file-path-wrapper">
+				        <input class="file-path validate" type="text" placeholder="Upload one image files">
+				      </div>
+				    </div>
 				</div>
 
 				<div class="input-field col s11" style="margin-left: 42px">
 					<label for="comment">Comment</label>
 					<textarea id="comment" ng-model="request.comment" class="materialize-textarea"></textarea>
 				</div>
-
 			</form>
 
 
@@ -105,7 +95,7 @@
 			</div>
 			<br>
 
-			<center><a class="btn" ng-click="createQuest()">Create Request</a></center>
+			<center><a href="#/My Request" class="btn">Create Request</a></center>
 
 			<br>
 		</div>
