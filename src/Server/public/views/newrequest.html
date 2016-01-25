@@ -13,7 +13,6 @@
 			<form name="newRequestForm">
 				<div class="input-field col s12">
 					<i class="material-icons prefix">info_outline</i>
-					<input type="text" id="title" class="validate">
 					<label for="title">Title</label>
 					<input type="text" id="title" ng-model="request.title" class="validate" required>
 				</div>
@@ -94,7 +93,7 @@
 			</div>
 			<br>
 
-			<center><a href="#/My Request" class="btn">Create Request</a></center>
+			<center><a class="btn" ng-click="createQuest()">Create Request</a></center>
 
 			<br>
 		</div>

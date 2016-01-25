@@ -84,11 +84,11 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 
 	$scope.getAllQuests = function() {
 		var sender_id = $cookies.get('_id');
-		console.log('/api/quest/' + sender_id.replace(/\"/g, ""));
-		$http.get('/api/quest/' + sender_id.replace(/\"/g, ""))
+		console.log('/api/request/' + sender_id.replace(/\"/g, ""));
+		$http.get('/api/request/' + sender_id.replace(/\"/g, ""))
 			.success(function(data) {
 				console.log(data);
-				
+
 				angular.forEach(data, function(value, key) {
 					$scope.lists.push(value);
 				});
