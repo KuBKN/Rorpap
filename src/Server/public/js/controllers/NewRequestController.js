@@ -1,6 +1,7 @@
-app.controller('NewRequestController', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
+app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location', function($scope, $http, $cookies,$location) {
 	$scope.load = function(){
 		$('select').material_select();
+		$('#mySelect').val();
 	};
 
 	$scope.load();
@@ -15,7 +16,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', function(
 	'48','49','50','51','52','53','54','55','56','57','58','59'];
 
 	$scope.quest = {};
-	$scope.quest.sender_id = $cookies.get('_id');
+	$scope.quest.sender_id = $cookies.get('_id').replace(/\"/g,'');
 	// $scope.quest.title = 't';
 	// $scope.quest.fromLoc = 'fl';
 	// $scope.quest.toLoc = 'tl';
@@ -29,7 +30,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', function(
 	// TODO dont get vehicles
 	// TODO replace " from _id cookie
 	$scope.createQuest = function() {
-		// console.log($scope.quest)
+		console.log($scope.quest)
         $http.post('/api/quest', $scope.quest)
 			.success(function(data) {
 				$scope.quest = {};
@@ -40,6 +41,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', function(
 			.error(function(data) {
 				console.log('Error: ' + data);
 			});
-    }
+		$location.path('/My Request');
+    };
 
 }]);
