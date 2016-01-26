@@ -21,11 +21,12 @@ app.controller('SignUpController', ['$scope', '$http','$window', function($scope
     $scope.signUp = function() {
 
         $scope.user.password = CryptoJS.MD5($scope.user.password).toString();
+        console.log($scope.user.password);
         $http.post('/api/user', $scope.user)
 			.success(function(data) {
 				$scope.user = {};
 
-                // TODO after finish signup here
+                window.location.reload();
 			})
 			.error(function(data) {
 				console.log('Error: ' + data);

@@ -3,8 +3,8 @@ app.controller('LogInController', ['$scope', '$http', '$cookies','$window', func
     $scope.user = {};
 
 	$scope.logIn = function() {
-		console.log($scope.user);
-		$scope.password = CryptoJS.MD5($scope.password).toString();
+		$scope.user.password = CryptoJS.MD5($scope.user.password).toString();
+		console.log($scope.user.password);
         $http.post('/api/user/login', $scope.user)
 			.success(function(data) {
 				$cookies.putObject('_id', data[0]._id);
