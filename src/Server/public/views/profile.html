@@ -1,0 +1,36 @@
+<div class="container">
+	<div class="row">
+		<div class="input-field col s12 m6">
+			<h5>Profile</h5>
+			<div class="input-field">
+				<label for="firstName">First Name</label>
+				<input type="text" id="firstName" ng-model="user.firstname" class="validate" required>
+			</div>
+
+			<div class="input-field">
+				<label for="lastName">Last Name</label>
+				<input type="text" id="lastName" ng-model="user.lastname" class="validate" required>
+			</div>
+
+			<div class="input-field">
+				<label for="emailAddress">E-mail address</label>
+				<input type="email" id="emailAddress" ng-model="user.email" class="validate" required>
+			</div>
+
+			<p>Leave Password be blank to not update</p>
+			<div class="input-field">
+				<label for="password1">Password</label>
+				<input type="password" id="password1" ng-model="user.password" required>
+			</div>
+
+			<center><button type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="update()">Update</button></center>
+
+		</div>
+
+		<div class="input-field col s12 m6">
+
+		</div>
+	</div>
+
+
+</div>
