@@ -87,6 +87,57 @@ router.post('/user/login', function(req, res, next) {
     });
 });
 
+/*
+ POST /user/update
+ add user to sign up
+ body: user = {_id: String,
+            firstname: String,
+            lastname: String,
+            email: String,
+            password: String}
+ return:
+  500 Internal Server Error: error occur
+  302 Found: found user
+  404 Not Found: not found user
+ */
+router.post('/user/update', function(req, res, next) {
+    var _id = req.body._id;
+    var firstname = req.body.firstname;
+    var lastname = req.body.lastname;
+    var email = req.body.email;
+    var password = req.body.password;
+    
+    if (firstname != "" && firstname != undefined) {
+        User.findOneAndUpdate({_id: _id}, {firstname: firstname}, function (err, data) {
+            if (err)
+                return res.send(500, { error: err });
+        });
+    }
+
+    if (lastname != "" && lastname != undefined) {
+        User.findOneAndUpdate({_id: _id}, {lastname: lastname}, function (err, data) {
+            if (err)
+                return res.send(500, { error: err });
+        });
+    }
+
+    if (email != "" && email != undefined) {
+        User.findOneAndUpdate({_id: _id}, {email: email}, function (err, data) {
+            if (err)
+                return res.send(500, { error: err });
+        });
+    }
+
+    if (password != "" && password != undefined) {
+        User.findOneAndUpdate({_id: _id}, {password: password}, function (err, data) {
+            if (err)
+                return res.send(500, { error: err });
+        });
+    }
+
+    return res.send("succesfully saved");
+});
+
  /*
   GET /user
   get all users
@@ -100,14 +151,21 @@ router.post('/user/login', function(req, res, next) {
      })
  });
 
-//
-// /*
-//  GET /user/:id
-//  get user by id
-//  param: id user id
-//  */
-// router.get('/user/:id', function(req, res, next) {
-//     var id = req.params.id;
-// });
+
+/*
+ GET /user/:id
+ get user by id
+ param: id user id
+ */
+router.get('/user/:id', function(req, res, next) {
+    var _id = req.params.id;
+
+    User.find({_id: _id}, {firstname: true, lastname: true, email: true}, function(err, users) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        res.send(users);
+    })
+});
 
 module.exports = router;

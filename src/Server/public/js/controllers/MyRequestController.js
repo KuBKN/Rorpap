@@ -83,9 +83,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 	}];
 
 	$scope.getAllQuests = function() {
-		var sender_id = $cookies.get('_id');
-		console.log('/api/request/' + sender_id.replace(/\"/g, ""));
-		$http.get('/api/request/' + sender_id.replace(/\"/g, ""))
+		var sender_id = $cookies.get('_id').replace(/\"/g, "");
+		$http.get('/api/request/' + sender_id)
 			.success(function(data) {
 				console.log(data);
 

@@ -2,12 +2,13 @@
 <html>
 <head>
 
-	<title>Index</title>
+	<title>Rorpap</title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
 	<link rel="stylesheet" href="css/materialize/css/materialize.css">
+	<link rel="stylesheet" href="css/materialize/css/ghpages-materialize.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<script src="js/shared/angular.js"></script>
@@ -25,20 +26,24 @@
 
 			<ul class="right hide-on-med-and-down">
 				<li>
-					<a style="text-decoration: none; margin-top: 7.5%; line-height: 200%; border-style: solid; border-color: white" >
+					<a href="#/beamessenger" ng-if="!messenger" style="text-decoration: none; margin-top: 7.5%; line-height: 200%; border-style: solid; border-color: white" >
 						<font size="4"><center>
-							<b ng-if="!messenger">Be a Messenger</b>
-							<b ng-if="messenger">Find Request</b>
+							<b>Be a Messenger</b>
+						</center></font>
+					</a>
+					<a href="#/beamessenger" ng-if="messenger" style="text-decoration: none; margin-top: 7.5%; line-height: 200%; border-style: solid; border-color: white" >
+						<font size="4"><center>
+							<b>Find Request</b>
 						</center></font>
 					</a>
 				</li>
 				<li ng-if="logIned" >
-					<a style="text-decoration: none" href="#/My Request">
+					<a style="text-decoration: none" href="#/myrequest">
 						<font size="4"><center><b>My Request</b></center></font>
 					</a>
 				</li>
 				<li>
-					<a style="text-decoration: none" href="#/About">
+					<a style="text-decoration: none" href="#/about">
 						<font size="4"><center><b>About</b></center></font>
 					</a>
 				</li>
@@ -61,7 +66,7 @@
 
 			<ul id="nav-mobile" class="side-nav">
 				<li ng-if="logIned">
-					<a style="text-decoration: none" href="#/Profile">
+					<a style="text-decoration: none" href="#/profile">
 						<font size="4" color="#ffa337"><center><b>Profile</b></center></font>
 					</a>
 				</li>
@@ -175,9 +180,7 @@
 
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
-	<li><a href="#!">Profile</a></li>
-	<li class="divider"></li>
-	<li><a href="#!">Account</a></li>
+	<li><a href="#/profile">Profile</a></li>
 	<li class="divider"></li>
 	<li><a class="modal-trigger" data-target="modalLogout">Log Out</a></li>
 </ul>
@@ -194,6 +197,9 @@
 <script src="js/controllers/LogInController.js"></script>
 <script src="js/controllers/LogOutController.js"></script>
 <script src="js/controllers/NewRequestController.js"></script>
+<script src="js/controllers/BeAMessengerController.js"></script>
+<script src="js/controllers/ProfileController.js"></script>
+<script src="js/controllers/FindRequestController.js"></script>
 
 <!-- Directves -->
 <script src="js/directives/navComponents.js"></script>

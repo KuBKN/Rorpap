@@ -8,7 +8,6 @@ app.controller('LogInController', ['$scope', '$http', '$cookies','$window', func
         $http.post('/api/user/login', $scope.user)
 			.success(function(data) {
 				$cookies.putObject('_id', data[0]._id);
-				console.log($cookies.get('_id'));
 				$window.location.reload();
 			})
 			.error(function(data) {
