@@ -19,91 +19,103 @@
 </head>
 
 <body ng-app="rorpap">
-	<nav class="nav-wrapper" style="background-color: #ffa337; height: 65px" ng-controller="HeaderController">
-		<a href="#/" class="brand-logo"><img src="images/Banner-Logo-White.png" height="60"></a>
+	<div ng-controller="HeaderController">
+		<nav class="nav-wrapper" ng-style="{'background-color': background(), 'height': '65px'}" ng-cloak>
+			<a href="#/" class="brand-logo"><img src="images/Banner-Logo-White.png" height="60"></a>
 
-		<ul class="right hide-on-med-and-down">
-			<li ng-if="logIned" >
-				<a style="text-decoration: none" href="#/My Request">
-					<font size="4"><center><b>My Request</b></center></font>
-				</a>
-			</li>
-			<li ng-if="logIned" >
-				<a style="text-decoration: none" class="dropdown-button" data-activates="dropdown2">
-					<font size="4"><center><b>Notification</b></center></font>
-				</a>
-			</li>
-			<li>
-				<a style="text-decoration: none" href="#/About">
-					<font size="4"><center><b>About</b></center></font>
-				</a>
-			</li>
-			<li ng-if="!logIned">
-				<a style="text-decoration: none" class="modal-trigger" data-target="modalSignup">
-					<font size="4"><center><b>Sign Up</b></center></font>
-				</a>
-			</li>
-			<li ng-if="!logIned">
-				<a style="text-decoration: none" class="modal-trigger" data-target="modalLogin">
-					<font size="4"><center><b>Log In</b></center></font>
-				</a>
-			</li>
-			<li ng-if="logIned">
-				<a style="text-decoration: none" class="dropdown-button" data-activates="dropdown1">
-					<font size="4"><center><b>Profile</b></center></font>
-				</a>
-			</li>
-		</ul>
+			<ul class="right hide-on-med-and-down">
+				<li>
+					<a style="text-decoration: none; margin-top: 7.5%; line-height: 200%; border-style: solid; border-color: white" >
+						<font size="4"><center>
+							<b ng-if="!messenger">Be a Messenger</b>
+							<b ng-if="messenger">Find Request</b>
+						</center></font>
+					</a>
+				</li>
+				<li ng-if="logIned" >
+					<a style="text-decoration: none" href="#/My Request">
+						<font size="4"><center><b>My Request</b></center></font>
+					</a>
+				</li>
+				<li>
+					<a style="text-decoration: none" href="#/About">
+						<font size="4"><center><b>About</b></center></font>
+					</a>
+				</li>
+				<li ng-if="!logIned">
+					<a style="text-decoration: none" class="modal-trigger" data-target="modalSignup">
+						<font size="4"><center><b>Sign Up</b></center></font>
+					</a>
+				</li>
+				<li ng-if="!logIned">
+					<a style="text-decoration: none" class="modal-trigger" data-target="modalLogin">
+						<font size="4"><center><b>Log In</b></center></font>
+					</a>
+				</li>
+				<li ng-if="logIned">
+					<a style="text-decoration: none" class="dropdown-button" data-activates="dropdown1">
+						<font size="4"><center><b>Profile</b></center></font>
+					</a>
+				</li>
+			</ul>
 
-		<ul id="nav-mobile" class="side-nav">
-			<li ng-if="logIned">
-				<a style="text-decoration: none" href="#/Profile">
-					<font size="4" color="#ffa337"><center><b>Profile</b></center></font>
-				</a>
-			</li>
-			<li ng-if="logIned" >
-				<a style="text-decoration: none" href="#/My Request">
-					<font size="4" color="#ffa337"><center><b>My Request</b></center></font>
-				</a>
-			</li>
-			<li ng-if="logIned" >
-				<a style="text-decoration: none" href="#/Notification">
-					<font size="4" color="#ffa337"><center><b>Notification</b></center></font>
-				</a>
-			</li>
-			<li ng-if="logIned" >
-				<a style="text-decoration: none" href="#/Account">
-					<font size="3" color="#ffa337"><center>Account</center></font>
-				</a>
-			</li>
-			<li ng-if="logIned">
-				<a style="text-decoration: none" href="#/About">
-					<font size="3" color="#ffa337"><center>About</center></font>
-				</a>
-			</li>
-			<li ng-if="!logIned">
-				<a style="text-decoration: none" href="#/About">
-					<font size="4" color="#ffa337"><center><b>About<b></center></font>
-				</a>
-			</li>
-			<li ng-if="!logIned">
-				<a style="text-decoration: none" class="modal-trigger" data-target="modalSignup">
-					<font size="4" color="#ffa337"><center><b>Sign Up</b></center></font>
-				</a>
-			</li>
-			<li ng-if="!logIned">
-				<a style="text-decoration: none" class="modal-trigger" data-target="modalLogin">
-					<font size="4" color="#ffa337"><center><b>Log In</b></center></font>
-				</a>
-			</li>
-			<li ng-if="logIned" >
-				<a style="text-decoration: none" class="modal-trigger" data-target="modalLogout">
-					<font size="3" color="#FF7171"><center>Log Out</center></font>
-				</a>
-			</li>
-		</ul>
-		<a href="#" style="text-decoration: none; padding: 5px" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-	</nav>
+			<ul id="nav-mobile" class="side-nav">
+				<li ng-if="logIned">
+					<a style="text-decoration: none" href="#/Profile">
+						<font size="4" color="#ffa337"><center><b>Profile</b></center></font>
+					</a>
+				</li>
+				<li style="border-style: solid; border-color: white" ng-style="{'background-color': background()}">
+					<a style="text-decoration: none" ng-if="!messenger">
+						<font size="4" color="white"><center>
+							<b>Be a Messenger</b>
+						</center></font>
+					</a>
+					<a style="text-decoration: none" ng-if="messenger">
+						<font size="4" color="white"><center>
+							<b>Find Request</b>
+						</center></font>
+					</a>
+				</li>
+				<li ng-if="logIned" >
+					<a style="text-decoration: none" href="#/My Request">
+						<font size="4" color="#ffa337"><center><b>My Request</b></center></font>
+					</a>
+				</li>
+				<li ng-if="logIned" >
+					<a style="text-decoration: none" href="#/Account">
+						<font size="3" color="#ffa337"><center>Account</center></font>
+					</a>
+				</li>
+				<li ng-if="logIned">
+					<a style="text-decoration: none" href="#/About">
+						<font size="3" color="#ffa337"><center>About</center></font>
+					</a>
+				</li>
+				<li ng-if="!logIned">
+					<a style="text-decoration: none" href="#/About">
+						<font size="4" color="#ffa337"><center><b>About<b></center></font>
+					</a>
+				</li>
+				<li ng-if="!logIned">
+					<a style="text-decoration: none" class="modal-trigger" data-target="modalSignup">
+						<font size="4" color="#ffa337"><center><b>Sign Up</b></center></font>
+					</a>
+				</li>
+				<li ng-if="!logIned">
+					<a style="text-decoration: none" class="modal-trigger" data-target="modalLogin">
+						<font size="4" color="#ffa337"><center><b>Log In</b></center></font>
+					</a>
+				</li>
+				<li ng-if="logIned" >
+					<a style="text-decoration: none" class="modal-trigger" data-target="modalLogout">
+						<font size="3" color="#FF7171"><center>Log Out</center></font>
+					</a>
+				</li>
+			</ul>
+			<a href="#" style="text-decoration: none; padding: 5px" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+		</nav>
+	</div>
 
 	<div ng-view>
 	</div>
@@ -112,7 +124,7 @@
 	position: relative;
 	z-index: 10;
 	height: -4.45em;
-	margin-top: 4.45em;">
+	margin-top: 4.45em;" ng-cloak>
 	<div class="container">
 		<div class="row">
 			<div class="col l6 s12">
@@ -170,15 +182,6 @@
 	<li><a class="modal-trigger" data-target="modalLogout">Log Out</a></li>
 </ul>
 
-<ul id="dropdown2" class="dropdown-content">
-	<li><a href="#!">Noti1</a></li>
-	<li class="divider"></li>
-	<li><a href="#!">Noti2</a></li>
-	<li class="divider"></li>
-	<li><a href="#!">Noti3</a></li>
-</ul>
-
-
 <!-- Modules -->
 <script src="js/app.js"></script>
 
@@ -211,7 +214,7 @@
 			});
 
 	$('.button-collapse').sideNav({
-				menuWidth: 180, // Default is 240
+				menuWidth: 200, // Default is 240
 				edge: 'left', // Choose the horizontal origin
 				closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
 			});
