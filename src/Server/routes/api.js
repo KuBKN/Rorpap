@@ -182,28 +182,25 @@ router.post('/request', function(req, res, next) {
 });
 
 
-router.get('/request/:sender_id', function(req, res, next) {
+router.get('/request/:reqtype/:sender_id', function(req, res, next) {
+    var reqtype = req.params.reqtype;
     var sender_id = req.params.sender_id;
 
-    Request.find({sender_id: sender_id}, function(err, requests) {
+
+
+    Request.find({sender_id: sender_id, type: {$regex: '.*' + reqtype + '.*'}}, function(err, requests) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
         else {
-            if (requests.length) {
-                // temp = 200, actually 302
-                res.status(200).send(requests);
-            }
-            else {
-                res.status(HTTP_NOT_FOUND).send();
-            }
+            res.status(200).send(requests);
         }
     });
 });
 
 router.post('/request/remove', function(req, res, next) {
     var _id = req.body._id;
-    
+
     Request.remove({_id: _id}, function(err) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
