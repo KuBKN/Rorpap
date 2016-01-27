@@ -1,106 +1,106 @@
 <br>
-<div ng-controller="MyRequestController">
-	<div class="container row" style="height: 600px; width:85%; min-width: 320px;">
 
-		<div class="right col s12 hide-on-large-only" style="border-style: solid">
+<div class="container row" style="height: 600px; width:85%; min-width: 320px;">
 
-			<div style="padding-bottom: 100%; background-color: #FFE2C2">
+	<div class="right col s12 hide-on-large-only" style="border-style: solid">
 
-			</div>
-		</div>
-
-		<div class="col l6 s12">
-			<form name="newRequestForm">
-				<div class="input-field col s12">
-					<i class="material-icons prefix">info_outline</i>
-					<label for="title">Title</label>
-					<input type="text" id="title" ng-model="request.title" class="validate" required>
-				</div>
-
-				<div class="input-field col s12">
-					<i class="material-icons prefix">location_on</i>
-					<label for="fromLoc">From Location</label>
-					<input type="text" id="fromLoc" ng-model="request.fromLoc" class="validate" required>
-				</div>
-
-				<div class="input-field col s12">
-					<i class="material-icons prefix">location_on</i>
-					<label for="toLoc">To Location</label>
-					<input type="text" id="toLoc" ng-model="request.toLoc" class="validate" required>
-				</div>
-
-				<div class="col s12 m5" style="margin-left: 42px">
-					<label for="birthdate">Shipment End Date</label>
-					<input type="date" id="reqEndDate" ng-model="request.shipLimitDate" datepicker/>
-				</div>
-				<div class="col s12 m5" style="margin-left: 42px">
-					<label>End Time</label>
-					<div class="row">
-						<div class="col s5">
-							<select class="browser-default" ng-model="request.shipLimitHour">
-								<option value="" disabled selected>Hour</option>
-								<option ng-repeat="hour in hours" value="{{hour}}">{{hour}}</option>
-							</select>
-						</div>
-						<div class="col s1"> : </div>
-						<div class="col s5">
-							<select class="browser-default" ng-model="request.shipLimitTime">
-								<option value="" disabled selected>Min</option>
-								<option ng-repeat="min in mins" value="{{min}}">{{min}}</option>
-							</select>
-						</div>
-					</div>
-				</div>
-
-				<br><br>
-				<div class="input-field col s11">
-					<i class="material-icons prefix">perm_identity</i>
-					<label for="receiver">Receiver</label>
-					<input type="text" id="receiver" ng-model="request.receiver" class="validate" required>
-				</div>
-				<div class="input-field col s11" style="margin-left: 42px" action="#">
-					<label>Price</label><br>
-					<p class="range-field">
-						<input type="range" id="price" ng-model="request.price" min="35" max="100" />
-					</p>
-				</div>
-
-				<div class="input-field col s11" style="margin-left: 42px" action="#">
-				    <div class="file-field input-field">
-				      <div class="btn">
-				        <span>File</span>
-				        <input type="file">
-				      </div>
-				      <div class="file-path-wrapper">
-				        <input class="file-path validate" type="text" placeholder="Upload one image files">
-				      </div>
-				    </div>
-				</div>
-
-				<div class="input-field col s11" style="margin-left: 42px">
-					<label for="comment">Comment</label>
-					<textarea id="comment" ng-model="request.comment" class="materialize-textarea"></textarea>
-				</div>
-			</form>
-
-
-		</div>
-
-		<div class="right col l6 s12">
-
-			<ui-gmap-google-map center="map1.center" zoom="map1.zoom" draggable="true">
-	    	<ui-gmap-marker idkey="marker1.id" coords="marker1.coords" options="marker1.options"></ui-gmap-marker>
-	    	<ui-gmap-marker idkey="marker2.id" coords="marker2.coords" options="marker2.options"></ui-gmap-marker>
-	    </ui-gmap-google-map>
-
-			<style type="text/css">
-				.angular-google-map-container { height: 500px; }
-			</style>
-
-			<br>
-
-			<center><a class="btn" ng-click="createQuest()">Create Request</a></center>
+		<div style="padding-bottom: 100%; background-color: #FFE2C2">
 
 		</div>
 	</div>
+
+	<div class="col l6 s12">
+		<form name="newRequestForm">
+			<div class="input-field col s12">
+				<i class="material-icons prefix">info_outline</i>
+				<label for="title">Title</label>
+				<input type="text" id="title" ng-model="request.title" class="validate" required>
+			</div>
+
+			<div class="input-field col s12">
+				<i class="material-icons prefix" style="color: red">location_on</i>
+				<label for="fromLoc">From Location</label>
+				<input type="text" id="fromLoc" ng-model="request.fromLoc" class="validate" required>
+			</div>
+
+			<div class="input-field col s12">
+				<i class="material-icons prefix" style="color: green">location_on</i>
+				<label for="toLoc">To Location</label>
+				<input type="text" id="toLoc" ng-model="request.toLoc" class="validate" required>
+			</div>
+
+			<div class="col s12 m5" style="margin-left: 42px">
+				<label for="birthdate">Shipment End Date</label>
+				<input type="date" id="reqEndDate" ng-model="request.shipLimitDate" datepicker/>
+			</div>
+			<div class="col s12 m5" style="margin-left: 42px">
+				<label>End Time</label>
+				<div class="row">
+					<div class="col s5">
+						<select class="browser-default" ng-model="request.shipLimitHour">
+							<option value="" disabled selected>Hour</option>
+							<option ng-repeat="hour in hours" value="{{hour}}">{{hour}}</option>
+						</select>
+					</div>
+					<div class="col s1"> : </div>
+					<div class="col s5">
+						<select class="browser-default" ng-model="request.shipLimitTime">
+							<option value="" disabled selected>Min</option>
+							<option ng-repeat="min in mins" value="{{min}}">{{min}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<br><br>
+			<div class="input-field col s11">
+				<i class="material-icons prefix">perm_identity</i>
+				<label for="receiver">Receiver</label>
+				<input type="text" id="receiver" ng-model="request.receiver" class="validate" required>
+			</div>
+			<div class="input-field col s11" style="margin-left: 42px" action="#">
+				<label>Price</label><br>
+				<p class="range-field">
+					<input type="range" id="price" ng-model="request.price" min="35" max="100" />
+				</p>
+			</div>
+
+			<div class="input-field col s11" style="margin-left: 42px" action="#">
+			    <div class="file-field input-field">
+			      <div class="btn">
+			        <span>File</span>
+			        <input type="file">
+			      </div>
+			      <div class="file-path-wrapper">
+			        <input class="file-path validate" type="text" placeholder="Upload one image files">
+			      </div>
+			    </div>
+			</div>
+
+			<div class="input-field col s11" style="margin-left: 42px">
+				<label for="comment">Comment</label>
+				<textarea id="comment" ng-model="request.comment" class="materialize-textarea"></textarea>
+			</div>
+		</form>
+
+
+	</div>
+
+	<div class="right col l6 s12">
+
+		<ui-gmap-google-map center="map1.center" zoom="map1.zoom" draggable="true">
+    	<ui-gmap-marker idkey="marker1.id" coords="marker1.coords" options="marker1.options"></ui-gmap-marker>
+    	<ui-gmap-marker idkey="marker2.id" coords="marker2.coords" options="marker2.options"></ui-gmap-marker>
+    </ui-gmap-google-map>
+
+		<style type="text/css">
+			.angular-google-map-container { height: 500px; }
+		</style>
+
+		<br>
+
+		<center><a class="btn" ng-click="createQuest()">Create Request</a></center>
+
+	</div>
+
 </div>
