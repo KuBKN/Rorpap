@@ -1,4 +1,4 @@
-app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location', function($scope, $http, $cookies,$location) {
+app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location', '$timeout', function($scope, $http, $cookies,$location, uiGmapGoogleMapApi, $timeout) {
 	$scope.load = function(){
 		$('select').material_select();
 		$('#mySelect').val();
@@ -20,16 +20,54 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location
 
 	$scope.createQuest = function() {
 		console.log($scope.request)
-        $http.post('/api/request', $scope.request)
-			.success(function(data) {
-				$scope.request = {};
-				$scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
 
-				$location.path('/myrequest');
-			})
-			.error(function(data) {
-				console.log('Error: ' + data);
-			});
-    };
+    $http.post('/api/request', $scope.request)
+    .success(function(data) {
+      $scope.request = {};
+      $scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
+
+      $location.path('/myrequest');
+    })
+    .error(function(data) {
+      console.log('Error: ' + data);
+    });
+  };
+
+  $scope.distance = function( val1, val2){
+    console.log(val1);
+    console.log(val2);
+    return (val1+val2)/2;
+  };
+
+  $scope.marker1 = {
+    id: 0,
+    coords: {
+      latitude: 13.851648,
+      longitude: 100.567465
+    },
+    options: { draggable: true,
+              icon: 'images/LOGO-RED.png'
+     }
+  };
+
+  $scope.marker2 = {
+    id: 0,
+    coords: {
+      latitude: 13.738432,
+      longitude: 100.530925
+    },
+    options: { draggable: true,
+                icon: 'images/LOGO-GREEN.png' }
+  };
+
+  $scope.map1 = { 
+    center: { 
+    latitude: $scope.distance($scope.marker1.coords.latitude,$scope.marker2.coords.latitude), 
+    longitude: $scope.distance($scope.marker1.coords.longitude,$scope.marker2.coords.longitude)
+    }, 
+    zoom: 12
+  };
+
+  console.log($scope.map1.center);
 
 }]);
