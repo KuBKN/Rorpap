@@ -1,4 +1,4 @@
-app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
+app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($scope, $http, $cookies,uiGmapGoogleMapApi) {
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -110,5 +110,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 
 	// twice calling
 	$scope.getAllRequests();
+
+	$scope.map = { center: { latitude: 13.851648, longitude: 100.567465 }, zoom: 15 };
 
 }]);

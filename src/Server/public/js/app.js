@@ -1,4 +1,4 @@
-var app = angular.module('rorpap', ['ngRoute', 'ngCookies']);
+var app = angular.module('rorpap', ['ngRoute', 'ngCookies','uiGmapgoogle-maps']);
 
 app.config(function($routeProvider, $locationProvider ) {
 
@@ -27,4 +27,12 @@ app.config(function($routeProvider, $locationProvider ) {
 		templateUrl: './views/admin.html'
     }).otherwise({ redirectTo: "/" });
 
+});
+
+app.config(function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        //    key: 'your api key',
+        v: '3.20', //defaults to latest 3.X anyhow
+        libraries: 'weather,geometry,visualization'
+    });
 });
