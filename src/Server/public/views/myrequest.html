@@ -15,7 +15,7 @@
 
 		<div class="col l6 m8 s12">
 			<ul class="collapsible popout" data-collapsible="accordion">
-				<li style="margin: 10px 0" ng-repeat="request in requests">
+				<li style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
 					<div class="collapsible-header">
 						<div class="row">
 
@@ -86,16 +86,17 @@
 					<div class="card blue-grey darken-1">
 						<div class="card-content white-text">
 							<span class="card-title">Location</span>
-							<ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+							<ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options">
+								<ui-gmap-markers models="markers" coords="'coords'" options="'self'" dorebuildall="true"></ui-gmap-markers>
+							</ui-gmap-google-map>
+
+							<style type="text/css">
+								.angular-google-map-container {
+									height: 300px;
+								}
+							</style>
 						</div>
 					</div>
-
-					<ui-gmap-google-map center="map1.center" zoom="map1.zoom" draggable="true">
-						<ui-gmap-marker idkey="marker1.id" coords="marker1.coords" options="marker1.options"></ui-gmap-marker>
-						<ui-gmap-marker idkey="marker2.id" coords="marker2.coords" options="marker2.options"></ui-gmap-marker>
-					</ui-gmap-google-map>
-
-
 				</div>
 			</div>
 		</div>

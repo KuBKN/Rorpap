@@ -19,55 +19,56 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location
 	$scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
 
 	$scope.createQuest = function() {
+		$scope.request.fromLoc = $scope.markers[0].coords.latitude + ', ' + $scope.markers[0].coords.longitude;
+		$scope.request.toLoc = $scope.markers[1].coords.latitude + ', ' + $scope.markers[1].coords.longitude;
+
 		console.log($scope.request)
 
-    $http.post('/api/request', $scope.request)
-    .success(function(data) {
-      $scope.request = {};
-      $scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
+		$http.post('/api/request', $scope.request)
+		.success(function(data) {
+			$scope.request = {};
+			$scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
 
-      $location.path('/myrequest');
-    })
-    .error(function(data) {
-      console.log('Error: ' + data);
-    });
-  };
+			$location.path('/myrequest');
+		})
+		.error(function(data) {
+			console.log('Error: ' + data);
+		});
+	};
 
-  $scope.distance = function( val1, val2){
-    console.log(val1);
-    console.log(val2);
-    return (val1+val2)/2;
-  };
+	$scope.distance = function( val1, val2){
+		console.log(val1);
+		console.log(val2);
+		return (val1+val2)/2;
+	};
 
-  $scope.marker1 = {
-    id: 0,
-    coords: {
-      latitude: 13.851648,
-      longitude: 100.567465
-    },
-    options: { draggable: true,
-              icon: 'images/LOGO-RED.png'
-     }
-  };
+	$scope.markers = [];
 
-  $scope.marker2 = {
-    id: 0,
-    coords: {
-      latitude: 13.738432,
-      longitude: 100.530925
-    },
-    options: { draggable: true,
-                icon: 'images/LOGO-GREEN.png' }
-  };
+	$scope.map = {
+		center: {
+			latitude: 13.738432,
+			longitude: 100.530925
+		},
+		zoom: 12
+	};
 
-  $scope.map1 = { 
-    center: { 
-    latitude: $scope.distance($scope.marker1.coords.latitude,$scope.marker2.coords.latitude), 
-    longitude: $scope.distance($scope.marker1.coords.longitude,$scope.marker2.coords.longitude)
-    }, 
-    zoom: 12
-  };
+	$scope.events = {
+		click: function(map, eventName, originalEventArgs) {
+			var e = originalEventArgs[0];
+			var marker = {};
+			marker.id = $scope.markers.length;
+			if (marker.id < 2) {
+				marker.coords = {};
+				marker.coords.latitude = e.latLng.lat();
+				marker.coords.longitude = e.latLng.lng();
+				marker.options = {
+					draggable: true,
+					icon: marker.id == 0 ? 'images/LOGO-RED.png' : 'images/LOGO-GREEN.png'
+				}
 
-  console.log($scope.map1.center);
+				$scope.markers.push(marker);
+			}
+		}
+	}
 
 }]);
