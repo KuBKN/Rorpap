@@ -3,17 +3,17 @@
 		<div class="input-field col s12 m6">
 			<h5>Profile</h5>
 			<div class="input-field">
-				<label for="firstName">First Name</label>
+				<label for="firstName" class="active">First Name</label>
 				<input type="text" id="firstName" ng-model="user.firstname" class="validate" required>
 			</div>
 
 			<div class="input-field">
-				<label for="lastName">Last Name</label>
+				<label for="lastName" class="active">Last Name</label>
 				<input type="text" id="lastName" ng-model="user.lastname" class="validate" required>
 			</div>
 
 			<div class="input-field">
-				<label for="emailAddress">E-mail address</label>
+				<label for="emailAddress" class="active">E-mail address</label>
 				<input type="email" id="emailAddress" ng-model="user.email" class="validate" required>
 			</div>
 
@@ -28,7 +28,17 @@
 		</div>
 
 		<div class="input-field col s12 m6">
+			<h5>Your role: {{ user.status ? "Sender and Messenger" : "Sender"}}</h5>
 
+			<p ng-if="!user.status">Your can be a Messenger also, just provide us more identifying stuffs</p>
+			<button ng-if="!user.status" class="btn cyan darken waves-effect waves-light" ng-click="$location.path('#/beamessenger')">Enroll
+				<i class="material-icons right">send</i>
+			</button>
+
+			<p ng-if="!user.status">Accept some requests?</p>
+			<button ng-if="!user.status" class="btn cyan darken waves-effect waves-teal" ng-click="$location.path('#/beamessenger')">Find Quest
+				<i class="material-icons right">send</i>
+			</button>
 		</div>
 	</div>
 

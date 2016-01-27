@@ -106,7 +106,7 @@ router.post('/user/update', function(req, res, next) {
     var lastname = req.body.lastname;
     var email = req.body.email;
     var password = req.body.password;
-    
+
     if (firstname != "" && firstname != undefined) {
         User.findOneAndUpdate({_id: _id}, {firstname: firstname}, function (err, data) {
             if (err)
@@ -160,7 +160,7 @@ router.post('/user/update', function(req, res, next) {
 router.get('/user/:id', function(req, res, next) {
     var _id = req.params.id;
 
-    User.find({_id: _id}, {firstname: true, lastname: true, email: true}, function(err, users) {
+    User.find({_id: _id}, {firstname: true, lastname: true, email: true, status: true}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
