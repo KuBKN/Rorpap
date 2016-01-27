@@ -32,4 +32,15 @@ app.controller('ProfileController', ['$scope', '$http', '$cookies', '$window', f
             });
     };
 
+    $scope.enroll = function() {
+        $http.post('/api/user/enroll', {_id: $scope._id})
+            .success(function(data) {
+
+                window.location.reload();
+            })
+            .error(function(data) {
+                console.log(data);
+            });
+    }
+
 }]);

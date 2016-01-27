@@ -17,7 +17,8 @@ var User = mongoose.model('users', {
     lastname: String,
     email: String,
     password: String,
-    dateOfBirth: String
+    dateOfBirth: String,
+    status: Number
 });
 
 var Request = mongoose.model('requests', {
@@ -100,36 +101,78 @@ router.post('/user/update', function(req, res, next) {
     var password = req.body.password;
 
     if (firstname != "" && firstname != undefined) {
-        User.findOneAndUpdate({_id: _id}, {firstname: firstname}, function (err, data) {
+        User.findOneAndUpdate({_id: _id}, {firstname: firstname}, function(err, data) {
             if (err)
                 return res.send(500, { error: err });
+            return res.send();
         });
     }
 
     if (lastname != "" && lastname != undefined) {
-        User.findOneAndUpdate({_id: _id}, {lastname: lastname}, function (err, data) {
+        User.findOneAndUpdate({_id: _id}, {lastname: lastname}, function(err, data) {
             if (err)
                 return res.send(500, { error: err });
+            return res.send();
         });
     }
 
     if (email != "" && email != undefined) {
-        User.findOneAndUpdate({_id: _id}, {email: email}, function (err, data) {
+        User.findOneAndUpdate({_id: _id}, {email: email}, function(err, data) {
             if (err)
                 return res.send(500, { error: err });
+            return res.send();
         });
     }
 
     if (password != "" && password != undefined) {
-        User.findOneAndUpdate({_id: _id}, {password: password}, function (err, data) {
+        User.findOneAndUpdate({_id: _id}, {password: password}, function(err, data) {
             if (err)
                 return res.send(500, { error: err });
+            return res.send();
         });
     }
-
-    return res.send("succesfully saved");
 });
 
+router.post('/user/enroll', function(req, res, next) {
+    var _id = req.body._id;
+    User.findOneAndUpdate({_id: _id, status: 0}, {status: '-1'}, function(err, data) {
+        console.log(data);
+        if (err)
+            return res.send(500, { error: err });
+        return res.send();
+    });
+});
+
+router.get('/user/enroll', function(req, res, next) {
+    User.find({status: -1}, function(err, users) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        res.send(users);
+    })
+});
+
+router.post('/user/accept', function(req, res, next) {
+    var _id = req.body._id;
+
+    User.findOneAndUpdate({_id: _id, status: -1}, {status: 2}, function(err, data) {
+        if (err)
+            return res.send(500, { error: err });
+        return res.send();
+    });
+});
+
+router.post('/user/reject', function(req, res, next) {
+    var _id = req.body._id;
+
+    console.log(_id);
+
+    User.findOneAndUpdate({_id: _id, status: -1}, {status: 0}, function(err, data) {
+        if (err)
+            return res.send(500, { error: err });
+        return res.send();
+    });
+});
 
 router.get('/user', function(req, res, next) {
     User.find(function(err, users) {

@@ -28,17 +28,22 @@
 		</div>
 
 		<div class="input-field col s12 m6">
-			<h5>Your role: {{ user.status ? "Sender and Messenger" : "Sender"}}</h5>
+			<h5>Your role: {{ user.status == 1 ? "Sender and Messenger" : "Sender"}}</h5>
 
-			<p ng-if="!user.status">Your can be a Messenger also, just provide us more identifying stuffs</p>
-			<a href="#/beamessenger" ng-if="!user.status" class="btn cyan darken waves-effect waves-light">Enroll
-				<i class="material-icons right">send</i>
-			</a>
-
-			<p ng-if="!user.status">Accept some requests?</p>
-			<button ng-if="!user.status" class="btn cyan darken waves-effect waves-teal" ng-click="$location.path('#/beamessenger')">Find Quest
+			<p ng-if="user.status == 0">Your can be a Messenger also, just provide us more identifying stuffs</p>
+			<button ng-if="user.status == 0" class="btn cyan darken waves-effect waves-teal" ng-click="enroll()">Enroll
 				<i class="material-icons right">send</i>
 			</button>
+
+			<p ng-if="user.status == -1">Please wait for admin accepting...</p>
+			<button ng-if="user.status == -1" class="btn cyan darken waves-effect waves-teal" disabled>Enroll
+				<i class="material-icons right">send</i>
+			</button>
+
+			<p ng-if="user.status == 2">Accept some requests?</p>
+			<a href="#/findrequest" ng-if="user.status == 2" class="btn cyan darken waves-effect waves-teal">Find Request
+				<i class="material-icons right">send</i>
+			</a>
 		</div>
 	</div>
 

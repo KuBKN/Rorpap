@@ -1,31 +1,39 @@
 app.controller('AdminController', ['$scope', '$http', '$window', function($scope,$http,$window) {
 
-    $scope.upload = function(){
-        var f = $document.getElementById('file').files[0],
-            r = new FileReader();
-        r.onloadend = function (e) {
-            var data = e.target.result;
-        };
-        r.readAsBinaryString(f);
-    };
+    $scope.users = [];
 
-    $scope.check = function(val){
-        if (val) { $scope.signUp(); }
-        else{ alert('Please accept our policy')}
-    }
 
-    $scope.signUp = function() {
-
-        $scope.user.password = CryptoJS.MD5($scope.user.password).toString();
-        $http.post('/api/user', $scope.user)
+    $scope.getEnrolled = function() {
+		$http.get('/api/user/enroll')
 			.success(function(data) {
-				$scope.user = {};
+				$scope.users = data;
+			})
+			.error(function(data) {
+				console.log(data);
+			});
+	}
+
+    $scope.getEnrolled();
+
+    $scope.accept = function(index) {
+        $http.post('/api/user/accept', $scope.users[index])
+			.success(function(data) {
 
                 window.location.reload();
 			})
 			.error(function(data) {
-				console.log('Error: ' + data);
+				console.log(data);
 			});
-    };
+    }
 
+    $scope.reject = function(index) {
+        $http.post('/api/user/reject', $scope.users[index])
+			.success(function(data) {
+
+                window.location.reload();
+			})
+			.error(function(data) {
+				console.log(data);
+			});
+    }
 }]);
