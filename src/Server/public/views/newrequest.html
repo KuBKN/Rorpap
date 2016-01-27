@@ -88,14 +88,19 @@
 
 		<div class="right col l6 s12">
 
-			<div class="hide-on-med-and-down" style="padding-bottom: 100%; background-color: #FFE2C2">
+			<ui-gmap-google-map center="map1.center" zoom="map1.zoom" draggable="true">
+	    	<ui-gmap-marker idkey="marker1.id" coords="marker1.coords" options="marker1.options"></ui-gmap-marker>
+	    	<ui-gmap-marker idkey="marker2.id" coords="marker2.coords" options="marker2.options"></ui-gmap-marker>      
+	    </ui-gmap-google-map>
+    
+			<style type="text/css">
+				.angular-google-map-container { height: 500px; }
+			</style>
 
-			</div>
 			<br>
 
 			<center><a class="btn" ng-click="createQuest()">Create Request</a></center>
 
-			<br>
 		</div>
 	</div>
 </div>

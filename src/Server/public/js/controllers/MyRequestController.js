@@ -3,7 +3,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 	$scope.load = function() {
 		$('.collapsible').collapsible({
         accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
-        });
+    });
 	};
 	$scope.load();
 
@@ -86,6 +86,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 		}
 
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
+
 		console.log('/api/request/' + reqtype + '/' + sender_id);
 		console.log(1111111111111111111111111111111111111111111111111111);
 		$http.get('/api/request/' + reqtype + '/' + sender_id)
@@ -174,7 +175,14 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 			})
 			.error(function(data) {
 				console.log(data);
+
 			});
+
+			console.log($scope.lists);
+		})
+		.error(function(data) {
+			console.log(data);
+		});
 	}
 
 	$scope.removeRequest = function(index) {
@@ -191,6 +199,39 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 	// twice calling
 	$scope.getRequests();
 
-	$scope.map = { center: { latitude: 13.851648, longitude: 100.567465 }, zoom: 15 };
+	$scope.distance = function( val1, val2){
+	    console.log(val1);
+	    console.log(val2);
+	    return (val1+val2)/2;
+	  };
 
+	$scope.marker1 = {
+		id: 0,
+		coords: {
+			latitude: 13.851648,
+			longitude: 100.567465
+		},
+		options: { draggable: true,
+			icon: 'images/LOGO-RED.png'
+		}
+	};
+
+	$scope.marker2 = {
+		id: 0,
+		coords: {
+			latitude: 13.738432,
+			longitude: 100.530925
+		},
+		options: { draggable: true,
+			icon: 'images/LOGO-GREEN.png' 
+		}
+	};
+
+	$scope.map1 = { 
+	    center: { 
+	    latitude: $scope.distance($scope.marker1.coords.latitude,$scope.marker2.coords.latitude), 
+	    longitude: $scope.distance($scope.marker1.coords.longitude,$scope.marker2.coords.longitude)
+	    }, 
+	    zoom: 11
+	  };
 }]);

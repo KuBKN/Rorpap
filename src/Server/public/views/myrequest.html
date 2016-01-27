@@ -78,9 +78,12 @@
 		<div class="right col l4 m4 s12">
 			<div style="margin-bottom: 50px">
 				<a href="#/newrequest" class="btn right">New Request</a>
-			</div>
-
-			<ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+			</div>			
+			
+			<ui-gmap-google-map center="map1.center" zoom="map1.zoom" draggable="true">
+		    	<ui-gmap-marker idkey="marker1.id" coords="marker1.coords" options="marker1.options"></ui-gmap-marker>
+		    	<ui-gmap-marker idkey="marker2.id" coords="marker2.coords" options="marker2.options"></ui-gmap-marker>      
+		    </ui-gmap-google-map>
 
 			<style type="text/css">
 			.angular-google-map-container { height: 300px; }
