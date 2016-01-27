@@ -1,8 +1,90 @@
-<div class="container">
-	<div class="center promo">
-	  <i class="material-icons">flash_on</i>
-  	</div>
-	<h3 class="col s12 light center header">Coming soon...</h3>
+<br>
 
+<div class="container row" style="height: 600px; width:90%">
+
+	<div class="container hide-on-med-and-down col l3" style="min-weight: 500px">
+		<form name="findRequestForm" action="#">
+			<div class="input-field">
+					<i class="material-icons prefix" style="color: red">location_on</i>
+					<label for="fromLoc">From Location</label>
+					<input type="text" id="fromLoc" ng-model="request.fromLoc" class="validate" required>
+				</div>
+
+				<div class="input-field">
+					<i class="material-icons prefix" style="color: green">location_on</i>
+					<label for="toLoc">To Location</label>
+					<input type="text" id="toLoc" ng-model="request.toLoc" class="validate" required>
+				</div>
+
+				<div class="input-field" action="#">
+				<label>Price</label><br>
+				<p class="range-field">
+					<input type="range" id="price" ng-model="request.price" min="35" max="100" />
+				</p>
+			</div>
+
+		</form>
+	</div>
+
+	<div class="col l5 m8 s12">
+		<ul class="collapsible popout" data-collapsible="accordion">
+			<li style="margin: 10px 0" ng-repeat="request in requests">
+				<div class="collapsible-header">
+					<div class="row">
+
+						<div class="col m3 s12 hide-on-small-and-down" style="border-style: solid">
+							<br>{{request.id}}<br>
+						</div>
+
+						<div class="col m9 s12">
+							<h5>{{request.id}}</h5>
+							{{request.id}}
+						</div>
+
+					</div>
+				</div>
+
+				<div class="collapsible-body" style="background-color: #FFE2C2">
+					<div class="row" style="padding: 10px">
+						<div class="col s9">
+							<div style="margin-bottom: 5px">
+								To :
+								<div class="chip">
+									<img>
+									{{request.id}}
+								</div>
+							</div>
+
+							<div style="margin-bottom: 5px">
+								Due in {{request.id}} {{request.id}}
+							</div>
+						</div>
+						<div class="col s3 right green-text" style="text-align: right">
+							<h5>{{request.id}}</h5>
+						</div>
+
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<div class="right col l4 m4 s12">
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card blue-grey darken-1">
+					<div class="card-content white-text">
+						<span class="card-title">Location</span>
+						<ui-gmap-google-map center="map1.center" zoom="map1.zoom" draggable="true">
+							<ui-gmap-marker idkey="marker1.id" coords="marker1.coords" options="marker1.options"></ui-gmap-marker>
+							<ui-gmap-marker idkey="marker2.id" coords="marker2.coords" options="marker2.options"></ui-gmap-marker>
+						</ui-gmap-google-map>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+	</div>
 
 </div>
