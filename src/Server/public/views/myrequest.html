@@ -70,11 +70,13 @@
 		<div class="right col l4 m4 s12">
 			<div style="margin-bottom: 50px">
 				<a href="#/newrequest" class="btn right">New Request</a>
-			</div>
+			</div>			
+			
+			<ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
 
-			<div style="padding-bottom: 100%; background-color: #FFE2C2">
-
-			</div>
+			<style type="text/css">
+				.angular-google-map-container { height: 300px; }
+			</style>
 		</div>
 
 	</div>
