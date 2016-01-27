@@ -25,7 +25,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location
 				$scope.request = {};
 				$scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
 
-				$location.path('/My Request');
+				$location.path('/myrequest');
 			})
 			.error(function(data) {
 				console.log('Error: ' + data);

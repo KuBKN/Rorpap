@@ -31,9 +31,9 @@
 			<h5>Your role: {{ user.status ? "Sender and Messenger" : "Sender"}}</h5>
 
 			<p ng-if="!user.status">Your can be a Messenger also, just provide us more identifying stuffs</p>
-			<button ng-if="!user.status" class="btn cyan darken waves-effect waves-light" ng-click="$location.path('#/beamessenger')">Enroll
+			<a href="#/beamessenger" ng-if="!user.status" class="btn cyan darken waves-effect waves-light">Enroll
 				<i class="material-icons right">send</i>
-			</button>
+			</a>
 
 			<p ng-if="!user.status">Accept some requests?</p>
 			<button ng-if="!user.status" class="btn cyan darken waves-effect waves-teal" ng-click="$location.path('#/beamessenger')">Find Quest

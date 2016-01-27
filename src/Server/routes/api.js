@@ -12,21 +12,34 @@ var HTTP_NOT_MODIFIED = 304;
 var HTTP_NOT_FOUND = 404;
 var HTTP_INTERNAL_SERVER_ERROR = 500;
 
-var User = mongoose.model('users', {firstname: String, lastname: String, email: String, password: String, dateOfBirth: String});
+var User = mongoose.model('users', {
+    firstname: String,
+    lastname: String,
+    email: String,
+    password: String,
+    dateOfBirth: String
+});
 
-/*
- POST /user
- add user to sign up
- body: user = {firstname: String,
-            lastname: String,
-            email: String,
-            password: String,
-            dateOfBirth: String}
- return:
-  500 Internal Server Error: error occur
-  304 Not Modified: already signed up
-  201 Created: success signing up
- */
+var Request = mongoose.model('requests', {
+    sender_id: String,
+    messenger_id: String,
+    receiver_id: String,
+    type: String,
+    image: String,
+    title: String,
+    fromLoc: String,
+    toLoc: String,
+    reqLimitDate: String,
+    reqLimitTime: String,
+    shipLimitDate: String,
+    shipLimitHour: String,
+    shipLimitTime: String,
+    receiver: String,
+    vehicles: String,
+    price: String,
+    comment: String});
+
+
 router.post('/user', function(req, res, next) {
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
@@ -55,16 +68,7 @@ router.post('/user', function(req, res, next) {
     });
 });
 
-/*
- POST /user/login
- add user to sign up
- body: user = {email: String,
-            password: String}
- return:
-  500 Internal Server Error: error occur
-  302 Found: found user
-  404 Not Found: not found user
- */
+
 router.post('/user/login', function(req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
@@ -87,19 +91,7 @@ router.post('/user/login', function(req, res, next) {
     });
 });
 
-/*
- POST /user/update
- add user to sign up
- body: user = {_id: String,
-            firstname: String,
-            lastname: String,
-            email: String,
-            password: String}
- return:
-  500 Internal Server Error: error occur
-  302 Found: found user
-  404 Not Found: not found user
- */
+
 router.post('/user/update', function(req, res, next) {
     var _id = req.body._id;
     var firstname = req.body.firstname;
@@ -138,25 +130,17 @@ router.post('/user/update', function(req, res, next) {
     return res.send("succesfully saved");
 });
 
- /*
-  GET /user
-  get all users
-  */
- router.get('/user', function(req, res, next) {
-     User.find(function(err, users) {
-         if (err) {
-             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-         }
-         res.send(users);
-     })
- });
+
+router.get('/user', function(req, res, next) {
+    User.find(function(err, users) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        res.send(users);
+    })
+});
 
 
-/*
- GET /user/:id
- get user by id
- param: id user id
- */
 router.get('/user/:id', function(req, res, next) {
     var _id = req.params.id;
 
@@ -166,6 +150,68 @@ router.get('/user/:id', function(req, res, next) {
         }
         res.send(users);
     })
+});
+
+
+router.post('/request', function(req, res, next) {
+    var sender_id = req.body.sender_id;
+    var type = 'Pending';
+    var image = 'temp';
+    var title = req.body.title;
+    var fromLoc = req.body.fromLoc;
+    var toLoc = req.body.toLoc;
+    // var now = new Date();
+    var reqLimitDate = '01/01/2011'; //now.format('DD/MM/YYYY');
+    var reqLimitTime = '01:01'; //now.format('mm:hh');
+    var shipLimitDate = req.body.shipLimitDate;
+    var shipLimitHour = req.body.shipLimitHour;
+    var shipLimitTime = req.body.shipLimitTime;
+    var receiver = req.body.receiver;
+    var vehicles = req.body.vehicles;
+    var price = req.body.price;
+    var comment = req.body.comment;
+
+    var request = new Request({sender_id: sender_id, type: type, image: image, title: title, fromLoc: fromLoc, toLoc: toLoc, reqLimitDate: reqLimitDate, reqLimitTime: reqLimitTime, shipLimitDate: shipLimitDate, shipLimitHour: shipLimitHour, shipLimitTime: shipLimitTime, receiver: receiver, vehicles: vehicles, price: price, comment: comment});
+    // res.send(request);
+    request.save(function(err) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        res.status(HTTP_CREATED).send();
+    });
+});
+
+
+router.get('/request/:sender_id', function(req, res, next) {
+    var sender_id = req.params.sender_id;
+
+    Request.find({sender_id: sender_id}, function(err, requests) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            if (requests.length) {
+                // temp = 200, actually 302
+                res.status(200).send(requests);
+            }
+            else {
+                res.status(HTTP_NOT_FOUND).send();
+            }
+        }
+    });
+});
+
+router.post('/request/remove', function(req, res, next) {
+    var _id = req.body._id;
+    
+    Request.remove({_id: _id}, function(err) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            res.status(200).send();
+        }
+    });
 });
 
 module.exports = router;

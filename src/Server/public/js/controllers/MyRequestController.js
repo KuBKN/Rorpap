@@ -9,7 +9,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 
 	$scope.reqtype = "All";
 
-	$scope.lists = [{
+	$scope.requests = [{
 
 		type: 'Pending',
 		sender_id: 'Knot',
@@ -82,24 +82,33 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 		}]
 	}];
 
-	$scope.getAllQuests = function() {
+	$scope.getAllRequests = function() {
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
 		$http.get('/api/request/' + sender_id)
 			.success(function(data) {
 				console.log(data);
 
 				angular.forEach(data, function(value, key) {
-					$scope.lists.push(value);
+					$scope.requests.push(value);
 				});
-
-				console.log($scope.lists);
 			})
 			.error(function(data) {
 				console.log(data);
 			});
 	}
 
+	$scope.removeRequest = function(index) {
+        $http.post('/api/request/remove', $scope.requests[index])
+			.success(function(data) {
+
+                window.location.reload();
+			})
+			.error(function(data) {
+				console.log('Error: ' + data);
+			});
+    };
+
 	// twice calling
-	$scope.getAllQuests();
+	$scope.getAllRequests();
 
 }]);
