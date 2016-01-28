@@ -23,7 +23,7 @@
 	<script src="js/shared/nouislider.js"></script>
 	<script src="js/shared/wNumb.js"></script>
 
-	
+
 
 </head>
 
@@ -34,12 +34,12 @@
 
 			<ul class="right hide-on-med-and-down">
 				<li>
-					<a href="#/beamessenger" ng-if="!messenger" style="text-decoration: none; margin-top: 7.5%; line-height: 200%; border-style: solid; border-color: white" >
+					<a href="#/beamessenger" ng-if="user.status == 0 || !_id" style="text-decoration: none; margin-top: 7.5%; line-height: 200%; border-style: solid; border-color: white" >
 						<font size="4"><center>
 							<b>Be a Messenger</b>
 						</center></font>
 					</a>
-					<a href="#/beamessenger" ng-if="messenger" style="text-decoration: none; margin-top: 7.5%; line-height: 200%; border-style: solid; border-color: white" >
+					<a href="#/findrequest" ng-if="user.status == 1" style="text-decoration: none; margin-top: 7.5%; line-height: 200%; border-style: solid; border-color: white" >
 						<font size="4"><center>
 							<b>Find Request</b>
 						</center></font>

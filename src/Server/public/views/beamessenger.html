@@ -1,8 +1,50 @@
 <div class="container">
-	<div class="center promo">
-	  <i class="material-icons">flash_on</i>
-  	</div>
-	<h3 class="col s12 light center header">Coming soon...</h3>
+	<div class="row">
+		<div class="col s4">
+			<div class="center promo promo-example">
+				<i class="material-icons">group</i>
+				<p class="promo-caption">Sign Up</p>
+				<p class="light center">To be our normal user before.</p>
+			</div>
+			<br>
+			<center ng-if="!_id" ngCloak>
+			<a class="btn cyan darken waves-effect waves-teal" class="modal-trigger" data-target="modalSignup">Sign Up
+				<i class="material-icons right">send</i>
+			</a>
+		</center>
+		</div>
+		<div class="col s4">
+			<div class="center promo promo-example">
+				<i class="material-icons">assignment_ind</i>
+				<p class="promo-caption">Enroll</p>
+				<p class="light center">Click Enroll button in Profile page and wait a moment for proof.</p>
+			</div>
+			<br>
+			<center ng-if="user.status == 0">
+			<a href="#/profile" class="btn cyan darken waves-effect waves-teal">Enroll
+				<i class="material-icons right">send</i>
+			</a>
+		</div>
+		<div class="col s4">
+			<div class="center promo promo-example">
+				<i class="material-icons">done</i>
+				<p class="promo-caption">Be A Messenger</p>
+				<p class="light center">And then find requests as you want.</p>
+			</div>
+			<br>
+			<center ng-if="user.status == 1">
+			<a href="#/findrequest" class="btn cyan darken waves-effect waves-teal">Find Request
+				<i class="material-icons right">send</i>
+			</a>
+		</div>
+	</div>
 
-	
+	<!-- Modal Structure -->
+	<div id="modalSignup" class="modal" style="width:40%; min-width: 320px" ng-controller="SignUpController">
+		<div class="modal-content" style="padding: 20px 10px">
+
+			<signup-modal></signup-modal>
+
+		</div>
+	</div>
 </div>
