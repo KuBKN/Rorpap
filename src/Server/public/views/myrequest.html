@@ -4,19 +4,24 @@
 
 	<div class="container hide-on-med-and-down col l2" style="min-weight: 500px">
 		<div class="collection" style="border-style: none">
-			<font size="3"><a class="collection-item" style="border-style: none; background-color: #FFE2C2" ng-click="getRequests()">My Request</a></font>
-			<font size="3" style="font-weight:normal" ng-click="getRequests('Pending')"><a class="collection-item">Pending</a></font>
-			<font size="3" style="font-weight:normal" ng-click="getRequests('In Progress')"><a class="collection-item">In Progress</a></font>
-			<font size="3" style="font-weight:normal" ng-click="getRequests('Finished')"><a class="collection-item">Finished</a></font>
 
-			<font size="4"><a class="collection-item" style="background-color: #FFE2C2">My Dashboard</a></font>
+			<a class="collection-item" style="border-style: none; background-color: #FFE2C2" ng-click="getRequests()"><font size="3">My Request	</font></a>
+
+			<a class="collection-item" style="font-weight:normal" ng-click="getRequests('Pending')"><font size="3" color="#CE0000">Pending</font></a>
+
+			<a class="collection-item" style="font-weight:normal" ng-click="getRequests('In Progress')"><font size="3" color="#0007DA">In Progress</font></a>
+
+			<a class="collection-item" style="font-weight:normal" ng-click="getRequests('Finished')">
+			<font size="3" color="#00D042">Finished</font></a>
+
+			<a class="collection-item" style="background-color: #FFE2C2"><font size="4">My Dashboard</font></a>
 		</div>
 	</div>
 
 	<div class="col l6 m8 s12">
 		<ul class="collapsible popout" data-collapsible="accordion">
 			<li style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
-				<div class="collapsible-header">
+				<div class="collapsible-header" ng-style="{'background-color': reqBackground(request.type)}">
 					<div class="row">
 
 						<div class="col m3 s12 hide-on-small-and-down" style="border-style: solid">
@@ -43,7 +48,7 @@
 					</div>
 				</div>
 
-				<div class="collapsible-body" style="background-color: #FFE2C2">
+				<div class="collapsible-body" style="background-color: #F8F8F8">
 					<div class="row" style="padding: 10px">
 						<div class="col s9">
 							<div style="margin-bottom: 5px">

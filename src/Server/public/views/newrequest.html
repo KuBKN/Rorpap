@@ -17,13 +17,13 @@
 			</div>
 
 			<div class="input-field col s12">
-				<i class="material-icons prefix">location_on</i>
+				<i class="material-icons prefix" style="color: red">location_on</i>
 				<label for="fromLoc">From Location</label>
 				<input type="text" id="fromLoc" ng-model="markers[0].coords.latitude + ', ' + markers[0].coords.longitude" class="validate" required>
 			</div>
 
 			<div class="input-field col s12">
-				<i class="material-icons prefix">location_on</i>
+				<i class="material-icons prefix" style="color: green">location_on</i>
 				<label for="toLoc">To Location</label>
 				<input type="text" id="toLoc" ng-model="markers[1].coords.latitude + ', ' + markers[1].coords.longitude" class="validate" required>
 			</div>
@@ -58,7 +58,7 @@
 				<input type="text" id="receiver" ng-model="request.receiver" class="validate" required>
 			</div>
 			<div class="input-field col s11" style="margin-left: 42px" action="#">
-				<label>Price</label><br>
+				<label>Price : {{request.price}} baht</label><br>
 				<p class="range-field">
 					<input type="range" id="price" ng-model="request.price" min="35" max="100" />
 				</p>

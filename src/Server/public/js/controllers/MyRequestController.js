@@ -80,6 +80,16 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 		}]
 	}];
 
+	$scope.reqBackground = function(type){
+		if (type=="Pending") {
+			return '#FFBCBC';
+		}else if (type=="In progress") {
+			return '#BCBEFF';
+		}else{
+			return '#BCFFD1';
+		};
+	}
+
 	$scope.getRequests = function(reqtype) {
 		if (reqtype == undefined) {
 			reqtype = ".*";
@@ -201,7 +211,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 			marker.coords.latitude = loc[0];
 			marker.coords.longitude = loc[1];
 			marker.options = {
-				draggable: true,
+				draggable: false,
 				icon: 'images/LOGO-RED.png'
 			}
 			$scope.markers.push(marker);
@@ -213,7 +223,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 			marker.coords.latitude = loc[0];
 			marker.coords.longitude = loc[1];
 			marker.options = {
-				draggable: true,
+				draggable: false,
 				icon: 'images/LOGO-GREEN.png'
 			}
 			$scope.markers.push(marker);
@@ -241,7 +251,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 			// TODO still cannot find a way to disable changing position -_-
 			scrollwheel: false,
 			panControl: false,
-			zoomControl: false,
+			zoomControl: true,
 			mapTypeControl: false,
 			scaleControl: false,
 			streetViewControl: false,
