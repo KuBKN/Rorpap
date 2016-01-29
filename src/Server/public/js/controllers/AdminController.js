@@ -1,7 +1,6 @@
-app.controller('AdminController', ['$scope', '$http', '$window', function($scope,$http,$window) {
+app.controller('AdminController', ['$scope', '$http', '$window', function($scope, $http, $window) {
 
     $scope.users = [];
-
 
     $scope.getEnrolled = function() {
 		$http.get('/api/user/enroll')
@@ -12,7 +11,6 @@ app.controller('AdminController', ['$scope', '$http', '$window', function($scope
 				console.log(data);
 			});
 	}
-
     $scope.getEnrolled();
 
     $scope.accept = function(index) {

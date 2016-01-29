@@ -1,10 +1,10 @@
-app.controller('SignUpController', ['$scope', '$http','$window', function($scope,$http,$window) {
+app.controller('SignUpController', ['$scope', '$http','$window', function($scope, $http, $window) {
 
     $scope.passwordPattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
     $scope.user = {};
 
-    $scope.upload = function(){
+    $scope.upload = function() {
         var f = $document.getElementById('file').files[0],
             r = new FileReader();
         r.onloadend = function (e) {
@@ -13,9 +13,13 @@ app.controller('SignUpController', ['$scope', '$http','$window', function($scope
         r.readAsBinaryString(f);
     };
 
-    $scope.check = function(val){
-        if (val) { $scope.signUp(); }
-        else{ alert('Please accept our policy')}
+    $scope.check = function(val) {
+        if (val) {
+            $scope.signUp();
+        }
+        else{
+            alert('Please accept our policy');
+        }
     }
 
     $scope.signUp = function() {
@@ -24,7 +28,7 @@ app.controller('SignUpController', ['$scope', '$http','$window', function($scope
         $http.post('/api/user', $scope.user)
 			.success(function(data) {
 				$scope.user = {};
-
+                
                 window.location.reload();
 			})
 			.error(function(data) {

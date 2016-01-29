@@ -1,12 +1,11 @@
 app.controller('HeaderController', ['$scope', '$http', '$cookies', '$window', function($scope, $http, $cookies, $window) {
 
-	$scope.logIned = $cookies.get('_id') != undefined;
-
 	$scope.user = {};
-    $scope._id = $cookies.get('_id');
+	$scope._id = $cookies.get('_id');
 
-    if ($scope._id != undefined) {
-        $scope._id = $cookies.get('_id').replace(/\"/g,'');
+	$scope.logIned = $scope._id != undefined;
+    if ($scope.logIned) {
+        $scope._id = $scope._id.replace(/\"/g, '');
     }
 
     $scope.load = function() {

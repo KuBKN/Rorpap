@@ -18,7 +18,8 @@ var User = mongoose.model('users', {
     email: String,
     password: String,
     dateOfBirth: String,
-    status: Number
+    status: Number,
+    point: Number
 });
 
 var Request = mongoose.model('requests', {
@@ -155,7 +156,7 @@ router.get('/user/enroll', function(req, res, next) {
 router.post('/user/accept', function(req, res, next) {
     var _id = req.body._id;
 
-    User.findOneAndUpdate({_id: _id, status: -1}, {status: 2}, function(err, data) {
+    User.findOneAndUpdate({_id: _id, status: -1}, {status: 1}, function(err, data) {
         if (err)
             return res.send(500, { error: err });
         return res.send();

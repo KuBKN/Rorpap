@@ -1,9 +1,9 @@
-app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location', '$timeout', function($scope, $http, $cookies,$location, uiGmapGoogleMapApi, $timeout) {
-	$scope.load = function(){
+app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$location', '$timeout', function($scope, $http, $cookies, $location, uiGmapGoogleMapApi, $timeout) {
+
+	$scope.load = function() {
 		$('select').material_select();
 		$('#mySelect').val();
 	};
-
 	$scope.load();
 
 	$scope.hours = ['00','01','02','03','04','05','06','07','08','09','10','11',
@@ -16,19 +16,26 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location
 	'48','49','50','51','52','53','54','55','56','57','58','59'];
 
 	$scope.request = {};
+	// TODO calculate later
 	$scope.request.price = 75;
-	$scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
+
+	$scope.get_id = function() {
+		var _id = $cookies.get('_id');
+	    if (_id != undefined) {
+	        _id = _id.replace(/\"/g,'');
+	    }
+		return _id;
+	};
+	$scope.request.sender_id = $scope.get_id();
 
 	$scope.createQuest = function() {
 		$scope.request.fromLoc = $scope.markers[0].coords.latitude + ', ' + $scope.markers[0].coords.longitude;
 		$scope.request.toLoc = $scope.markers[1].coords.latitude + ', ' + $scope.markers[1].coords.longitude;
 
-		console.log($scope.request)
-
 		$http.post('/api/request', $scope.request)
 		.success(function(data) {
 			$scope.request = {};
-			$scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
+			$scope.request.sender_id = $scope.get_id();
 
 			$location.path('/myrequest');
 		})
@@ -37,12 +44,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location
 		});
 	};
 
-	$scope.distance = function( val1, val2){
-		console.log(val1);
-		console.log(val2);
-		return (val1+val2)/2;
-	};
-
+	// TODO makers splash
 	$scope.markers = [];
 
 	$scope.map = {

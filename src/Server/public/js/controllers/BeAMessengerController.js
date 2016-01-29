@@ -16,7 +16,6 @@ app.controller('BeAMessengerController', ['$scope', '$http', '$cookies', '$windo
         $scope._id = $cookies.get('_id').replace(/\"/g,'');
     }
 
-
     $scope.load = function() {
         $http.get('/api/user/' + $scope._id)
 			.success(function(data) {

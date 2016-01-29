@@ -2,11 +2,12 @@ app.controller('FindRequestController', ['$scope', function($scope){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
-			accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+			accordion : false
 		});
 	};
 	$scope.load();
 
+	// TODO calculate range later
 	$scope.slider = {
 	    minValue: 10,
 	    maxValue: 90,
@@ -25,10 +26,8 @@ app.controller('FindRequestController', ['$scope', function($scope){
 		id: 2
 	}];
 
-	$scope.distance = function( val1, val2){
-		console.log(val1);
-		console.log(val2);
-		return (val1+val2)/2;
+	$scope.distance = function(val1, val2) {
+		return (val1 + val2) / 2;
 	};
 
 	$scope.marker1 = {

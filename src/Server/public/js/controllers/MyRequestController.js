@@ -2,19 +2,19 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
-			accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+			accordion : false
 		});
 	};
 	$scope.load();
 
 	$scope.requests = [];
 
-	$scope.reqBackground = function(type){
-		if (type=="Pending") {
+	$scope.reqBackground = function(type) {
+		if (type == 'Pending') {
 			return '#FFBCBC';
-		}else if (type=="In progress") {
+		} else if (type == 'In progress') {
 			return '#BCBEFF';
-		}else{
+		} else {
 			return '#BCFFD1';
 		};
 	}
@@ -27,21 +27,20 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
 
 		$http.get('/api/request/' + reqtype + '/' + sender_id)
-		.success(function(data) {
+			.success(function(data) {
 
-			$scope.requests = [];
+				$scope.requests = [];
 
-			angular.forEach(data, function(value, key) {
-				$scope.requests.push(value);
+				angular.forEach(data, function(value, key) {
+					$scope.requests.push(value);
+				});
+
+			})
+			.error(function(data) {
+				console.log(data);
 			});
-
-		})
-		.error(function(data) {
-			console.log(data);
-		});
 	}
 
-	// twice calling
 	$scope.getRequests();
 
 	$scope.removeRequest = function(index) {
@@ -53,6 +52,26 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 		.error(function(data) {
 			console.log('Error: ' + data);
 		});
+	};
+
+	$scope.map = {
+		center: {
+			latitude: 13.738432,
+			longitude: 100.530925
+		},
+		zoom: 12,
+		options: {
+			// TODO still cannot find a way to disable changing position -_-
+			scrollwheel: false,
+			panControl: false,
+			zoomControl: true,
+			mapTypeControl: false,
+			scaleControl: false,
+			streetViewControl: false,
+			overviewMapControl: false,
+			rotateControl: false,
+			disableDoubleClickZoom: true
+		}
 	};
 
 	$scope.markers = [];
@@ -86,8 +105,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 			}
 			$scope.markers.push(marker);
 
-			$scope.map.center.latitude = (parseFloat($scope.markers[0].coords.latitude) + parseFloat($scope.markers[0].coords.latitude)) / 2;
-			$scope.map.center.longitude = (parseFloat($scope.markers[1].coords.longitude) + parseFloat($scope.markers[1].coords.longitude)) / 2;
+			$scope.map.center.latitude = $scope.calculateCenter($scope.markers[0].coords.latitude, $scope.markers[0].coords.latitude);
+			$scope.map.center.longitude = $scope.calculateCenter($scope.markers[1].coords.latitude, $scope.markers[1].coords.latitude);
 
 			$scope.lastCollepsed = index;
 		}
@@ -99,23 +118,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 	};
 	$scope.lastCollepsed = -1;
 
-	$scope.map = {
-		center: {
-			latitude: 13.738432,
-			longitude: 100.530925
-		},
-		zoom: 12,
-		options: {
-			// TODO still cannot find a way to disable changing position -_-
-			scrollwheel: false,
-			panControl: false,
-			zoomControl: true,
-			mapTypeControl: false,
-			scaleControl: false,
-			streetViewControl: false,
-			overviewMapControl: false,
-			rotateControl: false,
-			disableDoubleClickZoom: true
-		}
-	};
+	$scope.calculateCenter = function(lat, lng) {
+		return (parseFloat(lat) + parseFloat(lng)) / 2;
+	}
+
 }]);
