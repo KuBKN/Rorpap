@@ -16,6 +16,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies','$location
 	'48','49','50','51','52','53','54','55','56','57','58','59'];
 
 	$scope.request = {};
+	$scope.request.price = 75;
 	$scope.request.sender_id = $cookies.get('_id').replace(/\"/g,'');
 
 	$scope.createQuest = function() {

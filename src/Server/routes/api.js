@@ -48,7 +48,7 @@ router.post('/user', function(req, res, next) {
     var password = req.body.password;
     var dateOfBirth = req.body.dateOfBirth;
 
-    var user = new User({firstname: firstname, lastname: lastname, email: email, password: password, dateOfBirth: dateOfBirth});
+    var user = new User({firstname: firstname, lastname: lastname, email: email, password: password, dateOfBirth: dateOfBirth, status: 0});
     User.find({email: email, password: password}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -229,9 +229,7 @@ router.get('/request/:reqtype/:sender_id', function(req, res, next) {
     var reqtype = req.params.reqtype;
     var sender_id = req.params.sender_id;
 
-
-
-    Request.find({sender_id: sender_id, type: {$regex: '.*' + reqtype + '.*'}}, function(err, requests) {
+    Request.find({sender_id: sender_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1, reqLimitDate: -1}}, function(err, requests) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
