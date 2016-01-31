@@ -21,7 +21,7 @@
         <label for="password2">Repeat Password: </label>
       <input type="password" id="password2" ng-model="user.confirmPassword" password-confirmation="password1" required>
     </div>
-    <div>
+    <div style="color:#FF0000">
       <span ng-show="user.password != user.confirmPassword">Password mismatch</span>
     </div>
     <div class="col s12">
