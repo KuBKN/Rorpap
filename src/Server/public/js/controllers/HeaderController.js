@@ -20,13 +20,4 @@ app.controller('HeaderController', ['$scope', '$http', '$cookies', '$window', fu
     }
     $scope.load();
 
-	$scope.background = function(){
-		if($scope.messenger){
-			return '#5C5AFF';
-		}
-		else{
-			return '#ffa337';
-		}
-	}
-
 }]);

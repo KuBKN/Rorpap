@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
 	<link rel="stylesheet" href="css/materialize/css/materialize.css">
-	<link rel="stylesheet" href="css/materialize/css/ghpages-materialize.css">
+	
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/rzslider.css">
 
@@ -23,14 +23,13 @@
 	<script src="js/shared/md5.js"></script>
 	<script src="js/shared/rzslider.js"></script>
 
-
-
 </head>
 
 <body ng-app="rorpap">
-	<div ng-controller="HeaderController">
-		<nav class="nav-wrapper" style="height: 65px" ng-style="{'background-color': background()}" ng-cloak>
-			<a href="#/" class="brand-logo"><img src="images/Banner-Logo-White.png" height="60"></a>
+
+	<nav role="navigation" style="background-color: #ffa337" ng-controller="HeaderController">
+		<div class="nav-wrapper" style="height: 65px" ng-cloak>
+			<a id="logo-container" href="#/" class="brand-logo"><img src="images/Banner-Logo-White.png" height="60"></a>
 
 			<ul class="right hide-on-med-and-down">
 				<li>
@@ -45,6 +44,7 @@
 						</center></font>
 					</a>
 				</li>
+
 				<li ng-if="logIned" >
 					<a style="text-decoration: none" href="#/myrequest">
 						<font size="4"><center><b>My Request</b></center></font>
@@ -78,7 +78,7 @@
 						<font size="4" color="#ffa337"><center><b>Profile</b></center></font>
 					</a>
 				</li>
-				<li style="border-style: solid; border-color: white" ng-style="{'background-color': background()}">
+				<li style="border-style: solid; border-color: white">
 					<a style="text-decoration: none" ng-if="!messenger">
 						<font size="4" color="white"><center>
 							<b>Be a Messenger</b>
@@ -127,8 +127,8 @@
 				</li>
 			</ul>
 			<a href="#" style="text-decoration: none; padding: 5px" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-		</nav>
-	</div>
+		</div>
+	</nav>
 
 	<div ng-view>
 	</div>
@@ -212,6 +212,7 @@
 
 <!-- Directves -->
 <script src="js/directives/navComponents.js"></script>
+<script src="js/directives/navMenuLink.js"></script>
 
 <!--  Scripts-->
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
