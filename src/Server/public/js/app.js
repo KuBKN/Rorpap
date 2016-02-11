@@ -22,11 +22,18 @@ app.config(function($routeProvider, $locationProvider ) {
 	}).when('/findrequest', {
 		controller: 'FindRequestController',
 		templateUrl: './views/findrequest.html'
+	}).when('/myquest', {
+		controller: 'MyQuestController',
+		templateUrl: './views/myquest.html'
 	}).when('/admin', {
 		controller: 'AdminController',
 		templateUrl: './views/admin.html'
     }).otherwise({ redirectTo: "/" });
 
+});
+
+app.config(function ($locationProvider) {
+    $locationProvider.hashPrefix('!');
 });
 
 app.config(function(uiGmapGoogleMapApiProvider) {

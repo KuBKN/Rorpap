@@ -29,29 +29,29 @@
 
 	<nav role="navigation" style="background-color: #ffa337" ng-controller="HeaderController">
 		<div class="nav-wrapper" style="height: 65px" ng-cloak>
-			<a id="logo-container" href="#/" class="brand-logo"><img src="images/Banner-Logo-White.png" height="60"></a>
+			<a id="logo-container" href="#!/" class="brand-logo"><img src="images/Banner-Logo-White.png" height="60"></a>
 
 			<ul class="right hide-on-med-and-down">
 				<li>
-					<a href="#/beamessenger" ng-if="user.status == 0 || !_id" style="text-decoration: none; margin-top: 7.5%; line-height: 200%; border-style: solid; border-color: white" >
+					<a href="#!/beamessenger" ng-if="user.status == 0 || !_id" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
 						<font size="4"><center>
 							<b>Be a Messenger</b>
 						</center></font>
 					</a>
-					<a href="#/findrequest" ng-if="user.status == 1" style="text-decoration: none; margin-top: 7.5%; line-height: 200%; border-style: solid; border-color: white" >
+					<a href="#!/myquest" ng-if="user.status == 1" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
 						<font size="4"><center>
-							<b>Find Request</b>
+							<b>My Quest</b>
 						</center></font>
 					</a>
 				</li>
 
 				<li ng-if="logIned" >
-					<a style="text-decoration: none" href="#/myrequest">
+					<a style="text-decoration: none" href="#!/myrequest">
 						<font size="4"><center><b>My Request</b></center></font>
 					</a>
 				</li>
 				<li>
-					<a style="text-decoration: none" href="#/about">
+					<a style="text-decoration: none" href="#!/about">
 						<font size="4"><center><b>About</b></center></font>
 					</a>
 				</li>
@@ -74,7 +74,7 @@
 
 			<ul id="nav-mobile" class="side-nav">
 				<li ng-if="logIned">
-					<a style="text-decoration: none" href="#/profile">
+					<a style="text-decoration: none" href="#!/profile">
 						<font size="4" color="#ffa337"><center><b>Profile</b></center></font>
 					</a>
 				</li>
@@ -91,22 +91,22 @@
 					</a>
 				</li>
 				<li ng-if="logIned" >
-					<a style="text-decoration: none" href="#/My Request">
+					<a style="text-decoration: none" href="#!/My Request">
 						<font size="4" color="#ffa337"><center><b>My Request</b></center></font>
 					</a>
 				</li>
 				<li ng-if="logIned" >
-					<a style="text-decoration: none" href="#/Account">
+					<a style="text-decoration: none" href="#!/Account">
 						<font size="3" color="#ffa337"><center>Account</center></font>
 					</a>
 				</li>
 				<li ng-if="logIned">
-					<a style="text-decoration: none" href="#/About">
+					<a style="text-decoration: none" href="#!/About">
 						<font size="3" color="#ffa337"><center>About</center></font>
 					</a>
 				</li>
 				<li ng-if="!logIned">
-					<a style="text-decoration: none" href="#/About">
+					<a style="text-decoration: none" href="#!/About">
 						<font size="4" color="#ffa337"><center><b>About<b></center></font>
 					</a>
 				</li>
@@ -188,7 +188,7 @@
 
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
-	<li><a href="#/profile">Profile</a></li>
+	<li><a href="#!/profile">Profile</a></li>
 	<li class="divider"></li>
 	<li><a class="modal-trigger" data-target="modalLogout">Log Out</a></li>
 </ul>
@@ -207,6 +207,7 @@
 <script src="js/controllers/NewRequestController.js"></script>
 <script src="js/controllers/BeAMessengerController.js"></script>
 <script src="js/controllers/ProfileController.js"></script>
+<script src="js/controllers/MyQuestController.js"></script>
 <script src="js/controllers/FindRequestController.js"></script>
 <script src="js/controllers/AdminController.js"></script>
 

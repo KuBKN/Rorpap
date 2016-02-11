@@ -106,7 +106,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 			$scope.markers.push(marker);
 
 			$scope.map.center.latitude = $scope.calculateCenter($scope.markers[0].coords.latitude, $scope.markers[0].coords.latitude);
-			$scope.map.center.longitude = $scope.calculateCenter($scope.markers[1].coords.latitude, $scope.markers[1].coords.latitude);
+			$scope.map.center.longitude = $scope.calculateCenter($scope.markers[1].coords.longitude, $scope.markers[1].coords.longitude);
 
 			$scope.lastCollepsed = index;
 		}

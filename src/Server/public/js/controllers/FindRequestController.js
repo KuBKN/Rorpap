@@ -14,7 +14,8 @@ app.controller('FindRequestController', ['$scope', function($scope){
 	    options: {
 	        floor: 0,
 	        ceil: 100,
-	        step: 1
+	        step: 1,
+	        hideLimitLabels: true
 	    }
 	};
 
