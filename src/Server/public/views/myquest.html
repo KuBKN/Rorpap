@@ -12,7 +12,7 @@
 	<div class="col s12 card" style="min-height: 300px">
 		<div id="findrequest" class="row" ng-controller="FindRequestController">
 			<br>
-			<div class="container hide-on-med-and-down col l3" style="min-weight: 500px">
+			<div class="container hide-on-med-and-down col l3">
 				<form name="findRequestForm" action="#">
 					<div class="input-field">
 						<i class="material-icons prefix" style="color: red">location_on</i>
@@ -28,8 +28,8 @@
 
 					<div class="input-field">
 						<label>Price</label><br><br>
-						<rzslider rz-slider-model="slider.minValue" rz-slider-high="slider.maxValue" rz-slider-options="slider.options" ng-model="request.price">
-						</rzslider>
+						<div id="range-input"></div>
+        		<p>&nbsp;</p>
 					</div>
 
 				</form>

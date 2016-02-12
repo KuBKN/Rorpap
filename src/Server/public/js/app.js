@@ -1,4 +1,4 @@
-var app = angular.module('rorpap', ['ngRoute', 'ngCookies', 'uiGmapgoogle-maps', 'rzModule']);
+var app = angular.module('rorpap', ['ngRoute', 'ngCookies', 'uiGmapgoogle-maps']);
 
 app.config(function($routeProvider, $locationProvider ) {
 

@@ -4,20 +4,23 @@ app.controller('FindRequestController', ['$scope', function($scope){
 		$('.collapsible').collapsible({
 			accordion : false
 		});
+
+	    var slider = document.getElementById('range-input');
+	    noUiSlider.create(slider, {
+	     	start: [20, 80],
+	       	connect: true,
+	       	step: 1,
+	       	range: {
+	         'min': 0,
+	         'max': 100
+	       },
+	       format: wNumb({
+	         decimals: 0
+	       })
+	      });
+ 
 	};
 	$scope.load();
-
-	// TODO calculate range later
-	$scope.slider = {
-	    minValue: 10,
-	    maxValue: 90,
-	    options: {
-	        floor: 0,
-	        ceil: 100,
-	        step: 1,
-	        hideLimitLabels: true
-	    }
-	};
 
 	$scope.requests = [
 	{
