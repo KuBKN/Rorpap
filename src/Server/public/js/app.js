@@ -1,4 +1,4 @@
-var app = angular.module('rorpap', ['ngRoute', 'ngCookies', 'uiGmapgoogle-maps', 'rzModule', 'ngFileUpload']);
+var app = angular.module('rorpap', ['ngRoute', 'ngCookies', 'uiGmapgoogle-maps', 'ngFileUpload']);
 
 app.config(function($routeProvider, $locationProvider ) {
 
