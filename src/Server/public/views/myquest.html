@@ -9,7 +9,7 @@
 			</ul>
 		</div>
 	</div>
-	<div class="col s12 card" style="min-height: 300px">
+	<div class="card" style="min-height: 300px">
 		<div id="findrequest" class="row" ng-controller="FindRequestController">
 			<br>
 			<div class="container hide-on-med-and-down col l3">
@@ -29,7 +29,7 @@
 					<div class="input-field">
 						<label>Price</label><br><br>
 						<div id="range-input"></div>
-        		<p>&nbsp;</p>
+						<p>&nbsp;</p>
 					</div>
 
 				</form>
@@ -37,44 +37,61 @@
 
 			<div class="col l5 m8 s12">
 				<ul class="collapsible popout" data-collapsible="accordion">
-					<li style="margin: 10px 0" ng-repeat="request in requests">
-						<div class="collapsible-header">
+
+					<li style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
+
+						<div class="collapsible-header" style="text-align: left">
 							<div class="row">
 
-								<div class="col m3 s12 hide-on-small-and-down" style="border-style: solid">
-									<br>{{request.id}}<br>
+								<div class="col m3 s12 hide-on-small-and-down" style="margin: 10px 0; border-style: solid; border-color: black">
+									{{request.size_length}} 
+									{{request.size_width}} 
+									{{request.size_height}}<br>
+									{{request.weight}}<br>
 								</div>
 
 								<div class="col m9 s12">
-									<h5>{{request.id}}</h5>
-									{{request.id}}
+									{{request.sender_id}}
+									<h5>To : {{request.recipient_name}}</h5>
+
+									<div class="chip">
+										<i class="material-icons">event</i>
+										{{request.reqLimitDate}}
+									</div>
+									<div class="chip">
+										<i class="material-icons">schedule</i>
+										{{request.reqLimitTime}}
+									</div>
 								</div>
+
 
 							</div>
 						</div>
 
-						<div class="collapsible-body" style="background-color: #FFE2C2">
+						<div class="collapsible-body" style="background-color: #F8F8F8; text-align: left">
 							<div class="row" style="padding: 10px">
 								<div class="col s9">
 									<div style="margin-bottom: 5px">
-										To :
-										<div class="chip">
-											<img>
-											{{request.id}}
-										</div>
-									</div>
-
-									<div style="margin-bottom: 5px">
-										Due in {{request.id}} {{request.id}}
+										<h6>Email : {{request.recipient_email}}</h6>
+										<h6>Tel : {{request.recipient_tel}}</h6>
+										Due in {{request.shipLimitDate}} {{request.shipLimitTime}}<br>
+										{{request.comment}}
 									</div>
 								</div>
-								<div class="col s3 right green-text" style="text-align: right">
-									<h5>{{request.id}}</h5>
+
+								<div class="col s3 right green-text" style="text-align: right"><h5>{{request.price}}</h5></div>
+
+								<div class="col m12 s12" ng-if="request.type == 'Pending'">
+									<span class="right">
+										<a class="btn" style="background-color: #e51c23" ng-click="acceptRequest($index)">Accept</a>
+									</span>
 								</div>
 
 							</div>
 						</div>
+
 					</li>
+
 				</ul>
 			</div>
 
@@ -84,10 +101,13 @@
 						<div class="card blue-grey darken-1">
 							<div class="card-content white-text">
 								<span class="card-title">Location</span>
-								<ui-gmap-google-map center="map1.center" zoom="map1.zoom" draggable="true">
-								<ui-gmap-marker idkey="marker1.id" coords="marker1.coords" options="marker1.options"></ui-gmap-marker>
-								<ui-gmap-marker idkey="marker2.id" coords="marker2.coords" options="marker2.options"></ui-gmap-marker>
-							</ui-gmap-google-map>
+								
+								<style type="text/css">
+								.angular-google-map-container {
+									height: 300px;
+								}
+								</style>
+							</div>
 						</div>
 					</div>
 				</div>

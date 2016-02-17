@@ -1,4 +1,4 @@
-app.controller('FindRequestController', ['$scope', function($scope){
+app.controller('FindRequestController', ['$scope', '$http','$cookies', function($scope, $http, $cookies, uiGmapGoogleMapApi){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -22,46 +22,41 @@ app.controller('FindRequestController', ['$scope', function($scope){
 	};
 	$scope.load();
 
-	$scope.requests = [
-	{
-		id: 1
-	},
-	{
-		id: 2
-	}];
+	$scope.requests = [];
 
-	$scope.distance = function(val1, val2) {
-		return (val1 + val2) / 2;
+	$scope.getRequests = function(reqtype) {
+		reqtype = "Pending";
+
+		var sender_id = $cookies.get('_id').replace(/\"/g, "");
+
+		$http.get('/api/request/get_request/' + reqtype + '/!' + sender_id)
+			.success(function(data) {
+
+				$scope.requests = [];
+
+				angular.forEach(data, function(value, key) {
+					$scope.requests.push(value);
+				});
+
+			})
+			.error(function(data) {
+				console.log(data);
+			});
 	};
 
-	$scope.marker1 = {
-		id: 0,
-		coords: {
-			latitude: 13.851648,
-			longitude: 100.567465
-		},
-		options: { draggable: true,
-			icon: 'images/LOGO-RED.png'
-		}
-	};
+	$scope.getRequests();
 
-	$scope.marker2 = {
-		id: 0,
-		coords: {
-			latitude: 13.738432,
-			longitude: 100.530925
-		},
-		options: { draggable: true,
-			icon: 'images/LOGO-GREEN.png'
-		}
-	};
+	$scope.acceptRequest = function(index) {
+		var sender_id = $cookies.get('_id').replace(/\"/g, "");
 
-	$scope.map1 = {
-		center: {
-			latitude: $scope.distance($scope.marker1.coords.latitude,$scope.marker2.coords.latitude),
-			longitude: $scope.distance($scope.marker1.coords.longitude,$scope.marker2.coords.longitude)
-		},
-		zoom: 11
+		$http.post('/api/request/accept/'+sender_id, $scope.requests[index])
+		.success(function(data) {
+
+			window.location.reload();
+		})
+		.error(function(data) {
+			console.log('Error: ' + data);
+		});
 	};
 
 }]);

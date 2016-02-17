@@ -25,7 +25,7 @@ app.controller('SignUpController', ['$scope', '$http','$window', function($scope
     $scope.signUp = function() {
 
         $scope.user.password = CryptoJS.MD5($scope.user.password).toString();
-        $http.post('/api/user', $scope.user)
+        $http.post('/api/user/create', $scope.user)
 			.success(function(data) {
 				$scope.user = {};
                 

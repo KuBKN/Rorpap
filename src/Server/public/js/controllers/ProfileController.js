@@ -7,7 +7,7 @@ app.controller('ProfileController', ['$scope', '$http', '$cookies', '$window', f
     }
 
     $scope.load = function() {
-        $http.get('/api/user/' + $scope._id)
+        $http.get('/api/user/get/' + $scope._id)
 			.success(function(data) {
 				$scope.user = data[0];
 			})

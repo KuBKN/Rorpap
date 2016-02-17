@@ -46,7 +46,7 @@ var Request = mongoose.model('requests', {
     comment: String});
 
 
-router.post('/user', function(req, res, next) {
+router.post('/user/create', function(req, res, next) {
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var email = req.body.email;
@@ -73,30 +73,6 @@ router.post('/user', function(req, res, next) {
         }
     });
 });
-
-
-router.post('/user/login', function(req, res, next) {
-    var email = req.body.email;
-    var password = req.body.password;
-
-    var user = new User({email: email, password: password});
-    console.log(user);
-    User.find({email: email, password: password}, {_id: 1}, function(err, users) {
-        if (err) {
-            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-        }
-        else {
-            if (users.length) {
-                // temp = 200, actually 302
-                res.status(200).send(users);
-            }
-            else {
-                res.status(HTTP_NOT_FOUND).send();
-            }
-        }
-    });
-});
-
 
 router.post('/user/update', function(req, res, next) {
     var _id = req.body._id;
@@ -138,6 +114,29 @@ router.post('/user/update', function(req, res, next) {
     }
 });
 
+
+router.post('/user/login', function(req, res, next) {
+    var email = req.body.email;
+    var password = req.body.password;
+
+    var user = new User({email: email, password: password});
+    console.log(user);
+    User.find({email: email, password: password}, {_id: 1}, function(err, users) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            if (users.length) {
+                // temp = 200, actually 302
+                res.status(200).send(users);
+            }
+            else {
+                res.status(HTTP_NOT_FOUND).send();
+            }
+        }
+    });
+});
+
 router.post('/user/enroll', function(req, res, next) {
     var _id = req.body._id;
     User.findOneAndUpdate({_id: _id, status: 0}, {status: '-1'}, function(err, data) {
@@ -148,7 +147,7 @@ router.post('/user/enroll', function(req, res, next) {
     });
 });
 
-router.get('/user/enroll', function(req, res, next) {
+router.get('/admin/user_enroll', function(req, res, next) {
     User.find({status: -1}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -157,7 +156,7 @@ router.get('/user/enroll', function(req, res, next) {
     })
 });
 
-router.post('/user/accept', function(req, res, next) {
+router.post('/admin/user_accept', function(req, res, next) {
     var _id = req.body._id;
 
     User.findOneAndUpdate({_id: _id, status: -1}, {status: 1}, function(err, data) {
@@ -167,7 +166,7 @@ router.post('/user/accept', function(req, res, next) {
     });
 });
 
-router.post('/user/reject', function(req, res, next) {
+router.post('/admin/user_reject', function(req, res, next) {
     var _id = req.body._id;
 
     console.log(_id);
@@ -179,17 +178,17 @@ router.post('/user/reject', function(req, res, next) {
     });
 });
 
-router.get('/user', function(req, res, next) {
+/*router.get('/user/', function(req, res, next) {
     User.find(function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
         res.send(users);
     })
-});
+});*/
 
 
-router.get('/user/:id', function(req, res, next) {
+router.get('/user/get/:id', function(req, res, next) {
     var _id = req.params.id;
 
     User.find({_id: _id}, {firstname: true, lastname: true, email: true, status: true}, function(err, users) {
@@ -201,7 +200,7 @@ router.get('/user/:id', function(req, res, next) {
 });
 
 
-router.post('/request', function(req, res, next) {
+router.post('/request/create', function(req, res, next) {
     var sender_id = req.body.sender_id;
     var type = 'Pending';
     var fromLoc = req.body.fromLoc;
@@ -224,7 +223,6 @@ router.post('/request', function(req, res, next) {
     var comment = req.body.comment;
 
     var request = new Request({ sender_id: sender_id, 
-                                messenger_id: messenger_id,
                                 type: type, 
                                 recipient_name: recipient_name,
                                 recipient_email: recipient_email,
@@ -252,11 +250,31 @@ router.post('/request', function(req, res, next) {
 });
 
 
-router.get('/request/:reqtype/:sender_id', function(req, res, next) {
+router.get('/request/get_request/:reqtype/:sender_id', function(req, res, next) {
     var reqtype = req.params.reqtype;
     var sender_id = req.params.sender_id;
+    if (sender_id.charAt(0)=='!') {
+        sender_id = {$ne: sender_id.substring(1)};
+    };
 
     Request.find({sender_id: sender_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1, reqLimitDate: -1}}, function(err, requests) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            res.status(200).send(requests);
+        }
+    });
+});
+
+router.get('/request/get_quest/:reqtype/:messenger_id', function(req, res, next) {
+    var reqtype = req.params.reqtype;
+    var messenger_id = req.params.messenger_id;
+    if (messenger_id.charAt(0)=='!') {
+        messenger_id = {$ne: messenger_id.substring(1)};
+    };
+
+    Request.find({messenger_id: messenger_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1, reqLimitDate: -1}}, function(err, requests) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
@@ -276,6 +294,17 @@ router.post('/request/remove', function(req, res, next) {
         else {
             res.status(200).send();
         }
+    });
+});
+
+router.post('/request/accept/:messenger_id', function(req, res, next) {
+    var _id = req.body._id;
+    var messenger_id = req.params.messenger_id;
+
+    Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Inprogress', messenger_id: messenger_id}, function(err, data) {
+        if (err)
+            return res.send(500, { error: err });
+        return res.send();
     });
 });
 

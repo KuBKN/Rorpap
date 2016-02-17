@@ -3,7 +3,7 @@ app.controller('AdminController', ['$scope', '$http', '$window', function($scope
     $scope.users = [];
 
     $scope.getEnrolled = function() {
-		$http.get('/api/user/enroll')
+		$http.get('/api/admin/user_enroll')
 			.success(function(data) {
 				$scope.users = data;
 			})
@@ -14,7 +14,7 @@ app.controller('AdminController', ['$scope', '$http', '$window', function($scope
     $scope.getEnrolled();
 
     $scope.accept = function(index) {
-        $http.post('/api/user/accept', $scope.users[index])
+        $http.post('/api/admin/user_accept', $scope.users[index])
 			.success(function(data) {
 
                 window.location.reload();
@@ -25,7 +25,7 @@ app.controller('AdminController', ['$scope', '$http', '$window', function($scope
     }
 
     $scope.reject = function(index) {
-        $http.post('/api/user/reject', $scope.users[index])
+        $http.post('/api/admin/user_reject', $scope.users[index])
 			.success(function(data) {
 
                 window.location.reload();

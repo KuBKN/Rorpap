@@ -7,17 +7,17 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 	};
 	$scope.load();
 
-	$scope.requests = [];
-
 	$scope.reqBackground = function(type) {
 		if (type == 'Pending') {
 			return '#FFBCBC';
-		} else if (type == 'In progress') {
+		} else if (type == 'Inprogress') {
 			return '#BCBEFF';
 		} else {
 			return '#BCFFD1';
 		};
 	}
+
+	$scope.requests = [];
 
 	$scope.getRequests = function(reqtype) {
 		if (reqtype == undefined) {
@@ -26,7 +26,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
 
-		$http.get('/api/request/' + reqtype + '/' + sender_id)
+		$http.get('/api/request/get_request/' + reqtype + '/' + sender_id)
 			.success(function(data) {
 
 				$scope.requests = [];
@@ -39,7 +39,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 			.error(function(data) {
 				console.log(data);
 			});
-	}
+	};
 
 	$scope.getRequests();
 
@@ -105,8 +105,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 			}
 			$scope.markers.push(marker);
 
-			$scope.map.center.latitude = $scope.calculateCenter($scope.markers[0].coords.latitude, $scope.markers[0].coords.latitude);
-			$scope.map.center.longitude = $scope.calculateCenter($scope.markers[1].coords.longitude, $scope.markers[1].coords.longitude);
+			$scope.map.center.latitude = $scope.calculateCenter($scope.markers[0].coords.latitude, $scope.markers[1].coords.latitude);
+			$scope.map.center.longitude = $scope.calculateCenter($scope.markers[0].coords.longitude, $scope.markers[1].coords.longitude);
 
 			$scope.lastCollepsed = index;
 		}
@@ -118,8 +118,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 	};
 	$scope.lastCollepsed = -1;
 
-	$scope.calculateCenter = function(lat, lng) {
-		return (parseFloat(lat) + parseFloat(lng)) / 2;
+	$scope.calculateCenter = function(var1, var2) {
+		return (parseFloat(var1) + parseFloat(var2)) / 2;
 	}
 
 }]);

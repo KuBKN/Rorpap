@@ -32,7 +32,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 		$scope.request.fromLoc = $scope.markers[0].coords.latitude + ', ' + $scope.markers[0].coords.longitude;
 		$scope.request.toLoc = $scope.markers[1].coords.latitude + ', ' + $scope.markers[1].coords.longitude;
 
-		$http.post('/api/request', $scope.request)
+		$http.post('/api/request/create', $scope.request)
 		.success(function(data) {
 			$scope.request = {};
 			$scope.request.sender_id = $scope.get_id();
