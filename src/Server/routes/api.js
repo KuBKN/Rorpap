@@ -222,8 +222,8 @@ router.post('/request/create', function(req, res, next) {
     var price = req.body.price;
     var comment = req.body.comment;
 
-    var request = new Request({ sender_id: sender_id, 
-                                type: type, 
+    var request = new Request({ sender_id: sender_id,
+                                type: type,
                                 recipient_name: recipient_name,
                                 recipient_email: recipient_email,
                                 recipient_tel: recipient_tel,
@@ -231,14 +231,14 @@ router.post('/request/create', function(req, res, next) {
                                 size_width: size_width,
                                 size_height: size_height,
                                 weight: weight,
-                                fromLoc: fromLoc, 
-                                toLoc: toLoc, 
-                                reqLimitDate: reqLimitDate, 
-                                reqLimitTime: reqLimitTime, 
-                                shipLimitDate: shipLimitDate, 
-                                shipLimitHour: shipLimitHour, 
-                                shipLimitTime: shipLimitTime, 
-                                price: price, 
+                                fromLoc: fromLoc,
+                                toLoc: toLoc,
+                                reqLimitDate: reqLimitDate,
+                                reqLimitTime: reqLimitTime,
+                                shipLimitDate: shipLimitDate,
+                                shipLimitHour: shipLimitHour,
+                                shipLimitTime: shipLimitTime,
+                                price: price,
                                 comment: comment});
     // res.send(request);
     request.save(function(err) {
@@ -302,6 +302,16 @@ router.post('/request/accept/:messenger_id', function(req, res, next) {
     var messenger_id = req.params.messenger_id;
 
     Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Inprogress', messenger_id: messenger_id}, function(err, data) {
+        if (err)
+            return res.send(500, { error: err });
+        return res.send();
+    });
+});
+
+router.post('/request/finish/', function(req, res, next) {
+    var _id = req.body._id;
+
+    Request.findOneAndUpdate({_id: _id, type: 'Inprogress'}, {type: 'Finished'}, function(err, data) {
         if (err)
             return res.send(500, { error: err });
         return res.send();

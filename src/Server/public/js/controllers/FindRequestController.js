@@ -18,7 +18,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', function(
 	         decimals: 0
 	       })
 	      });
- 
+
 	};
 	$scope.load();
 
@@ -49,7 +49,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', function(
 	$scope.acceptRequest = function(index) {
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
 
-		$http.post('/api/request/accept/'+sender_id, $scope.requests[index])
+		$http.post('/api/request/accept/' + sender_id, $scope.requests[index])
 		.success(function(data) {
 
 			window.location.reload();

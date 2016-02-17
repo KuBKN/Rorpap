@@ -4,7 +4,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', funct
 		$('.collapsible').collapsible({
 			accordion : false
 		});
- 
+
 	};
 	$scope.load();
 
@@ -31,5 +31,15 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', funct
 	};
 
 	$scope.getRequests();
+
+	$scope.finishRequest = function(index) {
+		$http.post('/api/request/finish', $scope.requests[index])
+		.success(function(data) {
+			window.location.reload();
+		})
+		.error(function(data) {
+			console.log('Error: ' + data);
+		});
+	}
 
 }]);
