@@ -30,12 +30,15 @@
 				<div class="collapsible-header" ng-style="{'background-color': reqBackground(request.type)}">
 					<div class="row">
 
-						<div class="col m3 s12 hide-on-small-and-down">
-							{{request.id}}
+						<div class="col m3 s12 hide-on-small-and-down" style="margin: 10px 0; border-style: solid; border-color: white">
+							{{request.size_length}} 
+							{{request.size_width}} 
+							{{request.size_height}}<br>
+							{{request.weight}}
 						</div>
 
 						<div class="col m9 s12">
-							<h5>To : {{request.recipientName}}</h5>
+							<h5>To : {{request.recipient_name}}</h5>
 
 							<div class="chip">
 								<i class="material-icons">event</i>
@@ -55,12 +58,10 @@
 					<div class="row" style="padding: 10px">
 						<div class="col s9">
 							<div style="margin-bottom: 5px">
-								<h6>Email : {{request.recipientEmail}}</h6>
-								<h6>Tel : {{request.recipientTel}}</h6>
+								<h6>Email : {{request.recipient_email}}</h6>
+								<h6>Tel : {{request.recipient_tel}}</h6>
 								Due in {{request.shipLimitDate}} {{request.shipLimitTime}}<br>
-								{{request.comment}}<br>
-								{{request.size}}<br>
-								{{request.weight}}<br>
+								{{request.comment}}
 							</div>
 						</div>
 

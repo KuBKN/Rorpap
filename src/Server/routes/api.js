@@ -25,10 +25,16 @@ var User = mongoose.model('users', {
 var Request = mongoose.model('requests', {
     sender_id: String,
     messenger_id: String,
-    receiver_id: String,
+
+    recipient_name: String,
+    recipient_email: String,
+    recipient_tel: String,
+    size_length: String,
+    size_width: String,
+    size_height: String,
+    weight: String,
+
     type: String,
-    image: String,
-    title: String,
     fromLoc: String,
     toLoc: String,
     reqLimitDate: String,
@@ -36,8 +42,6 @@ var Request = mongoose.model('requests', {
     shipLimitDate: String,
     shipLimitHour: String,
     shipLimitTime: String,
-    receiver: String,
-    vehicles: String,
     price: String,
     comment: String});
 
@@ -200,8 +204,6 @@ router.get('/user/:id', function(req, res, next) {
 router.post('/request', function(req, res, next) {
     var sender_id = req.body.sender_id;
     var type = 'Pending';
-    var image = 'temp';
-    var title = req.body.title;
     var fromLoc = req.body.fromLoc;
     var toLoc = req.body.toLoc;
     // var now = new Date();
@@ -210,12 +212,34 @@ router.post('/request', function(req, res, next) {
     var shipLimitDate = req.body.shipLimitDate;
     var shipLimitHour = req.body.shipLimitHour;
     var shipLimitTime = req.body.shipLimitTime;
-    var receiver = req.body.receiver;
-    var vehicles = req.body.vehicles;
+    var recipient_name = req.body.recipient_name;
+    var recipient_email = req.body.recipient_email;
+    var recipient_tel = req.body.recipient_tel;
+    var size_length = req.body.size_length;
+    var size_width = req.body.size_width;
+    var size_height = req.body.size_height;
+    var weight = req.body.weight;
     var price = req.body.price;
     var comment = req.body.comment;
 
-    var request = new Request({sender_id: sender_id, type: type, image: image, title: title, fromLoc: fromLoc, toLoc: toLoc, reqLimitDate: reqLimitDate, reqLimitTime: reqLimitTime, shipLimitDate: shipLimitDate, shipLimitHour: shipLimitHour, shipLimitTime: shipLimitTime, receiver: receiver, vehicles: vehicles, price: price, comment: comment});
+    var request = new Request({ sender_id: sender_id, 
+                                type: type, 
+                                recipient_name: recipient_name,
+                                recipient_email: recipient_email,
+                                recipient_tel: recipient_tel,
+                                size_length: size_length,
+                                size_width: size_width,
+                                size_height: size_height,
+                                weight: weight,
+                                fromLoc: fromLoc, 
+                                toLoc: toLoc, 
+                                reqLimitDate: reqLimitDate, 
+                                reqLimitTime: reqLimitTime, 
+                                shipLimitDate: shipLimitDate, 
+                                shipLimitHour: shipLimitHour, 
+                                shipLimitTime: shipLimitTime, 
+                                price: price, 
+                                comment: comment});
     // res.send(request);
     request.save(function(err) {
         if (err) {
