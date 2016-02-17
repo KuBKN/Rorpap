@@ -15,7 +15,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', funct
 
 		var messenger_id = $cookies.get('_id').replace(/\"/g, "");
 
-		$http.get('/api/request/' + reqtype + '/!' + sender_id)
+		$http.get('/api/request/get_quest/' + reqtype + '/' + messenger_id)
 			.success(function(data) {
 
 				$scope.requests = [];
