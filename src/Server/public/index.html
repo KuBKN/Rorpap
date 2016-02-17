@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
 	<link rel="stylesheet" href="css/materialize/css/materialize.css">
-	
+
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="css/nouislider.css">
 
@@ -163,30 +163,14 @@
 </footer>
 
 <!-- Modal Structure -->
-<div id="modalSignup" class="modal" style="width:40%; min-width: 320px" ng-controller="SignUpController">
-	<div class="modal-content" style="padding: 20px 10px">
+<signup-modal></signup-modal>
 
-		<signup-modal></signup-modal>
+<login-modal></login-modal>
 
-	</div>
-</div>
-
-<div id="modalLogin" class="modal" style="width: 240px" ng-controller="LogInController">
-	<div class="modal-content" style="padding: 20px 10px;">
-
-		<login-modal></login-modal>
-
-	</div>
-</div>
-
-<div id="modalLogout" class="modal" style="width: 320px" ng-controller="LogOutController">
-	<div class="modal-content" style="padding: 20px 10px;">
-
-		<logout-modal></logout-modal>
+<logout-modal></logout-modal>
 
 
-	</div>
-</div>
+
 
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">

@@ -23,17 +23,25 @@ app.controller('SignUpController', ['$scope', '$http','$window', function($scope
     }
 
     $scope.signUp = function() {
+      var dateOfBirth_temp = $scope.user.dateOfBirth;
+      $scope.user.dateOfBirth = $scope.user.dateOfBirth.toString().substring(0, 15);
 
-        $scope.user.password = CryptoJS.MD5($scope.user.password).toString();
-        $http.post('/api/user/create', $scope.user)
-			.success(function(data) {
-				$scope.user = {};
-                
-                window.location.reload();
-			})
-			.error(function(data) {
-				console.log('Error: ' + data);
-			});
+      var password_temp = $scope.user.password;
+      $scope.user.password = CryptoJS.MD5($scope.user.password).toString();
+
+      $http.post('/api/user/create', $scope.user)
+      .success(function(data) {
+        // $scope.user = {};
+
+        window.location.reload();
+      })
+      .error(function(data) {
+        $scope.user.password = password_temp;
+        $scope.user.dateOfBirth = dateOfBirth_temp;
+
+        console.log('Error: ' + data);
+      });
+
     };
 
 }]);
