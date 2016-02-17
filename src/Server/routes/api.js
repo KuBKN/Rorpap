@@ -206,6 +206,7 @@ router.post('/request', function(req, res, next) {
     var type = 'Pending';
     var fromLoc = req.body.fromLoc;
     var toLoc = req.body.toLoc;
+    var messenger_id = req.body.messenger_id;
     // var now = new Date();
     var reqLimitDate = '01/01/2011'; //now.format('DD/MM/YYYY');
     var reqLimitTime = '01:01'; //now.format('mm:hh');
@@ -223,6 +224,7 @@ router.post('/request', function(req, res, next) {
     var comment = req.body.comment;
 
     var request = new Request({ sender_id: sender_id, 
+                                messenger_id: messenger_id,
                                 type: type, 
                                 recipient_name: recipient_name,
                                 recipient_email: recipient_email,
