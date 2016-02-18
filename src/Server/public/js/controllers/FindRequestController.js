@@ -17,11 +17,10 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', function(
 	       format: wNumb({
 	         decimals: 0
 	       })
-	      });
-
+	     });
 	};
 	$scope.load();
-
+	
 	$scope.requests = [];
 
 	$scope.getRequests = function(reqtype) {
