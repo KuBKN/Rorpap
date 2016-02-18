@@ -3,10 +3,15 @@
 
 	<div class="right col s12 hide-on-large-only" style="border-style: solid">
 
-		<ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" events="events">
-		<ui-gmap-markers models="markers" coords="'coords'" options="'self'" dorebuildall="true">
-	</ui-gmap-markers>
-	</ui-gmap-google-map>
+		<ng-map center="{{map.center}}" zoom="12" on-click="addMarker(event)">
+			<marker ng-repeat="marker in markers" 
+				position="{{marker.position}}"
+				optimized="{{marker.optimized}}"
+			    icon="{{marker.icon}}"
+			    draggable="true"
+			    on-drag="drag(event,$index)"></marker>
+		
+		</ng-map>
 	
 	</div>
 
@@ -16,13 +21,13 @@
 				<div class="input-field col s12">
 					<i class="material-icons prefix" style="color: red">location_on</i>
 					<label for="fromLoc" class="active">From Location</label>
-					<input type="text" id="fromLoc" ng-model="markers[0].coords.latitude + ', ' + markers[0].coords.longitude" class="validate" required>
+					<input type="text" id="fromLoc" ng-model="markers[0].position" class="validate" required>
 				</div>
 
 				<div class="input-field col s12">
 					<i class="material-icons prefix" style="color: green">location_on</i>
 					<label for="toLoc" class="active">To Location</label>
-					<input type="text" id="toLoc" ng-model="markers[1].coords.latitude + ', ' + markers[1].coords.longitude" class="validate" required>
+					<input type="text" id="toLoc" ng-model="markers[1].position" class="validate" required>
 				</div>
 			</div>
 
@@ -113,12 +118,14 @@
 	</div>
 
 	<div class="right col l6 s12">
-		<ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" events="events">
-		<ui-gmap-markers models="markers" coords="'coords'" options="'self'" dorebuildall="true">
-	</ui-gmap-markers>
-	</ui-gmap-google-map>
-
-	<style type="text/css">
-	.angular-google-map-container { height: 500px; }
-	</style>
+		<ng-map center="{{map.center}}" zoom="12" on-click="addMarker(event)" style="height: 500px">
+			<marker ng-repeat="marker in markers" 
+				position="{{marker.position}}"
+				optimized="{{marker.optimized}}"
+			    icon="{{marker.icon}}"
+			    draggable="true"
+			    on-drag="drag(event,$index)"></marker>
+		
+		</ng-map>
+	</div>
 </div>

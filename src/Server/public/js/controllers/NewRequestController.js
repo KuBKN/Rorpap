@@ -1,4 +1,4 @@
-app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$location', '$timeout', function($scope, $http, $cookies, $location, uiGmapGoogleMapApi, $timeout) {
+app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$location', '$timeout', function($scope, $http, $cookies, $location, $timeout) {
 
 	$scope.load = function() {
 		$('select').material_select();
@@ -29,8 +29,8 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 	$scope.request.sender_id = $scope.get_id();
 
 	$scope.createQuest = function() {
-		$scope.request.fromLoc = $scope.markers[0].coords.latitude + ', ' + $scope.markers[0].coords.longitude;
-		$scope.request.toLoc = $scope.markers[1].coords.latitude + ', ' + $scope.markers[1].coords.longitude;
+		$scope.request.fromLoc = $scope.markers[0].position[0] + ', ' + $scope.markers[0].position[1];
+		$scope.request.toLoc = $scope.markers[1].position[0] + ', ' + $scope.markers[1].position[1];
 
 		$http.post('/api/request/create', $scope.request)
 		.success(function(data) {
@@ -48,30 +48,32 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 	$scope.markers = [];
 
 	$scope.map = {
-		center: {
-			latitude: 13.738432,
-			longitude: 100.530925
-		},
+		center: [
+			13.738432,
+			100.530925
+		],
 		zoom: 12
 	};
 
-	$scope.events = {
-		click: function(map, eventName, originalEventArgs) {
-			var e = originalEventArgs[0];
-			var marker = {};
-			marker.id = $scope.markers.length;
-			if (marker.id < 2) {
-				marker.coords = {};
-				marker.coords.latitude = e.latLng.lat();
-				marker.coords.longitude = e.latLng.lng();
-				marker.options = {
-					draggable: true,
-					icon: marker.id == 0 ? 'images/LOGO-RED.png' : 'images/LOGO-GREEN.png'
-				}
+	$scope.addMarker = function(event) {
+		var e = event.latLng;
+		var marker = {};
+		var _id = $scope.markers.length;
+		if (_id < 2) {
+			marker.position = [e.lat(),e.lng()];
+			marker.optimized = false;
+			marker.icon = {
+					        url: _id == 0 ? 'images/LOGO-RED.png' : 'images/LOGO-GREEN.png',
+					        scaledSize:[40,40]
+					      };
 
-				$scope.markers.push(marker);
-			}
+			$scope.markers.push(marker);
 		}
+	}
+
+	$scope.drag = function(event,index){
+		var e = event.latLng;
+		$scope.markers[index].position = [e.lat(),e.lng()];
 	}
 
 }]);

@@ -1,4 +1,4 @@
-var app = angular.module('rorpap', ['ngRoute', 'ngCookies', 'uiGmapgoogle-maps', 'ngFileUpload', 'ngMap']);
+var app = angular.module('rorpap', ['ngRoute', 'ngCookies', 'ngFileUpload', 'ngMap']);
 
 app.config(function($routeProvider, $locationProvider ) {
 
@@ -34,12 +34,4 @@ app.config(function($routeProvider, $locationProvider ) {
 
 app.config(function ($locationProvider) {
     $locationProvider.hashPrefix('!');
-});
-
-app.config(function(uiGmapGoogleMapApiProvider) {
-    uiGmapGoogleMapApiProvider.configure({
-        //    key: 'your api key',
-        v: '3.21', //defaults to latest 3.X anyhow
-        libraries: 'weather,geometry,visualization'
-    });
 });

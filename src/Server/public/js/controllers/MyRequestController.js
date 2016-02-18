@@ -85,7 +85,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 		if (index != $scope.lastCollepsed) {
 			var loc = $scope.requests[index].fromLoc.split(', ');
 			$scope.marker_from.position = [loc[0],loc[1]];
-			$scope.marker_from.optimized = "false";
+			$scope.marker_from.optimized = false;
 			$scope.marker_from.icon = {
 						        url:'images/LOGO-RED.png',
 						        scaledSize:[40,40]
@@ -93,7 +93,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 
 		    var loc = $scope.requests[index].toLoc.split(', ');
 			$scope.marker_to.position = [loc[0],loc[1]];
-			$scope.marker_to.optimized = "false";
+			$scope.marker_to.optimized = false;
 			$scope.marker_to.icon = {
 						        url:'images/LOGO-GREEN.png',
 						        scaledSize:[40,40]
