@@ -1,4 +1,4 @@
-app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($scope, $http, $cookies, uiGmapGoogleMapApi) {
+app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -55,10 +55,10 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 	};
 
 	$scope.map = {
-		center: {
-			latitude: 13.738432,
-			longitude: 100.530925
-		},
+		center: [
+			13.738432,
+			100.530925
+		],
 		zoom: 12,
 		options: {
 			// TODO still cannot find a way to disable changing position -_-
@@ -74,46 +74,39 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 		}
 	};
 
-	$scope.markers = [];
+	$scope.marker_from = {};
+	$scope.marker_to = {};
 
 	// TODO still be suck function use inteads of checking if collapse right now, 555
 	$scope.showInMap = function(index) {
-		$scope.markers = [];
+		$scope.marker_from = {};
+		$scope.marker_to = {};
 
 		if (index != $scope.lastCollepsed) {
-			var marker = {};
-			marker.id = $scope.markers.length;
-			marker.coords = {};
 			var loc = $scope.requests[index].fromLoc.split(', ');
-			marker.coords.latitude = loc[0];
-			marker.coords.longitude = loc[1];
-			marker.options = {
-				draggable: false,
-				icon: 'images/LOGO-RED.png'
-			}
-			$scope.markers.push(marker);
+			$scope.marker_from.position = [loc[0],loc[1]];
+			$scope.marker_from.optimized = "false";
+			$scope.marker_from.icon = {
+						        url:'images/LOGO-RED.png',
+						        scaledSize:[40,40]
+						      };
 
-			var marker = {};
-			marker.id = $scope.markers.length;
-			marker.coords = {};
-			var loc = $scope.requests[index].toLoc.split(', ');
-			marker.coords.latitude = loc[0];
-			marker.coords.longitude = loc[1];
-			marker.options = {
-				draggable: false,
-				icon: 'images/LOGO-GREEN.png'
-			}
-			$scope.markers.push(marker);
+		    var loc = $scope.requests[index].toLoc.split(', ');
+			$scope.marker_to.position = [loc[0],loc[1]];
+			$scope.marker_to.optimized = "false";
+			$scope.marker_to.icon = {
+						        url:'images/LOGO-GREEN.png',
+						        scaledSize:[40,40]
+						      };
 
-			$scope.map.center.latitude = $scope.calculateCenter($scope.markers[0].coords.latitude, $scope.markers[1].coords.latitude);
-			$scope.map.center.longitude = $scope.calculateCenter($scope.markers[0].coords.longitude, $scope.markers[1].coords.longitude);
+			$scope.map.center= [ $scope.calculateCenter($scope.marker_from.position[0], $scope.marker_to.position[0])
+								, $scope.calculateCenter($scope.marker_from.position[1], $scope.marker_to.position[1])];
 
 			$scope.lastCollepsed = index;
 		}
 		else {
 			$scope.lastCollepsed = -1;
-			$scope.map.center.latitude = 13.738432;
-			$scope.map.center.longitude = 100.530925;
+			$scope.map.center = [13.738432,100.530925];
 		}
 	};
 	$scope.lastCollepsed = -1;
