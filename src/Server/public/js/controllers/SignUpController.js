@@ -13,11 +13,14 @@ app.controller('SignUpController', ['$scope', '$http','$window', function($scope
         r.readAsBinaryString(f);
     };
 
-    $scope.check = function(val) {
+    $scope.check = function(val, val2) {
         if (val) {
+          if (val2) {
             $scope.signUp();
-        }
-        else{
+          }else{
+            alert('Password is missmatch');
+          }
+        }else{
             alert('Please accept our policy');
         }
     }
@@ -26,8 +29,7 @@ app.controller('SignUpController', ['$scope', '$http','$window', function($scope
       var dateOfBirth_temp = $scope.user.dateOfBirth;
       $scope.user.dateOfBirth = $scope.user.dateOfBirth.toString().substring(0, 15);
 
-      var password_temp = $scope.user.password;
-      $scope.user.password = CryptoJS.MD5($scope.user.password).toString();
+      $scope.user.password = CryptoJS.MD5($scope.user.password1).toString();
 
       $http.post('/api/user/create', $scope.user)
       .success(function(data) {
@@ -36,9 +38,7 @@ app.controller('SignUpController', ['$scope', '$http','$window', function($scope
         window.location.reload();
       })
       .error(function(data) {
-        $scope.user.password = password_temp;
         $scope.user.dateOfBirth = dateOfBirth_temp;
-
         console.log('Error: ' + data);
       });
 
