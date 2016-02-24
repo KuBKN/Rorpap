@@ -27,13 +27,13 @@ app.controller('SignUpController', ['$scope', '$http','$window', function($scope
 
     $scope.signUp = function() {
       var dateOfBirth_temp = $scope.user.dateOfBirth;
-      $scope.user.dateOfBirth = $scope.user.dateOfBirth.toString().substring(0, 15);
+      $scope.user.dateOfBirth = $scope.user.dateOfBirth_in.toString().substring(0, 15);
 
       $scope.user.password = CryptoJS.MD5($scope.user.password1).toString();
 
       $http.post('/api/user/create', $scope.user)
       .success(function(data) {
-        // $scope.user = {};
+        console.log('Log in success');
 
         window.location.reload();
       })
