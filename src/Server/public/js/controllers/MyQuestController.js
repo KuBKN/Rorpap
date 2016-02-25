@@ -4,9 +4,6 @@ app.controller('MyQuestController', ['$scope','$timeout', function($scope,$timeo
 		$(document).ready(function(){
 
 			$('#page_tabs').tabs({
-				// activate : function(event,ui) {
-		  //           console.log("activated a tab");
-		  //       }
 
 			});
 			

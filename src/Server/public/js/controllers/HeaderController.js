@@ -102,7 +102,6 @@ app.controller('HeaderController', ['$scope', '$http', '$cookies', '$window', fu
     		use.push(menus[used[i]]);
     	};
 
-    	console.log(use);
     	return use;
     }
 

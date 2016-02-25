@@ -2,20 +2,21 @@ app.controller('ProfileController', ['$scope', '$http', '$cookies', '$window', f
 
     $scope.user = {};
     $scope._id = $cookies.get('_id');
-    if ($scope._id != undefined) {
-        $scope._id = $scope._id.replace(/\"/g,'');
-    }
 
     $scope.load = function() {
         $http.get('/api/user/get/' + $scope._id)
-			.success(function(data) {
-				$scope.user = data[0];
-			})
-			.error(function(data) {
-				console.log(data);
-			});
+            .success(function(data) {
+                $scope.user = data[0];
+            })
+            .error(function(data) {
+                console.log(data);
+            });
     }
-    $scope.load();
+
+    if ($scope._id != undefined) {
+        $scope._id = $scope._id.replace(/\"/g,'');
+        $scope.load();
+    }
 
     $scope.update = function() {
         if ($scope.user.password != "" && $scope.user.password != undefined)
