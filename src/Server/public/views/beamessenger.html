@@ -8,7 +8,7 @@
 			</div>
 			<br>
 			<center ng-if="!_id" ngCloak>
-			<a class="btn cyan darken waves-effect waves-teal" class="modal-trigger" data-target="modalSignup">Sign Up
+			<a class="btn cyan darken waves-effect waves-teal" ng-click="openModal()">Sign Up
 				<i class="material-icons right">send</i>
 			</a>
 		</center>
@@ -36,15 +36,6 @@
 			<a href="#!/findrequest" class="btn cyan darken waves-effect waves-teal">Find Request
 				<i class="material-icons right">send</i>
 			</a>
-		</div>
-	</div>
-
-	<!-- Modal Structure -->
-	<div id="modalSignup" class="modal" style="width:40%; min-width: 320px" ng-controller="SignUpController">
-		<div class="modal-content" style="padding: 20px 10px">
-
-			<signup-modal></signup-modal>
-
 		</div>
 	</div>
 </div>
