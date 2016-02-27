@@ -1,20 +1,20 @@
-app.controller('HeaderController', ['$scope', '$http', '$cookies', '$window', function($scope, $http, $cookies, $window) {
+app.controller('HeaderController', ['$scope', '$rootScope', '$http', '$cookies', '$window', function($scope, $rootScope, $http, $cookies, $window) {
 
-	$scope.user = {};
+	$rootScope.user = {};
 	$scope._id = $cookies.get('_id');
 
 	$scope.load = function() {
         $http.get('/api/user/get/' + $scope._id)
 			.success(function(data) {
-				$scope.user = data[0];         
+				$rootScope.user = data[0];         
 			})
 			.error(function(data) {
 				
 			});
     }
 
-	$scope.logIned = $scope._id != undefined;
-    if ($scope.logIned) {
+	$rootScope.logIned = $scope._id != undefined;
+    if ($rootScope.logIned) {
         $scope._id = $scope._id.replace(/\"/g, '');
         $scope.load();
     }
