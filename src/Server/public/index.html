@@ -151,8 +151,8 @@
 		<form name="loginForm">
 			<div class="row">
 				<div class="input-field col s12">
-					<input type="email" id="emailAddress" ng-model="user.email" class="validate" required>
-					<label for="emailAddress">E-mail address</label>
+					<input type="email" id="emailAddressLogIn" ng-model="user.email" class="validate" required>
+					<label for="emailAddressLogIn">E-mail address</label>
 				</div>
 				<div class="input-field col s12">
 					<input type="password"  id="password" ng-model="user.password" required>
@@ -161,18 +161,18 @@
 
 				<center>
 					<input type="checkbox" class="filled-in" id="filled-in-login">
-					<label for="filled-in-login" font-size="1">Remember me</label>
+					<label id="rememberMeLabel" for="filled-in-login" font-size="1">Remember me</label>
 				</center>
 				<a href="#" class="col offset-s3">Forget password?</a>
 			</div>
 			<br>
-			<center><button type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="logIn()" ng-disabled="loginForm.$invalid">Log in</button></center>
+			<center><button id="logInBtn" type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="logIn()" ng-disabled="loginForm.$invalid">Log in</button></center>
 
 			<div class="container" style="width: 60%; margin: auto;">
 				<font size="2">No account?</font>
 				<a href="#"><font size="2">Sign Up</font></a>
 			</div>
-		</div>
+		</form>
 	</div>
 </div>
 
