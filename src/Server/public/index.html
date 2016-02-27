@@ -36,33 +36,33 @@
 			<ul class="right hide-on-med-and-down">
 
 				<li>
-					<a href="#!/beamessenger" ng-if="user.status == 0 || !_id" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
+					<a id="beamessNav" href="#!/beamessenger" ng-if="user.status == 0 || !_id" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
 						<font size="4"><center><b>Be a Messenger</b></center></font>
 					</a>
-					<a href="#!/myquest" ng-if="user.status == 1" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
+					<a id="myquestNav" href="#!/myquest" ng-if="user.status == 1" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
 						<font size="4"><center><b>My Quest</b></center></font>
 					</a>
 				</li>
 
 				<li ng-repeat="menu in menus">
-					<a style="text-decoration: none" class="{{ menu.class }}" href="{{ menu.href }}" data-activates="{{ menu.dactivate }}">
+					<a id="{{ menu.id }}Nav" style="text-decoration: none" class="{{ menu.class }}" href="{{ menu.href }}" data-activates="{{ menu.dactivate }}">
 						<font size="4"><center><b>{{ menu.title }}</b></center></font>
 					</a>
 				</li>
 			</ul>
 
 			<ul id="nav-mobile" class="side-nav">
-				<li style="border-style: solid; border-color: white">
+				<li id="beamessSNav" style="border-style: solid; border-color: white">
 					<a href="#!/beamessenger" ng-if="user.status == 0 || !_id" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" ng-if="!messenger">
 						<font size="4" color="#ffa337"><center><b>Be a Messenger</b></center></font>
 					</a>
-					<a href="#!/myquest" ng-if="user.status == 1" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
+					<a id="myquestSNav" href="#!/myquest" ng-if="user.status == 1" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
 						<font size="4" color="#ffa337"><center><b>My Quest</b></center></font>
 					</a>
 				</li>
 
 				<li ng-repeat="mmenu in mmenus">
-					<a style="text-decoration: none" class="{{ mmenu.class }}" href="{{ mmenu.href }}" data-activates="{{ mmenu.dactivate }}">
+					<a id="{{ menu.id }}SNav" style="text-decoration: none" class="{{ mmenu.class }}" href="{{ mmenu.href }}" data-activates="{{ mmenu.dactivate }}">
 						<font size="{{ mmenu.size }}" color="{{ mmenu.color }}"><center><b>{{ mmenu.title }}</b></center></font>
 					</a>
 				</li>

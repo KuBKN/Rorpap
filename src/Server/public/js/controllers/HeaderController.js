@@ -22,6 +22,7 @@ app.controller('HeaderController', ['$scope', '$rootScope', '$http', '$cookies',
     var loadMenus = function(type){
     	var menus = [
     	{
+            id: 'myrequest',
     		title: 'My Request',
     		href: '#!/myrequest',
     		class: '',
@@ -30,6 +31,7 @@ app.controller('HeaderController', ['$scope', '$rootScope', '$http', '$cookies',
     		color: '#ffa337'
     	},
     	{
+            id: 'about',
     		title: 'About',
     		href: '#!/about',
     		class: '',
@@ -38,6 +40,7 @@ app.controller('HeaderController', ['$scope', '$rootScope', '$http', '$cookies',
     		color: '#ffa337'
     	},
     	{
+            id: 'signup',
     		title: 'Sign Up',
     		href: '#modalSignup',
     		class: 'modal-trigger',
@@ -46,6 +49,7 @@ app.controller('HeaderController', ['$scope', '$rootScope', '$http', '$cookies',
     		color: '#ffa337'
     	},
     	{
+            id: 'login',
     		title: 'Log In',
     		href: '#modalLogin',
     		class: 'modal-trigger',
@@ -54,6 +58,7 @@ app.controller('HeaderController', ['$scope', '$rootScope', '$http', '$cookies',
     		color: '#ffa337'
     	},
 		{
+            id: 'profile',
     		title: 'Profile',
     		href: '',
     		class: 'dropdown-button',
@@ -62,6 +67,7 @@ app.controller('HeaderController', ['$scope', '$rootScope', '$http', '$cookies',
     		color: '#ffa337'
     	},
     	{
+            id: 'account',
     		title: 'Account',
     		href: '#!/profile',
     		class: '',
@@ -70,6 +76,7 @@ app.controller('HeaderController', ['$scope', '$rootScope', '$http', '$cookies',
     		color: '#ffa337'
     	},
     	{
+            id: 'logout',
     		title: 'Log out',
     		href: '#modalLogout',
     		class: 'modal-trigger',
@@ -77,7 +84,6 @@ app.controller('HeaderController', ['$scope', '$rootScope', '$http', '$cookies',
     		size: 3,
     		color: '#ff7171'
     	},
-
     	];
 
     	var umenus;
