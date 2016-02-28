@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
 	<link rel="stylesheet" href="css/materialize/css/materialize.css">
+	<link rel="stylesheet" href="css/animate.css">
 
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="css/nouislider.css">
@@ -72,7 +73,9 @@
 		</div>
 	</nav>
 
-	<div ng-view>
+	<div class="view-animate-container">
+		<div ng-view class="view-animate">
+		</div>
 	</div>
 
 	<footer class="page-footer" style="background-color: #ffa337; clear: both;
