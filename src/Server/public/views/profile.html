@@ -1,33 +1,52 @@
-<div class="container">
-	<div class="row">
-		<div class="input-field col s12 m6">
-			<h5>Profile</h5>
-			<div class="input-field">
+<!-- <div class="container"> -->
+	<div class="row" style="width: 80%; left: auto; right: auto">
+		<br>
+		<div class="col s6">
+			<h5>Profile</h5>					
+			<div class="input-field row">
 				<label for="firstName" class="active">First Name</label>
-				<input type="text" id="firstName" ng-model="user.firstname" class="validate" required>
+				<input type="text" id="firstName" ng-model="user.firstname" class="col s10" disabled required>
+				<div class="col s2 btn" ng-click="enabled('firstName')">Edit</div>
 			</div>
 
-			<div class="input-field">
+			<div class="input-field row">
 				<label for="lastName" class="active">Last Name</label>
-				<input type="text" id="lastName" ng-model="user.lastname" class="validate" required>
+				<input type="text" id="lastName" ng-model="user.lastname" class="col s10" disabled required>
+				<div class="col s2 btn" ng-click="enabled('lastName')">Edit</div>
 			</div>
 
-			<div class="input-field">
+			<div class="input-field row">
 				<label for="emailAddress" class="active">E-mail address</label>
-				<input type="email" id="emailAddress" ng-model="user.email" class="validate" required>
+				<input type="email" id="emailAddress" ng-model="user.email" class="col s10 validate" disabled required>
+				<div class="col s2 btn" ng-click="enabled('emailAddress')">Edit</div>
 			</div>
 
-			<p>Leave Password be blank to not update</p>
-			<div class="input-field">
-				<label for="password1">Password</label>
-				<input type="password" id="password1" ng-model="user.password" required>
+			<div class="input-field row">
+				<label for="tel" class="active">Tel.</label>
+				<input type="tel" id="tel" ng-model="user.tel" class="col s10 validate" disabled required>
+				<div class="col s2 btn" ng-click="enabled('tel')">Edit</div>
 			</div>
 
+			<a href="" ng-click="showPassword()">Change password</a>
+			<br><br>
+
+			<div id="changePassword" style="border-style: solid; padding: 10px; display: none">
+				Leave Password be blank to not update
+				<div class="input-field row">
+					<label for="password1">Password</label>
+					<input type="password" id="password1" ng-model="user.password1" class="col s10" required>
+				</div>
+
+				<div class="input-field row">
+					<label for="password2">Re-type password</label>
+					<input type="password" id="password2" ng-model="user.password2" class="col s10" password-confirmation="password1" required>
+				</div>
+			</div>
+			<br>
 			<center><button id="updateProfileBtn" type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="update()">Update</button></center>
-
 		</div>
 
-		<div class="input-field col s12 m6">
+		<div class="col s5 offset-s1">
 			<h5>Your role: {{ user.status == 1 ? "Sender and Messenger" : "Sender"}}</h5>
 
 			<p ng-if="user.status == 0">Your can be a Messenger also, just provide us more identifying stuffs</p>
@@ -46,6 +65,4 @@
 			</a>
 		</div>
 	</div>
-
-
-</div>
+<!-- </div> -->

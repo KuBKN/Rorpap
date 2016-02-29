@@ -3355,3 +3355,7 @@
   width: 100%;
   animation: fadeOutLeft 1s;
 }
+
+#changePassword{
+  animation: fadeIn 1s;
+}

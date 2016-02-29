@@ -16,6 +16,7 @@ var User = mongoose.model('users', {
     firstname: String,
     lastname: String,
     email: String,
+    tel: String,
     password: String,
     dateOfBirth: String,
     status: Number,
@@ -50,10 +51,11 @@ router.post('/user/create', function(req, res, next) {
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var email = req.body.email;
+    var tel = req.body.tel;
     var password = req.body.password;
     var dateOfBirth = req.body.dateOfBirth;
 
-    var user = new User({firstname: firstname, lastname: lastname, email: email, password: password, dateOfBirth: dateOfBirth, status: 0});
+    var user = new User({firstname: firstname, lastname: lastname, email: email, tel: tel, password: password, dateOfBirth: dateOfBirth, status: 0});
     User.find({email: email, password: password}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -79,6 +81,7 @@ router.post('/user/update', function(req, res, next) {
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var email = req.body.email;
+    var tel = req.body.tel;
     var password = req.body.password;
 
     if (firstname != "" && firstname != undefined) {
@@ -99,6 +102,14 @@ router.post('/user/update', function(req, res, next) {
 
     if (email != "" && email != undefined) {
         User.findOneAndUpdate({_id: _id}, {email: email}, function(err, data) {
+            if (err)
+                return res.send(500, { error: err });
+            return res.send();
+        });
+    }
+
+    if (tel != "" && tel != undefined) {
+        User.findOneAndUpdate({_id: _id}, {tel: tel}, function(err, data) {
             if (err)
                 return res.send(500, { error: err });
             return res.send();
@@ -191,7 +202,7 @@ router.post('/admin/user_reject', function(req, res, next) {
 router.get('/user/get/:id', function(req, res, next) {
     var _id = req.params.id;
 
-    User.find({_id: _id}, {firstname: true, lastname: true, email: true, status: true}, function(err, users) {
+    User.find({_id: _id}, {firstname: true, lastname: true, email: true, tel: true, status: true}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
