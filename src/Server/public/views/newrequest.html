@@ -53,8 +53,8 @@
 			<div class="col s11 row" style="margin-left: 42px; margin-bottom: 30px">
 				<label class="col s12"><h6>Size</h6></label>
 			    <div class="input-field col s4">
-					<label for="size_lenght">Length</label>
-					<input type="number" step="0.01" id="size_lenght" ng-model="request.size_length" class="validate" required>
+					<label for="size_length">Length</label>
+					<input type="number" step="0.01" id="size_length" ng-model="request.size_length" class="validate" required>
 				</div>
 	
 			    <div class="input-field col s4">
@@ -76,21 +76,21 @@
 
 			<div class="col s11 row" style="margin-left: 42px; margin-bottom: 30px">
 				<div class="col s12 m6">
-					<label for="birthdate">Shipment End Date</label>
+					<label for="reqEndDate">Shipment End Date</label>
 					<input type="date" id="reqEndDate" ng-model="request.shipLimitDate" datepicker/>
 				</div>
 				<div class="col s12 m6">
 					<label>End Time</label>
 					<div class="row">
 						<div class="col s5">
-							<select class="browser-default" ng-model="request.shipLimitHour">
+							<select id="endHour" class="browser-default" ng-model="request.shipLimitHour">
 								<option value="" disabled selected>Hour</option>
 								<option ng-repeat="hour in hours" value="{{hour}}">{{hour}}</option>
 							</select>
 						</div>
 						<div class="col s1"> : </div>
 						<div class="col s5">
-							<select class="browser-default" ng-model="request.shipLimitTime">
+							<select id="endMinutes" class="browser-default" ng-model="request.shipLimitTime">
 								<option value="" disabled selected>Min</option>
 								<option ng-repeat="min in mins" value="{{min}}">{{min}}</option>
 							</select>
@@ -112,20 +112,19 @@
 			</div>
 		</form>
 
-		<center><a class="btn" ng-click="createQuest()">Create Request</a></center>
+		<center><a id="createRequest" class="btn" ng-click="createQuest()">Create Request</a></center>
 
 
 	</div>
 
 	<div class="right col l6 s12">
-		<ng-map center="{{map.center}}" zoom="12" on-click="addMarker(event)" style="height: 500px">
-			<marker ng-repeat="marker in markers" 
+		<ng-map id="map" center="{{map.center}}" zoom="12" on-click="addMarker(event)" style="height: 500px">
+			<marker id="mapMarker" ng-repeat="marker in markers"
 				position="{{marker.position}}"
 				optimized="{{marker.optimized}}"
 			    icon="{{marker.icon}}"
 			    draggable="true"
 			    on-drag="drag(event,$index)"></marker>
-		
 		</ng-map>
 	</div>
 </div>
