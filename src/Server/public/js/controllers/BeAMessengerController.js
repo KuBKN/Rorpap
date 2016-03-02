@@ -1,6 +1,13 @@
-app.controller('BeAMessengerController', ['$scope', '$rootScope', '$http', '$cookies', '$window', function($scope, $rootScope, $http, $cookies, $window) {
+app.controller('BeAMessengerController', ['$scope', '$window', 'loadUser', function($scope, $window, loadUser) {
 
-    $scope.user = $rootScope.user;
+    $scope.logIned = loadUser.isLogIned();
+
+    if( $scope.logIned ){
+        var user = loadUser.getUser();
+        user.then(function(result){
+            $scope.user = result;
+        });
+    }
 
     $scope.openModal = function(){
         

@@ -1,6 +1,13 @@
-app.controller('ProfileController', ['$scope', '$rootScope', '$http', '$cookies', '$window', function($scope, $rootScope, $http, $cookies, $window) {
+app.controller('ProfileController', ['$scope', '$http', '$window', 'loadUser', function($scope, $http, $window, loadUser) {
 
-    $scope.user = $rootScope.user;
+    $scope.logIned = loadUser.isLogIned();
+
+    if( $scope.logIned ){
+        var user = loadUser.getUser();
+        user.then(function(result){
+            $scope.user = result;
+        });
+    }
 
     $scope.enabled = function(id){
         var e = document.getElementById(id);
@@ -39,9 +46,8 @@ app.controller('ProfileController', ['$scope', '$rootScope', '$http', '$cookies'
     };
 
     $scope.enroll = function() {
-        $http.post('/api/user/enroll', {_id: $scope._id})
+        $http.post('/api/user/enroll', {_id: $scope.user._id})
             .success(function(data) {
-
                 window.location.reload();
             })
             .error(function(data) {

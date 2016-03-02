@@ -29,15 +29,15 @@
 
 <body ng-app="rorpap">
 
-	<nav role="navigation" style="background-color: #ffa337" ng-controller="HeaderController">
-		<div class="nav-wrapper" style="height: 65px" ng-cloak>
+	<nav role="navigation" style="background-color: #ffa337" ng-controller="HeaderController"  ng-cloak>
+		<div class="nav-wrapper" style="height: 65px">
 
 			<a id="logo-container" href="#!/" class="brand-logo"><img src="images/Banner-Logo-White.png" height="60"></a>
 
 			<ul class="right hide-on-med-and-down">
 
 				<li>
-					<a id="beamessNav" href="#!/beamessenger" ng-if="user.status == 0 || !_id" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
+					<a id="beamessNav" href="#!/beamessenger" ng-if="user.status == 0 || !logIned" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
 						<font size="4"><center><b>Be a Messenger</b></center></font>
 					</a>
 					<a id="myquestNav" href="#!/myquest" ng-if="user.status == 1" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >

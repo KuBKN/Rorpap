@@ -1,22 +1,12 @@
-app.controller('HeaderController', ['$scope', '$rootScope', '$http', '$cookies', '$window', function($scope, $rootScope, $http, $cookies, $window) {
+app.controller('HeaderController', ['$scope', '$window', 'loadUser', function($scope, $window, loadUser) {
 
-	$rootScope.user = {};
-	$scope._id = $cookies.get('_id');
+    $scope.logIned = loadUser.isLogIned();
 
-	$scope.load = function() {
-        $http.get('/api/user/get/' + $scope._id)
-			.success(function(data) {
-				$rootScope.user = data[0];         
-			})
-			.error(function(data) {
-				
-			});
-    }
-
-	$rootScope.logIned = $scope._id != undefined;
-    if ($rootScope.logIned) {
-        $scope._id = $scope._id.replace(/\"/g, '');
-        $scope.load();
+    if( $scope.logIned ){
+        var user = loadUser.getUser();
+        user.then(function(result){
+            $scope.user = result;
+        });
     }
 
     var loadMenus = function(type){

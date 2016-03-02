@@ -35,3 +35,20 @@ app.config(function($routeProvider, $locationProvider ) {
 app.config(function ($locationProvider) {
     $locationProvider.hashPrefix('!');
 });
+
+app.factory('loadUser',['$http', '$cookies', function($http, $cookies){
+
+	var isLogIned = function(){
+		return $cookies.get('_id') != undefined;
+	}
+    
+    var getUser = function(){
+    	var id = $cookies.get('_id').replace(/\"/g, '');
+    	return $http.get('/api/user/get/' + id)
+	    .then(function(response) {
+	        return response.data[0];
+		});
+    } 
+
+    return { isLogIned: isLogIned, getUser: getUser };
+}]);
