@@ -43,7 +43,19 @@ var Request = mongoose.model('requests', {
     shipLimitHour: String,
     shipLimitTime: String,
     price: String,
-    comment: String});
+    comment: String
+  });
+
+  var Tracking = mongoose.model('trackings', {
+      request_id: String,
+      date: String,
+      location: String
+  });
+
+  var GCM = mongoose.model('gcms', {
+      user_id: String,
+      token: String
+  });
 
 
 router.post('/user/create', function(req, res, next) {
