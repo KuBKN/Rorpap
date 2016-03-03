@@ -38,7 +38,7 @@
 			<div class="col l5 m8 s12">
 				<ul class="collapsible popout" data-collapsible="accordion">
 
-					<li style="margin: 10px 0" ng-if="false" ng-repeat="request in requests" ng-click="showInMap($index)">
+					<li style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
 
 						<div class="collapsible-header" style="text-align: left">
 							<div class="row">
@@ -127,7 +127,6 @@
 								</div>
 
 								<div class="col m9 s12">
-									{{request.sender_id}}
 									<h5>To : {{request.recipient_name}}</h5>
 
 									<div class="chip">
@@ -150,7 +149,9 @@
 									<div style="margin-bottom: 5px">
 										<h6>Email : {{request.recipient_email}}</h6>
 										<h6>Tel : {{request.recipient_tel}}</h6>
-										Due in {{request.shipLimitDate}} {{request.shipLimitTime}}<br>
+										Due in {{request.shipLimitDate}} {{request.shipLimitTime}}
+										<br>
+										<a href="#!/profile_other" ng-click="seeUser(request.sender_id)">{{request.sender_id}}</a>
 										{{request.comment}}
 									</div>
 								</div>

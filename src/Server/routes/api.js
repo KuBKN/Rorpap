@@ -344,7 +344,7 @@ router.post('/request/create', function(req, res, next) {
         var date = req.body.date;
         var location = req.body.location;
 
-        var tracking = new Tracking({request_id: request_id, date; date, location: location});
+        var tracking = new Tracking({request_id: request_id, date: date, location: location});
         tracking.save(function(err) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();

@@ -27,6 +27,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', function(
 		reqtype = "Pending";
 
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
+		console.log(sender_id);
 
 		$http.get('/api/request/get_request/' + reqtype + '/!' + sender_id)
 			.success(function(data) {
@@ -37,8 +38,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', function(
 					$scope.requests.push(value);
 				});
 
-			})
-			.error(function(data) {
+			}).error(function(data) {
 				console.log(data);
 			});
 	};

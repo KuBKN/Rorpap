@@ -25,7 +25,10 @@ app.config(function($routeProvider, $locationProvider ) {
 	}).when('/myquest', {
 		controller: 'MyQuestController',
 		templateUrl: './views/myquest.html'
-	}).when('/admin', {
+	}).when('/profile_other', {
+		controller: 'ProfileOtherController',
+		templateUrl: './views/profile_other.html'
+    }).when('/admin', {
 		controller: 'AdminController',
 		templateUrl: './views/admin.html'
     }).otherwise({ redirectTo: "/" });
@@ -42,8 +45,11 @@ app.factory('loadUser',['$http', '$cookies', function($http, $cookies){
 		return $cookies.get('_id') != undefined;
 	}
     
-    var getUser = function(){
-    	var id = $cookies.get('_id').replace(/\"/g, '');
+    var getUser = function(id){
+    	if(id == undefined){
+	    	id = $cookies.get('_id').replace(/\"/g, '');
+	    }
+	    console.log(id);
     	return $http.get('/api/user/get/' + id)
 	    .then(function(response) {
 	        return response.data[0];
@@ -52,3 +58,20 @@ app.factory('loadUser',['$http', '$cookies', function($http, $cookies){
 
     return { isLogIned: isLogIned, getUser: getUser };
 }]);
+
+app.factory('profileViewer', function() {
+  var curUser;
+  var seeUser = function(user) {
+      curUser = user;
+  };
+
+  var getUser = function(){
+      return curUser;
+  };
+
+  return {
+    seeUser: seeUser,
+    getUser: getUser
+  };
+
+});

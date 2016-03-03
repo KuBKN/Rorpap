@@ -1,4 +1,4 @@
-app.controller('InProgressQuestController', ['$scope', '$http','$cookies', function($scope, $http, $cookies, uiGmapGoogleMapApi){
+app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'profileViewer', function( $scope, $http, $cookies, profileViewer, uiGmapGoogleMapApi){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -7,6 +7,10 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', funct
 
 	};
 	$scope.load();
+
+	$scope.seeUser = function(user){
+		profileViewer.seeUser(user);
+	};
 
 	$scope.requests = [];
 
@@ -40,6 +44,6 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', funct
 		.error(function(data) {
 			console.log('Error: ' + data);
 		});
-	}
+	};
 
 }]);

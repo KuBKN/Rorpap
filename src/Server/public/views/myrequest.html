@@ -25,7 +25,7 @@
 	<div class="col l6 m8 s12">
 		<ul class="collapsible popout" data-collapsible="accordion">
 
-			<li style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
+			<li id="request{{$index}}" style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
 				
 				<div class="collapsible-header" ng-style="{'background-color': reqBackground(request.type)}">
 					<div class="row">
@@ -69,8 +69,8 @@
 
 						<div class="col m12 s12" ng-if="request.type == 'Pending'">
 							<span class="right">
-								<a class="btn black-text" style="background-color: #FCFCFC">Edit</a>
-								<a class="btn" style="background-color: #e51c23" ng-click="removeRequest($index)">Remove</a>
+								<a id="edit{{$index}}" class="btn black-text" style="background-color: #FCFCFC">Edit</a>
+								<a id="remove{{$index}}" class="btn" style="background-color: #e51c23" ng-click="removeRequest($index)">Remove</a>
 							</span>
 						</div>
 
