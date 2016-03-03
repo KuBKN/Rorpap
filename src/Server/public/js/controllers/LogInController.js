@@ -4,7 +4,7 @@ app.controller('LogInController', ['$scope', '$http', '$cookies', '$location', '
     $scope.user = {};
 
 	$scope.logIn = function() {
-		$scope.user.password = CryptoJS.MD5($scope.user.password).toString();
+		$scope.user.password = CryptoJS.MD5($scope.user.passwordT).toString();
 
         $http.post('/api/user/login', $scope.user)
 			.success(function(data) {
@@ -14,7 +14,7 @@ app.controller('LogInController', ['$scope', '$http', '$cookies', '$location', '
 				$window.location.reload();
 			})
 			.error(function(data) {
-				console.log(data);
+				alert('Username or password incorrect!!!');
 			});
     };
 

@@ -1,4 +1,4 @@
-app.controller('HistoryQuestController', ['$scope', '$http','$cookies', function($scope, $http, $cookies, uiGmapGoogleMapApi){
+app.controller('HistoryQuestController', ['$scope', '$http','$cookies', 'loadUser', 'profileViewer', function($scope, $http, $cookies, loadUser, profileViewer, uiGmapGoogleMapApi){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -7,6 +7,10 @@ app.controller('HistoryQuestController', ['$scope', '$http','$cookies', function
  
 	};
 	$scope.load();
+
+	$scope.seeUser = function(user){
+		profileViewer.seeUser(user);
+	};
 
 	$scope.requests = [];
 
@@ -21,6 +25,9 @@ app.controller('HistoryQuestController', ['$scope', '$http','$cookies', function
 				$scope.requests = [];
 
 				angular.forEach(data, function(value, key) {
+					loadUser.getUser(value.sender_id).then(function(result){
+   						value.sender = result;
+   					});
 					$scope.requests.push(value);
 				});
 

@@ -1,4 +1,4 @@
-app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'profileViewer', function( $scope, $http, $cookies, profileViewer, uiGmapGoogleMapApi){
+app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', function( $scope, $http, $cookies, profileViewer, loadUser, uiGmapGoogleMapApi){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -25,6 +25,9 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 				$scope.requests = [];
 
 				angular.forEach(data, function(value, key) {
+					loadUser.getUser(value.sender_id).then(function(result){
+   						value.sender = result;
+   					});
 					$scope.requests.push(value);
 				});
 

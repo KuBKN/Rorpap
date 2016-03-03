@@ -49,7 +49,6 @@ app.factory('loadUser',['$http', '$cookies', function($http, $cookies){
     	if(id == undefined){
 	    	id = $cookies.get('_id').replace(/\"/g, '');
 	    }
-	    console.log(id);
     	return $http.get('/api/user/get/' + id)
 	    .then(function(response) {
 	        return response.data[0];

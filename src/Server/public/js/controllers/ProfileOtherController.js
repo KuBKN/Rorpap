@@ -1,9 +1,5 @@
-app.controller('ProfileOtherController', ['$scope', 'profileViewer', 'loadUser', function( $scope, profileViewer, loadUser ){
+app.controller('ProfileOtherController', ['$scope', 'profileViewer', function( $scope, profileViewer ){
 
-	var u = profileViewer.getUser();
-   	var user = loadUser.getUser(u);
-   	user.then(function(result){
-   		$scope.user = result;
-   	});
+	$scope.user = profileViewer.getUser();
 
 }]);

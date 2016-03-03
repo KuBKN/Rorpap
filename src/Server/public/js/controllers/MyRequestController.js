@@ -1,4 +1,4 @@
-app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
+app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser', 'profileViewer', function($scope, $http, $cookies, loadUser, profileViewer) {
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -19,6 +19,10 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 
 	$scope.requests = [];
 
+	$scope.seeUser = function(user){
+		profileViewer.seeUser(user);
+	};
+
 	$scope.getRequests = function(reqtype) {
 		if (reqtype == undefined) {
 			reqtype = ".*";
@@ -32,6 +36,11 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', function($
 				$scope.requests = [];
 
 				angular.forEach(data, function(value, key) {
+					if(value.type != "Pending"){
+						loadUser.getUser(value.messenger_id).then(function(result){
+	   						value.messenger = result;
+	   					});
+					}
 					$scope.requests.push(value);
 				});
 

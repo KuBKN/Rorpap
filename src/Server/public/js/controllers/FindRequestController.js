@@ -1,4 +1,4 @@
-app.controller('FindRequestController', ['$scope', '$http','$cookies', function($scope, $http, $cookies, uiGmapGoogleMapApi){
+app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', function($scope, $http, $cookies, profileViewer, loadUser, uiGmapGoogleMapApi){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -21,13 +21,16 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', function(
 	};
 	$scope.load();
 	
+	$scope.seeUser = function(user){
+		profileViewer.seeUser(user);
+	};
+
 	$scope.requests = [];
 
 	$scope.getRequests = function(reqtype) {
 		reqtype = "Pending";
 
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
-		console.log(sender_id);
 
 		$http.get('/api/request/get_request/' + reqtype + '/!' + sender_id)
 			.success(function(data) {
@@ -35,6 +38,9 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', function(
 				$scope.requests = [];
 
 				angular.forEach(data, function(value, key) {
+					loadUser.getUser(value.sender_id).then(function(result){
+   						value.sender = result;
+   					});
 					$scope.requests.push(value);
 				});
 

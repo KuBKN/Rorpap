@@ -50,8 +50,7 @@
 									{{request.weight}}<br>
 								</div>
 
-								<div class="col m9 s12">
-									{{request.sender_id}}
+								<div class="col m9 s12">									
 									<h5>To : {{request.recipient_name}}</h5>
 
 									<div class="chip">
@@ -75,6 +74,9 @@
 										<h6>Email : {{request.recipient_email}}</h6>
 										<h6>Tel : {{request.recipient_tel}}</h6>
 										Due in {{request.shipLimitDate}} {{request.shipLimitTime}}<br>
+										<h6>Sender 
+											<a href="#!/profile_other" ng-click="seeUser(request.sender)">{{request.sender.firstname}} {{request.sender.lastname}}</a>
+										</h6>
 										{{request.comment}}
 									</div>
 								</div>
@@ -151,7 +153,9 @@
 										<h6>Tel : {{request.recipient_tel}}</h6>
 										Due in {{request.shipLimitDate}} {{request.shipLimitTime}}
 										<br>
-										<a href="#!/profile_other" ng-click="seeUser(request.sender_id)">{{request.sender_id}}</a>
+										<h6>Sender 
+											<a href="#!/profile_other" ng-click="seeUser(request.sender)">{{request.sender.firstname}} {{request.sender.lastname}}</a>
+										</h6>
 										{{request.comment}}
 									</div>
 								</div>
@@ -204,8 +208,7 @@
 									{{request.weight}}<br>
 								</div>
 
-								<div class="col m9 s12">
-									{{request.sender_id}}
+								<div class="col m9 s12">									
 									<h5>To : {{request.recipient_name}}</h5>
 
 									<div class="chip">
@@ -229,6 +232,9 @@
 										<h6>Email : {{request.recipient_email}}</h6>
 										<h6>Tel : {{request.recipient_tel}}</h6>
 										Due in {{request.shipLimitDate}} {{request.shipLimitTime}}<br>
+										<h6>Sender 
+											<a href="#!/profile_other" ng-click="seeUser(request.sender)">{{request.sender.firstname}} {{request.sender.lastname}}</a>
+										</h6>
 										{{request.comment}}
 									</div>
 								</div>
