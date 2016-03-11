@@ -90,6 +90,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 	$scope.showInMap = function(index) {
 		$scope.marker_from = {};
 		$scope.marker_to = {};
+		$scope.path = [];
 
 		if (index != $scope.lastCollepsed) {
 			var loc = $scope.requests[index].fromLoc.split(', ');
@@ -114,9 +115,29 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 			$scope.lastCollepsed = index;
 		}
 		else {
+			$scope.marker_from = {};
+			$scope.marker_to = {};
+			$scope.path = [];
+			
 			$scope.lastCollepsed = -1;
 			$scope.map.center = [13.738432,100.530925];
 		}
+
+		$http.get('/api/tracking/' + $scope.requests[index]._id)
+			.success(function(data) {
+
+				$scope.path = [];
+				for (var i = 0; i < data.length; i++) {
+					var loc = data[i].location.split(',');
+					var dot = [Number(loc[0]), Number(loc[1])];
+
+					$scope.path.push(dot);
+				}
+
+			})
+			.error(function(data) {
+				console.log(data);
+			});
 	};
 	$scope.lastCollepsed = -1;
 

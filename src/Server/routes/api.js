@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require("mongoose");
-mongoose.connect('mongodb://188.166.180.204/rorpap');
+mongoose.connect('mongodb://127.0.0.1/rorpap');
 
 var HTTP_CREATED = 201;
 var HTTP_FOUND = 302;
@@ -107,7 +107,6 @@ router.post('/user/login', function(req, res, next) {
     var password = req.body.password;
 
     var user = new User({email: email, password: password});
-    console.log(user);
     User.find({email: email, password: password}, {_id: 1}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -339,19 +338,53 @@ router.post('/request/create', function(req, res, next) {
         location: String
     });
 
-    router.post('/tracking/', function(req, res, next) {
-        var request_id = req.body.request_id;
+    router.post('/tracking/update', function(req, res, next) {
+        console.log(1)
+        var user_id = req.body.user_id;
         var date = req.body.date;
         var location = req.body.location;
+        console.log(user_id + " " + date + " " + location);
 
-        var tracking = new Tracking({request_id: request_id, date: date, location: location});
-        tracking.save(function(err) {
+        var request = new Request({messenger_id: user_id});
+
+        Request.find({messenger_id: user_id}, function(err, quests) {
+            console.log('a')
+            if (err) {
+                console.log('b')
+                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+            }
+            else {
+                console.log(quests)
+                for (var i = 0; i < quests.length; i++) {
+                    console.log('d' + i)
+                    var request_id = quests[i]._id;
+                    var tracking = new Tracking({request_id: request_id, date: date, location: location});
+                    console.log(request_id);
+                    tracking.save(function(err) {
+                        console.log('e')
+                        if (err) {
+                            console.log('f')
+                            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+                        }
+                        console.log('g')
+                        res.status(HTTP_CREATED).send();
+                    });
+                }
+                res.status(200).send();
+            }
+        });
+
+    });
+
+    router.get('/tracking/:id', function(req, res, next) {
+        var request_id = req.params.id;
+        Tracking.find({request_id: request_id}, function(err, trackings) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
             }
-            res.status(HTTP_CREATED).send();
-        });
 
+            res.send(trackings);
+        })
     });
 
 
