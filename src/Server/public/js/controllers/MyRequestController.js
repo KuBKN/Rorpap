@@ -68,19 +68,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 			13.738432,
 			100.530925
 		],
-		zoom: 12,
-		options: {
-			// TODO still cannot find a way to disable changing position -_-
-			scrollwheel: false,
-			panControl: false,
-			zoomControl: true,
-			mapTypeControl: false,
-			scaleControl: false,
-			streetViewControl: false,
-			overviewMapControl: false,
-			rotateControl: false,
-			disableDoubleClickZoom: true
-		}
+		zoom: 12
 	};
 
 	$scope.marker_from = {};
@@ -90,6 +78,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 	$scope.showInMap = function(index) {
 		$scope.marker_from = {};
 		$scope.marker_to = {};
+		$scope.map.zoom = 10;
 
 		if (index != $scope.lastCollepsed) {
 			var loc = $scope.requests[index].fromLoc.split(', ');
@@ -111,17 +100,33 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 			$scope.map.center= [ $scope.calculateCenter($scope.marker_from.position[0], $scope.marker_to.position[0])
 								, $scope.calculateCenter($scope.marker_from.position[1], $scope.marker_to.position[1])];
 
+			$scope.marker_from.visible = true;
+			$scope.marker_to.visible = true;
+
+			$scope.map.zoom = $scope.calculateZoom($scope.marker_from.position,$scope.marker_to.position);
+
 			$scope.lastCollepsed = index;
 		}
 		else {
 			$scope.lastCollepsed = -1;
-			$scope.map.center = [13.738432,100.530925];
+			$scope.marker_from.visible = false;
+			$scope.marker_to.visible = false;
+			$scope.map.center=[13.738432,100.530925];
 		}
 	};
+
 	$scope.lastCollepsed = -1;
 
 	$scope.calculateCenter = function(var1, var2) {
 		return (parseFloat(var1) + parseFloat(var2)) / 2;
-	}
+	};
+
+	$scope.calculateZoom = function(pos1,pos2){
+		var dis = Math.sqrt(Math.pow((pos1[0]-pos2[0]),2)+Math.pow((pos1[1]-pos2[1]),2))*1000000;
+		var n = 1;
+		for(var i= dis; i>564.24861; i/=2, n++){}
+		return 20-n;
+		
+	};
 
 }]);
