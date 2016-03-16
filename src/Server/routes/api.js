@@ -6,6 +6,8 @@ var router = express.Router();
 var mongoose = require("mongoose");
 mongoose.connect('mongodb://188.166.180.204/rorpap');
 
+var gcm = require('node-gcm');
+
 var HTTP_CREATED = 201;
 var HTTP_FOUND = 302;
 var HTTP_NOT_MODIFIED = 304;
@@ -425,15 +427,12 @@ console.log(4);
         message.delayWhileIdle = true; //delay sending while receiving device is offline
         message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
 console.log(5);
-        /*
-        YOUR TODO: add code for fetching device_token from the database
-        */
 
-        device_tokens.push(device_token);
+        // device_tokens.push(device_token);
 console.log(6);
         sender.send(message, device_tokens, retry_times, function(result){
             console.log(result);
-            console.log('push sent to: ' + device_token);
+            console.log('push sent to: ' + device_tokens);
         });
 console.log(7);
         res.send('ok');
