@@ -397,9 +397,9 @@ router.post('/request/create', function(req, res, next) {
 
     router.post('/gcm/register', function(req, res, next) {
         var user_id = req.body.user_id;
-        var device_token = req.body.device_token;
+        var token = req.body.token;
 
-        var gcm = new GCM({user_id: user_id, token: device_token});
+        var gcm = new GCM({user_id: user_id, token: token});
         console.log(JSON.stringify(gcm));
         gcm.save(function(err) {
             if (err) {
