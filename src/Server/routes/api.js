@@ -395,18 +395,51 @@ router.post('/request/create', function(req, res, next) {
         token: String
     });
 
-    router.post('/gcm/', function(req, res, next) {
+    router.post('/gcm/register', function(req, res, next) {
         var user_id = req.body.user_id;
-        var token = req.body.token;
+        var device_token = req.body.device_token;
 
-        var gcm = new GCM({user_id: user_id, token: token});
+        var gcm = new GCM({user_id: user_id, token: device_token});
         gcm.save(function(err) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
             }
             res.status(HTTP_CREATED).send();
         });
-
     });
+
+    router.post('/gcm/push', function(req, res, next) {
+        var device_tokens = []; //create array for storing device tokens
+        var retry_times = 4; //the number of times to retry sending the message if it fails
+
+        var sender = new gcm.Sender('AIzaSyAfx5LifSQtCuxr86ZgVOg5b4VzAauLCDM'); //create a new sender
+        var message = new gcm.Message(); //create a new message
+
+        message.addData('title', 'New Message');
+        message.addData('message', 'Hello this is a push notification');
+        message.addData('sound', 'notification');
+
+        message.collapseKey = 'testing'; //grouping messages
+        message.delayWhileIdle = true; //delay sending while receiving device is offline
+        message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
+
+        /*
+        YOUR TODO: add code for fetching device_token from the database
+        */
+
+        device_tokens.push(device_token);
+
+        sender.send(message, device_tokens, retry_times, function(result){
+            console.log(result);
+            console.log('push sent to: ' + device_token);
+        });
+
+        res.send('ok');
+    });
+
+
+
+
+
 
     module.exports = router;
