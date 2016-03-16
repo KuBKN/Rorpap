@@ -400,6 +400,7 @@ router.post('/request/create', function(req, res, next) {
         var device_token = req.body.device_token;
 
         var gcm = new GCM({user_id: user_id, token: device_token});
+        console.log(JSON.stringify(gcm));
         gcm.save(function(err) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -409,7 +410,7 @@ router.post('/request/create', function(req, res, next) {
     });
 
     router.post('/gcm/push', function(req, res, next) {
-        var device_tokens = []; //create array for storing device tokens
+        var device_tokens = ["APA91bEET31jiZ83eJde--jrl9PzfkxWkvUQucyiMe9OVRqHORODyi9i0bqgX8HiNIAQZYM9uBM4NLjGT1AznQeBhz7og24U2a8VMPIniN8_oAw9RBi-fERvesM_SZOcPuwSiU9Y4jP1mvuvrBkCaqINMo5MWOEZEg"]; //create array for storing device tokens
         var retry_times = 4; //the number of times to retry sending the message if it fails
 
         var sender = new gcm.Sender('AIzaSyAfx5LifSQtCuxr86ZgVOg5b4VzAauLCDM'); //create a new sender
