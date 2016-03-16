@@ -25,9 +25,9 @@
 	<div class="col l6 m8 s12">
 		<ul class="collapsible popout" data-collapsible="accordion">
 
-			<li id="request{{$index}}" style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
-
-				<div class="collapsible-header" ng-style="{'background-color': reqBackground(request.type)}">
+			<li id="request{{$index}}" style="margin: 10px 0" ng-repeat="request in requests">
+				
+				<div class="collapsible-header" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
 					<div class="row">
 
 						<div class="col m3 s12 hide-on-small-and-down" style="margin: 10px 0; border-style: solid; border-color: white">
@@ -91,14 +91,16 @@
 				<div class="card blue-grey darken-1">
 					<div class="card-content white-text">
 						<span class="card-title">Location</span>
-						<ng-map center="{{map.center}}" zoom="12">
+						<ng-map center="{{map.center}}" zoom="{{map.zoom}}">
 							<marker position="{{marker_from.position}}"
 							  optimized="{{marker_from.optimized}}"
-						      icon="{{marker_from.icon}}"></marker>
+						      icon="{{marker_from.icon}}"
+						      visible="{{marker_from.visible}}"></marker>
 
 					      	<marker position="{{marker_to.position}}"
 							  optimized="{{marker_to.optimized}}"
-						      icon="{{marker_to.icon}}"></marker>
+						      icon="{{marker_to.icon}}"
+						      visible="{{marker_to.visible}}"></marker>
 
 
 								<shape name="polyline"
