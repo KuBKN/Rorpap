@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require("mongoose");
-mongoose.connect('mongodb://127.0.0.1/rorpap');
+mongoose.connect('mongodb://188.166.180.204/rorpap');
 
 var HTTP_CREATED = 201;
 var HTTP_FOUND = 302;

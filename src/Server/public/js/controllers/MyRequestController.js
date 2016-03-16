@@ -118,7 +118,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 			$scope.marker_from = {};
 			$scope.marker_to = {};
 			$scope.path = [];
-			
+
 			$scope.lastCollepsed = -1;
 			$scope.map.center = [13.738432,100.530925];
 		}
