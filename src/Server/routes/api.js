@@ -176,7 +176,7 @@ res.send(users);
 router.get('/user/get/:id', function(req, res, next) {
     var _id = req.params.id;
 
-    User.find({_id: _id}, {firstname: true, lastname: true, email: true, tel: true, status: true}, function(err, users) {
+    User.find({_id: _id}, {firstname: true, lastname: true, email: true, tel: true, dateOfBirth: true, tel: true, status: true, point: true}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }

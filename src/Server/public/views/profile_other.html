@@ -1,12 +1,25 @@
 <div class="container">
 	<br>
 	<div class="row">
-		<div class="card col l3">
-			{{ user.firstname }} {{ user.lastname }}
+		<div class="card col l">
+			<center><a>{{ user.firstname }} {{ user.lastname }}</a></center>
+			<div class="container" style="margin: 5%; width: 90%; height: 160px; background-color: #8AD4E3">
+		    </div>
+			<font size="2">E-mail: {{ user.email }}<br>
+			Birth Date: {{ user.dateOfBirth }}<br>
+			Tel: {{ user.tel }}<br>
+			Status: {{ user.status }}<br>
+			Point: {{ user.point }}</font>
 		</div>
 
 		<div class="card col l8 offset-l1">
-			{{ user.email }}
+			First Name: {{ user.firstname }} <br>
+			Last Name: {{ user.lastname }} <br>
+			E-mail: {{ user.email }} <br>
+			Birth Date: {{ user.dateOfBirth }} <br>
+			Tel: {{ user.tel }} <br>
+			Status: {{ user.status }} <br>
+			Point: {{ user.point }}
 		</div>
 
 	</div>

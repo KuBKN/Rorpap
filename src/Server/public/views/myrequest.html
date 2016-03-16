@@ -61,7 +61,7 @@
 								<h6>Email : {{request.recipient_email}}</h6>
 								<h6>Tel : {{request.recipient_tel}}</h6>
 								Due in {{request.shipLimitDate}} {{request.shipLimitTime}}<br>
-								<h6>Messenger
+								<h6 ng-if="request.type!='Pending'">Messenger
 									<a href="#!/profile_other" ng-click="seeUser(request.messenger)">{{request.messenger.firstname}} {{request.messenger.lastname}}</a>
 								</h6>
 								{{request.comment}}
