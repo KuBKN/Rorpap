@@ -347,7 +347,7 @@ router.post('/request/create', function(req, res, next) {
 
         var request = new Request({messenger_id: user_id});
 
-        Request.find({messenger_id: user_id}, function(err, quests) {
+        Request.find({messenger_id: user_id, type: "Inprogress"}, function(err, quests) {
             console.log('a')
             if (err) {
                 console.log('b')
