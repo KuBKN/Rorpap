@@ -23,6 +23,11 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 		profileViewer.seeUser(user);
 	};
 
+	$scope.seeUserM = function(user){
+		$('#modal1').closeModal();
+		$scope.seeUser(user);
+	};
+
 	$scope.getRequests = function(reqtype) {
 		if (reqtype == undefined) {
 			reqtype = ".*";
@@ -40,6 +45,16 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 						loadUser.getUser(value.messenger_id).then(function(result){
 	   						value.messenger = result;
 	   					});
+					}else{
+						$scope.getAllAccept(value._id).then(function(result){
+							value.acceptNum = result.length;
+							value.acceptMes = [];
+							for (var i = 0; i < result.length; i++) {
+								loadUser.getUser(result[i]).then(function(res){									
+									value.acceptMes.push(res);			   					
+			   					});								
+							};							
+						});
 					}
 					$scope.requests.push(value);
 				});
@@ -149,5 +164,37 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 		return 20-n;
 		
 	};
+
+	$scope.openModal = function(index){
+        
+        $('#modal1').openModal();
+        $scope.allAccepts = $scope.requests[index].acceptMes;
+        $scope.getAllAccept($scope.requests[index]._id);
+    };
+
+    $scope.getAllAccept = function(request_id){
+    	$scope.curRequest = request_id;
+    	var allAccepts = [];
+    	return $http.get('/api/acceptance/' + request_id)
+			.then(function(data) {		
+				for (var i = 0; i < data.data.length; i++) {
+					var messenger_id = data.data[i].messenger_id;								
+					allAccepts.push(messenger_id);
+				}
+				return allAccepts;
+			});
+    };
+
+    $scope.confirmMessenger = function(messenger){
+    	var messenger_id = $scope.allAccepts[messenger]._id;
+    	var request_id = $scope.curRequest;
+    	$http.post('/api/request/accept/'+messenger_id+'/'+request_id)
+			.success(function(data) {
+				window.location.reload();
+			})
+			.error(function(data) {
+				console.log(data);
+			});
+    };
 
 }]);

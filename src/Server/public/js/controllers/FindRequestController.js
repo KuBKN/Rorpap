@@ -52,11 +52,11 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 	$scope.getRequests();
 
 	$scope.acceptRequest = function(index) {
-		var sender_id = $cookies.get('_id').replace(/\"/g, "");
-
-		$http.post('/api/request/accept/' + sender_id, $scope.requests[index])
+		var messenger_id = $cookies.get('_id').replace(/\"/g, "");
+		//$http.post('/api/request/accept/' + messenger_id, $scope.requests[index])
+		$http.post('/api/acceptance/add/' + messenger_id + "/" + $scope.requests[index]._id)
 		.success(function(data) {
-
+			console.log(data);
 			window.location.reload();
 		})
 		.error(function(data) {

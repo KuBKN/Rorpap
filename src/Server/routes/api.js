@@ -200,6 +200,7 @@ var Request = mongoose.model('requests', {
     weight: String,
 
     type: String,
+    hasAccept: Boolean,
     fromLoc: String,
     toLoc: String,
     reqLimitDate: String,
@@ -214,6 +215,7 @@ var Request = mongoose.model('requests', {
 router.post('/request/create', function(req, res, next) {
     var sender_id = req.body.sender_id;
     var type = 'Pending';
+    var hasAccept = false;
     var fromLoc = req.body.fromLoc;
     var toLoc = req.body.toLoc;
     var messenger_id = req.body.messenger_id;
@@ -235,6 +237,7 @@ router.post('/request/create', function(req, res, next) {
 
     var request = new Request({ sender_id: sender_id,
         type: type,
+        hasAccept: hasAccept,
         recipient_name: recipient_name,
         recipient_email: recipient_email,
         recipient_tel: recipient_tel,
@@ -308,8 +311,8 @@ router.post('/request/create', function(req, res, next) {
         });
     });
 
-    router.post('/request/accept/:messenger_id', function(req, res, next) {
-        var _id = req.body._id;
+    router.post('/request/accept/:messenger_id/:request_id', function(req, res, next) {
+        var _id = req.params.request_id;
         var messenger_id = req.params.messenger_id;
 
         Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Inprogress', messenger_id: messenger_id}, function(err, data) {
@@ -387,6 +390,44 @@ router.post('/request/create', function(req, res, next) {
         })
     });
 
+    //===================Request Acceptance==================
+    var Acceptance = mongoose.model('accepts', {
+        request_id: String,
+        messenger_id: String
+    });
+
+    router.get('/acceptance/:id', function(req, res, next) {
+        var request_id = req.params.id;
+        Acceptance.find({request_id: request_id}, function(err, acceptances) {
+            if (err) {
+                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+            }
+            res.send(acceptances);
+        });
+    });
+
+    router.post('/acceptance/add/:messenger_id/:request_id', function(req, res, next) {
+        var messenger_id = req.params.messenger_id;
+        var request_id = req.params.request_id;
+        Request.findOneAndUpdate({_id: request_id, type: 'Pending'}, { hasAccept: true }, function(err, data) {
+            if (err)
+                return res.send(500, { error: err });
+            else{
+                var acceptance = new Acceptance({request_id: request_id, messenger_id: messenger_id});
+                acceptance.save(function(err) {
+                    console.log('e')
+                    if (err) {
+                        console.log('f')
+                        res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+                    }
+                    console.log('g')
+                    res.status(HTTP_CREATED).send();
+                });
+
+                return res.send();
+            };
+        });
+    });
 
     // ================== GCM ==================
 

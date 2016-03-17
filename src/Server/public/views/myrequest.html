@@ -6,8 +6,8 @@
 		<div class="collection" style="border-style: none">
 
 			<div style="margin-bottom: 15px">
-			<a href="#!/newrequest" id="newRequest" class="btn" style="width: 100%">New Request</a>
-		</div>
+				<a href="#!/newrequest" id="newRequest" class="btn" style="width: 100%">New Request</a>
+			</div>
 
 			<a class="collection-item" style="border-style: none; background-color: #FFE2C2" ng-click="getRequests()"><font size="3">My Request	</font></a>
 
@@ -16,7 +16,7 @@
 			<a class="collection-item" style="font-weight:normal" ng-click="getRequests('Inprogress')"><font size="3" color="#0007DA">In Progress</font></a>
 
 			<a class="collection-item" style="font-weight:normal" ng-click="getRequests('Finished')">
-			<font size="3" color="#00D042">Finished</font></a>
+				<font size="3" color="#00D042">Finished</font></a>
 
 			<a class="collection-item" style="background-color: #FFE2C2"><font size="4">My Dashboard</font></a>
 		</div>
@@ -26,7 +26,7 @@
 		<ul class="collapsible popout" data-collapsible="accordion">
 
 			<li id="request{{$index}}" style="margin: 10px 0" ng-repeat="request in requests">
-				
+
 				<div class="collapsible-header" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
 					<div class="row">
 
@@ -38,8 +38,12 @@
 						</div>
 
 						<div class="col m9 s12">
-							<h5>To : {{request.recipient_name}}</h5>
-
+							<h5>To : {{request.recipient_name}}
+								<style type="text/css">
+									span.badge.new:after { content: " messenger";}
+								</style>
+							<span class="new badge right" style="position: relative" ng-click="openModal($index)" ng-if="request.type=='Pending' && request.hasAccept">{{ request.acceptNum }}</span></h5>
+								
 							<div class="chip">
 								<i class="material-icons">event</i>
 								{{request.reqLimitDate}}
@@ -48,11 +52,9 @@
 								<i class="material-icons">schedule</i>
 								{{request.reqLimitTime}}
 							</div>
-						</div>
-
-
 					</div>
 				</div>
+			</div>
 
 				<div class="collapsible-body" style="background-color: #F8F8F8">
 					<div class="row" style="padding: 10px">
@@ -93,42 +95,46 @@
 						<span class="card-title">Location</span>
 						<ng-map center="{{map.center}}" zoom="{{map.zoom}}">
 							<marker position="{{marker_from.position}}"
-							  optimized="{{marker_from.optimized}}"
-						      icon="{{marker_from.icon}}"
-						      visible="{{marker_from.visible}}"></marker>
+							optimized="{{marker_from.optimized}}"
+							icon="{{marker_from.icon}}"
+							visible="{{marker_from.visible}}"></marker>
 
-					      	<marker position="{{marker_to.position}}"
-							  optimized="{{marker_to.optimized}}"
-						      icon="{{marker_to.icon}}"
-						      visible="{{marker_to.visible}}"></marker>
+							<marker position="{{marker_to.position}}"
+							optimized="{{marker_to.optimized}}"
+							icon="{{marker_to.icon}}"
+							visible="{{marker_to.visible}}"></marker>
 
 
-								<shape name="polyline"
-									path="{{ path }}"
-									geodesic="true"
-									stroke-color="#FF0000"
-									stroke-opacity="1.0"
-									stroke-weight="3">
-								</shape>
+							<shape name="polyline"
+							path="{{ path }}"
+							geodesic="true"
+							stroke-color="#FF0000"
+							stroke-opacity="1.0"
+							stroke-weight="3">
+							</shape>
 
 						</ng-map>
-						<!-- <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options">
-						<ui-gmap-markers models="markers" coords="'coords'" options="'self'" dorebuildall="true"></ui-gmap-markers>
-					</ui-gmap-google-map> -->
-
-					<style type="text/css">
-					.angular-google-map-container {
-						height: 300px;
-					}
-					</style>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-
-</div>
-
-
+<div id="modal1" class="modal" style="width: 280px">
+  <div class="modal-content" style="padding: 0px">
+      <ul class="collapsible popout" data-collapsible="accordion">
+		    <li ng-repeat="accept in allAccepts">
+		      <div class="collapsible-header">
+		      		{{ accept.firstname }} {{ accept.lastname }}</a>
+		      </div>
+		      <div class="collapsible-body">
+		      	<p>
+		      		<a href="#!/profile_other" ng-click="seeUserM(accept)">{{ accept.email }}</a>
+		      		<span class="btn right" ng-click="confirmMessenger($index)">Confirm</span>
+      			</p>
+      		</div>
+		    </li>
+		  </ul>
+  </div>
 </div>
