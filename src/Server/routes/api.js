@@ -6,6 +6,8 @@ var router = express.Router();
 var mongoose = require("mongoose");
 mongoose.connect('mongodb://188.166.180.204/rorpap');
 
+var gcm = require('node-gcm');
+
 var HTTP_CREATED = 201;
 var HTTP_FOUND = 302;
 var HTTP_NOT_MODIFIED = 304;
@@ -436,18 +438,50 @@ router.post('/request/create', function(req, res, next) {
         token: String
     });
 
-    router.post('/gcm/', function(req, res, next) {
+    router.post('/gcm/register', function(req, res, next) {
         var user_id = req.body.user_id;
         var token = req.body.token;
 
         var gcm = new GCM({user_id: user_id, token: token});
+        console.log(JSON.stringify(gcm));
         gcm.save(function(err) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
             }
             res.status(HTTP_CREATED).send();
         });
-
     });
+
+    router.post('/gcm/push', function(req, res, next) {
+        console.log(1);
+        var device_tokens = ["APA91bEET31jiZ83eJde--jrl9PzfkxWkvUQucyiMe9OVRqHORODyi9i0bqgX8HiNIAQZYM9uBM4NLjGT1AznQeBhz7og24U2a8VMPIniN8_oAw9RBi-fERvesM_SZOcPuwSiU9Y4jP1mvuvrBkCaqINMo5MWOEZEg"]; //create array for storing device tokens
+        var retry_times = 4; //the number of times to retry sending the message if it fails
+console.log(2);
+        var sender = new gcm.Sender('AIzaSyAfx5LifSQtCuxr86ZgVOg5b4VzAauLCDM'); //create a new sender
+        var message = new gcm.Message(); //create a new message
+console.log(3);
+        message.addData('title', 'New Message');
+        message.addData('message', 'Hello this is a push notification');
+        message.addData('sound', 'notification');
+console.log(4);
+        message.collapseKey = 'testing'; //grouping messages
+        message.delayWhileIdle = true; //delay sending while receiving device is offline
+        message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
+console.log(5);
+
+        // device_tokens.push(device_token);
+console.log(6);
+        sender.send(message, device_tokens, retry_times, function(result){
+            console.log(result);
+            console.log('push sent to: ' + device_tokens);
+        });
+console.log(7);
+        res.send('ok');
+    });
+
+
+
+
+
 
     module.exports = router;
