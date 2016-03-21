@@ -1,4 +1,4 @@
-app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$location', '$timeout', function($scope, $http, $cookies, $location, $timeout) {
+app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$location', '$timeout', 'loadUser', function($scope, $http, $cookies, $location, $timeout, loadUser) {
 
 	$scope.load = function() {
 		$('select').material_select();
@@ -28,7 +28,19 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 	};
 	$scope.request.sender_id = $scope.get_id();
 
+	$scope.checkLogin = function(){
+		var isLogin = loadUser.isLogIned();
+		if (!isLogin) {
+			alert('Please Log in !');
+		};
+		return isLogin;
+	}
+
 	$scope.createQuest = function() {
+		if (!$scope.checkLogin()){
+			return;
+		}
+				
 		$scope.request.fromLoc = $scope.markers[0].position[0] + ', ' + $scope.markers[0].position[1];
 		$scope.request.toLoc = $scope.markers[1].position[0] + ', ' + $scope.markers[1].position[1];
 
@@ -42,6 +54,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 		.error(function(data) {
 			console.log('Error: ' + data);
 		});
+		
 	};
 
 	// TODO makers splash

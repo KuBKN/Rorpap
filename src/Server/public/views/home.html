@@ -2,12 +2,14 @@
   <div class="section no-pad-bot">
     <div class="container">
       <br><br><br>
-      <h1 class="header center white-text">Start a new Shipment</h1>
+      <h1 class="header center white-text hide-on-small-only">Start a new Shipment</h1>
+      <h3 class="header center white-text hide-on-med-and-up">Start a new Shipment</h3>
       <div class="row center">
         <h5 class="header col s12 light white-text">Select a destinaton for your shipping on the map</h5>
       </div>
-      <div class="row center" style="margin-top: 15vh">
-        <a class="waves-effect waves-light btn" style="background-color: #ffa337">Get Start</a>
+      <br>
+      <div class="row center">
+        <a href="#!/newrequest" class="waves-effect waves-light btn" style="background-color: #ffa337">Get Start</a>
       </div>
       <br><br>
     </div>
@@ -15,23 +17,30 @@
 </div>
 <br>
 <div class="container">
-  <div class="card row center" style="background-color: #FFE1BF;">
-    <div class="card-image col s12 m8 l6" style="padding: 0 0">
+  <div class="card row center">
+    <div class="card-image col s12 hide-on-med-and-up" style="padding: 0 0; background-image: url(images/messenger.jpg); background-size: cover; min-height: 250px; background-position: center top; background-repeat: no-repeat">
+        <br>
+        <h5 class="white-text">Be a messenger</h5>
+        <p class="white-text">Start your journey with income.</p>
+        <br>
+        <center><a href="#!/beamessenger" class="waves-effect waves-light btn center" style="background-color: #ffa337">Join Us</a></center>
+        <br>  
+    </div>
+    <div class="card-image col s12 m7 hide-on-small-only" style="padding: 0 0">
       <img src="images/messenger.jpg">
     </div>
-    <div class="col s12 m3 l5" style="margin: 15px; text-align: left">
+    <div class="col s12 m5 hide-on-small-only" style="text-align: left; padding-left: 20px; padding-bottom: 20px">
       <h5>Be a messenger</h5>
-      <p>bla bla bla bla bla bla bla bla bla bla bla bla bla</p>
-      <br>
+      <p>Start your journey with income.</p>      
       <center><a class="waves-effect waves-light btn center" style="background-color: #ffa337">Join Us</a></center>
     </div>
   </div>
 </div>
 <br>
-<div class="container">
+<div class="container" style="width: 90%">
   <div class="row">
-    <div class="col s12 m6 l4" style="height: 300px; overflow: hidden; margin-bottom: 20px" ng-repeat="image in images">
-      <img ng-src="{{ image }}" width="100%" height="100%">
-    </div>
+    <div class="col s12 m6 l4" style="overflow: hidden; margin-bottom: 20px" ng-repeat="image in images">      
+      <div style="padding: 0 0; background-image: url({{image}}); background-size: cover; height: 300px; background-position: center top; background-repeat: no-repeat">
+      </div>
   </div>
 </div>

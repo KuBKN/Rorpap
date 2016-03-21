@@ -29,7 +29,7 @@
 
 <body ng-app="rorpap">
 
-	<nav role="navigation" style="background-color: #ffa337" ng-controller="HeaderController"  ng-cloak>
+	<nav role="navigation" style="background-color: #ffa337; min-width: 320px" ng-controller="HeaderController"  ng-cloak>
 		<div class="nav-wrapper" style="height: 65px">
 
 			<a id="logo-container" href="#!/" class="brand-logo"><img src="images/Banner-Logo-White.png" height="60"></a>
@@ -73,16 +73,13 @@
 		</div>
 	</nav>
 
-	<div class="view-animate-container">
+	<div class="view-animate-container" style="background-color: #fff5eb">
 		<div ng-view class="view-animate">
 		</div>
 	</div>
 
 	<footer class="page-footer" style="background-color: #ffa337; clear: both;
-	position: relative;
-	z-index: 10;
-	height: -4.45em;
-	margin-top: 4.45em;" ng-cloak>
+	position: relative;z-index: 10; margin-top: 0" ng-cloak>
 	<div class="container">
 		<div class="row">
 			<div class="col l6 s12">
