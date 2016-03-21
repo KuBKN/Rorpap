@@ -25,7 +25,7 @@
 	<div class="col l6 m8 s12">
 		<ul class="collapsible popout" data-collapsible="accordion">
 
-			<li id="request{{$index}}" style="margin: 10px 0" ng-repeat="request in requests">
+			<li id="request{{$index}}" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-type','-_id']">
 
 				<div class="collapsible-header" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
 					<div class="row">
@@ -124,8 +124,8 @@
 <div id="modal1" class="modal" style="width: 280px">
   <div class="modal-content" style="padding: 0px">
       <ul class="collapsible popout" data-collapsible="accordion">
-		    <li ng-repeat="accept in allAccepts">
-		      <div class="collapsible-header">
+		    <li ng-repeat="accept in allAccepts | orderBy: '_id'">
+		      <div class="collapsible-header">		      		
 		      		{{ accept.firstname }} {{ accept.lastname }}</a>
 		      </div>
 		      <div class="collapsible-body">

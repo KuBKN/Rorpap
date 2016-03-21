@@ -48,12 +48,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 					}else{
 						$scope.getAllAccept(value._id).then(function(result){
 							value.acceptNum = result.length;
-							value.acceptMes = [];
-							for (var i = 0; i < result.length; i++) {
-								loadUser.getUser(result[i]).then(function(res){									
-									value.acceptMes.push(res);			   					
-			   					});								
-							};							
+							value.acceptAll = result;														
 						});
 					}
 					$scope.requests.push(value);
@@ -168,20 +163,35 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 	$scope.openModal = function(index){
         
         $('#modal1').openModal();
-        $scope.allAccepts = $scope.requests[index].acceptMes;
-        $scope.getAllAccept($scope.requests[index]._id);
+        $scope.allAccepts = [];
+        var allAccepts = $scope.requests[index].acceptAll;
+    	for (var i = 0; i < allAccepts.length; i++) {	    		
+   			$scope.getAcceptMessenger(allAccepts[i]);
+    	}      
     };
+
+    $scope.getAcceptMessenger = function(accept){
+    	loadUser.getUser(accept.messenger_id).then(function(data){
+			var _id = accept._id;
+    		var messenger_id = accept.messenger_id;
+			var firstname = data.firstname;
+			var lastname = data.lastname;
+			var email = data.email;
+			$scope.allAccepts.push({
+				_id: _id,
+				messenger_id: messenger_id,
+				firstname: firstname,
+				lastname: lastname,
+				email: email
+			});    						
+    	});    		
+    }
 
     $scope.getAllAccept = function(request_id){
     	$scope.curRequest = request_id;
-    	var allAccepts = [];
     	return $http.get('/api/acceptance/' + request_id)
 			.then(function(data) {		
-				for (var i = 0; i < data.data.length; i++) {
-					var messenger_id = data.data[i].messenger_id;								
-					allAccepts.push(messenger_id);
-				}
-				return allAccepts;
+				return data.data;
 			});
     };
 
