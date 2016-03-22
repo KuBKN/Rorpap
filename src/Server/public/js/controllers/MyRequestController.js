@@ -10,6 +10,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 	$scope.reqBackground = function(type) {
 		if (type == 'Pending') {
 			return '#FFBCBC';
+		} else if (type == 'Reserved') {
+			return '#FFE952';
 		} else if (type == 'Inprogress') {
 			return '#BCBEFF';
 		} else {
@@ -37,23 +39,28 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 
 		$http.get('/api/request/get_request/' + reqtype + '/' + sender_id)
 			.success(function(data) {
-
-				$scope.requests = [];
-
-				angular.forEach(data, function(value, key) {
-					if(value.type != "Pending"){
-						loadUser.getUser(value.messenger_id).then(function(result){
-	   						value.messenger = result;
-	   					});
-					}else{
-						$scope.getAllAccept(value._id).then(function(result){
-							value.acceptNum = result.length;
-							value.acceptAll = result;														
-						});
-					}
-					$scope.requests.push(value);
+				
+				var id = 0;
+				angular.forEach($scope.requests,function(value, key){
+					var e = document.getElementById("request"+id);
+					e.parentNode.removeChild(e);
+					id += 1;
 				});
-
+				$scope.requests.length = 0;
+				
+				angular.forEach(data, function(value, key) {
+				if(value.type != "Pending"){						
+					loadUser.getUser(value.messenger_id).then(function(result){
+   						value.messenger = result;	   						
+   					});
+				}else{
+					$scope.getAllAccept(value._id).then(function(result){
+						value.acceptNum = result.length;
+						value.acceptAll = result;														
+					});
+				}
+					$scope.requests.push(value);
+				});		
 			})
 			.error(function(data) {
 				console.log(data);
@@ -94,7 +101,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 		if (index != $scope.lastCollepsed) {
 			var loc = $scope.requests[index].fromLoc.split(', ');
 			$scope.marker_from.position = [loc[0],loc[1]];
-			$scope.marker_from.optimized = false;
+			$scope.marker_from.optimized = true;
 			$scope.marker_from.icon = {
 						        url:'images/LOGO-RED.png',
 						        scaledSize:[40,40]
@@ -113,6 +120,14 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 
 			$scope.marker_from.visible = true;
 			$scope.marker_to.visible = true;
+			var f = document.getElementById("marker_f");
+			console.log(f);
+			google.maps.event.addListener(f, 'click', function() {			
+	            console.log("this is marker");
+	        });
+			// $scope.map.addListener("mouseover",function(){
+			//  	console.log('nop');
+			// });
 
 			$scope.map.zoom = $scope.calculateZoom($scope.marker_from.position,$scope.marker_to.position);
 
@@ -198,13 +213,13 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
     $scope.confirmMessenger = function(messenger){
     	var messenger_id = $scope.allAccepts[messenger]._id;
     	var request_id = $scope.curRequest;
-    	$http.post('/api/request/accept/'+messenger_id+'/'+request_id)
+    	$http.post('/api/request/reserve/'+messenger_id+'/'+request_id)
 			.success(function(data) {
 				window.location.reload();
 			})
 			.error(function(data) {
 				console.log(data);
 			});
-    };
+    };    
 
 }]);

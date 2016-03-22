@@ -8,7 +8,7 @@ app.config(function($routeProvider, $locationProvider ) {
 	}).when('/about', {
         templateUrl: './views/about.html'
 	}).when('/myrequest', {
-		controller: 'MyRequestController',
+		controller: 'MyRequestController',	
 		templateUrl: './views/myrequest.html'
 	}).when('/newrequest', {
         controller: 'NewRequestController',

@@ -317,7 +317,18 @@ router.post('/request/create', function(req, res, next) {
         var _id = req.params.request_id;
         var messenger_id = req.params.messenger_id;
 
-        Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Inprogress', messenger_id: messenger_id}, function(err, data) {
+        Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Inprogress', messenger_id: messenger_id}, function(err, data) {
+            if (err)
+            return res.send(500, { error: err });
+            return res.send();
+        });
+    });
+
+    router.post('/request/reserve/:messenger_id/:request_id', function(req, res, next) {
+        var _id = req.params.request_id;
+        var messenger_id = req.params.messenger_id;
+
+        Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Reserved', messenger_id: messenger_id}, function(err, data) {
             if (err)
             return res.send(500, { error: err });
             return res.send();

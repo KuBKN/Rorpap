@@ -3359,3 +3359,9 @@
 #changePassword{
   animation: fadeIn 1s;
 }
+
+.request.ng-enter{
+  position: relative;
+  width: 100%;
+  animation: fadeInUp 1s;
+}

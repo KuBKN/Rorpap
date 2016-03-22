@@ -11,6 +11,8 @@
 
 			<a class="collection-item" style="border-style: none; background-color: #FFE2C2" ng-click="getRequests()"><font size="3">My Request	</font></a>
 
+			<a class="collection-item" style="font-weight:normal" ng-click="getRequests('Reserved')"><font size="3" color="#FFE952">Reserved</font></a>
+
 			<a class="collection-item" style="font-weight:normal" ng-click="getRequests('Pending')"><font size="3" color="#CE0000">Pending</font></a>
 
 			<a class="collection-item" style="font-weight:normal" ng-click="getRequests('Inprogress')"><font size="3" color="#0007DA">In Progress</font></a>
@@ -25,7 +27,7 @@
 	<div class="col l6 m8 s12">
 		<ul class="collapsible popout" data-collapsible="accordion">
 
-			<li id="request{{$index}}" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-type','-_id']">
+			<li id="request{{$index}}" class="request" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-type','-_id']">
 
 				<div class="collapsible-header" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
 					<div class="row">
@@ -94,12 +96,12 @@
 					<div class="card-content white-text">
 						<span class="card-title">Location</span>
 						<ng-map center="{{map.center}}" zoom="{{map.zoom}}">
-							<marker position="{{marker_from.position}}"
+							<marker id="marker_f" position="{{marker_from.position}}"
 							optimized="{{marker_from.optimized}}"
 							icon="{{marker_from.icon}}"
 							visible="{{marker_from.visible}}"></marker>
 
-							<marker position="{{marker_to.position}}"
+							<marker id="marker_t" position="{{marker_to.position}}"
 							optimized="{{marker_to.optimized}}"
 							icon="{{marker_to.icon}}"
 							visible="{{marker_to.visible}}"></marker>
