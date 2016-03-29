@@ -47,7 +47,7 @@
 
 					<li style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
 
-						<div class="collapsible-header" style="text-align: left">
+						<div class="collapsible-header" style="text-align: left" ng-style="{'background-color': reqBackground(request.type)}">
 							<div class="row">
 
 								<div class="col m3 s12 hide-on-small-and-down" style="margin: 10px 0; border-style: solid; border-color: black">
@@ -112,7 +112,7 @@
 
 					<li style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
 
-						<div class="collapsible-header" style="text-align: left">
+						<div class="collapsible-header" style="text-align: left" ng-style="{'background-color': reqBackground(request.type)}">
 							<div class="row">
 
 								<div class="col m3 s12 hide-on-small-and-down" style="margin: 10px 0; border-style: solid; border-color: black">
@@ -145,7 +145,7 @@
 									<div style="margin-bottom: 5px">
 										<h6>Email : {{request.recipient_email}}</h6>
 										<h6>Tel : {{request.recipient_tel}}</h6>
-										Due in {{request.shipLimitDate}} {{request.shipLimitTime}}
+										Due in {{request.shipLimitDate}} {{request.shipLimitHour}}:{{request.shipLimitTime}}
 										<br>
 										<h6>Sender 
 											<a href="#!/profile_other" ng-click="seeUser(request.sender)">{{request.sender.firstname}} {{request.sender.lastname}}</a>
@@ -156,10 +156,13 @@
 
 								<div class="col s3 right green-text" style="text-align: right"><h5>{{request.price}}</h5></div>
 
-								<div class="col m12 s12" ng-if="request.type == 'Inprogress'">
-									<span class="right">
-										<a class="btn" style="background-color: #e51c23" ng-click="finishRequest($index)">Finish</a>
+								<div class="col m12 s12">
+									<span class="right" ng-if="request.type == 'Reserved'">
+										<a class="btn" style="background-color: #e51c23" ng-click="typeSendingToken($index)">Start Shipping</a>
 									</span>
+									<span class="right" ng-if="request.type == 'Inprogress'">
+										<a class="btn" style="background-color: #e51c23" ng-click="finishRequest($index)">Finish</a>
+									</span>									
 								</div>
 
 							</div>
@@ -183,6 +186,15 @@
 					</div>
 				</div>
 			</div>
+			<div id="modalTSendingToken" class="modal" style="width: 280px">
+			  <div class="modal-content">
+			      <div class="input-field">
+			      	<input id="sendToken" type="password" class="validate" ng-model="sendingToken">
+			      	<label for="sendToken">Sending Token</label>
+			      </div>
+			      <center><a class="btn" style="background-color: #e51c23" ng-click="submitSendingToken()">Submit</a></center>
+			  </div>
+			</div>
 		</div>
 		
 
@@ -192,7 +204,7 @@
 
 					<li style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
 
-						<div class="collapsible-header" style="text-align: left">
+						<div class="collapsible-header" style="text-align: left" ng-style="{'background-color': reqBackground(request.type)}">
 							<div class="row">
 
 								<div class="col m3 s12 hide-on-small-and-down" style="margin: 10px 0; border-style: solid; border-color: black">

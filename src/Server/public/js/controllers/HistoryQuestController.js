@@ -1,4 +1,4 @@
-app.controller('HistoryQuestController', ['$scope', '$http','$cookies', 'loadUser', 'profileViewer', function($scope, $http, $cookies, loadUser, profileViewer, uiGmapGoogleMapApi){
+app.controller('HistoryQuestController', ['$scope', '$http','$cookies', 'loadUser', 'profileViewer', 'requestColor', function($scope, $http, $cookies, loadUser, profileViewer, requestColor, uiGmapGoogleMapApi){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -7,6 +7,10 @@ app.controller('HistoryQuestController', ['$scope', '$http','$cookies', 'loadUse
  
 	};
 	$scope.load();
+
+	$scope.reqBackground = function(type) {
+		return requestColor.getColor(type);
+	};
 
 	$scope.seeUser = function(user){
 		profileViewer.seeUser(user);

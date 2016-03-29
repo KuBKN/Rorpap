@@ -1,6 +1,8 @@
 /* Webservice API */
 
 var express = require('express');
+var nodemailer = require('nodemailer');
+var xoauth2 = require('xoauth2');
 var router = express.Router();
 
 var mongoose = require("mongoose");
@@ -440,6 +442,43 @@ router.post('/request/create', function(req, res, next) {
                 return res.send();
             };
         });
+    });
+
+    // ================== Mail =================
+
+    router.post('/mailservice', function(req, res, next) {
+        var transporter = nodemailer.createTransport('SMTP',{
+            
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,  
+            auth: {               
+                XOAuth2: xoauth2.createXOAuth2Generator({
+                    user: 'nopapiwat@gmail.com', // Your email id
+                    clientId: '416811214922-e2orqvjmfmajr605bdab4bdg6r1cd549.apps.googleusercontent.com',
+                    clientSecret: 'LuV62WZnjOKE9CF_vgRuGXN9',                   
+                    refreshToken: '1/yGPqNxVNztCpO13cYogq6exc-Uvbvafsv23QVRL9AiMMEudVrK5jSpoR30zcRFq6'
+                })                        
+            }            
+        });       
+        var mailOptions = {
+            from: 'nopapiwat@gmail.com', // sender address
+            to: 'apiwat.j@ku.th', // list of receivers
+            subject: 'Email Example', // Subject line
+            generateTextFromHTML: true,
+            html: "<b>Hello world</b>"
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(info);
+                console.log(error);
+                res.json({yo: 'error'});
+            }else{
+                console.log('Message sent: ' + info.response);
+                res.json({yo: info.response});
+            };
+        });    
     });
 
     // ================== GCM ==================

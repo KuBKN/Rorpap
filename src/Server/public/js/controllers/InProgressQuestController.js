@@ -1,4 +1,4 @@
-app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', function( $scope, $http, $cookies, profileViewer, loadUser, uiGmapGoogleMapApi){
+app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', function( $scope, $http, $cookies, profileViewer, loadUser, requestColor, uiGmapGoogleMapApi){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -8,6 +8,10 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 	};
 	$scope.load();
 
+	$scope.reqBackground = function(type) {
+		return requestColor.getColor(type);
+	};
+
 	$scope.seeUser = function(user){
 		profileViewer.seeUser(user);
 	};
@@ -15,20 +19,33 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 	$scope.requests = [];
 
 	$scope.getRequests = function(reqtype) {
-		reqtype = "Inprogress";
-
-		var messenger_id = $cookies.get('_id').replace(/\"/g, "");
-
+		$scope.requests = [];
+		var messenger_id = $cookies.get('_id').replace(/\"/g, "");		
+		reqtype = "Reserved";		
 		$http.get('/api/request/get_quest/' + reqtype + '/' + messenger_id)
-			.success(function(data) {
-
-				$scope.requests = [];
+			.success(function(data) {			
 
 				angular.forEach(data, function(value, key) {
 					loadUser.getUser(value.sender_id).then(function(result){
    						value.sender = result;
    					});
-					$scope.requests.push(value);
+					$scope.requests.push(value);					
+				});
+
+			})
+			.error(function(data) {
+				console.log(data);
+			});
+
+		reqtype = "Inprogress";		
+		$http.get('/api/request/get_quest/' + reqtype + '/' + messenger_id)
+			.success(function(data) {			
+
+				angular.forEach(data, function(value, key) {
+					loadUser.getUser(value.sender_id).then(function(result){
+   						value.sender = result;
+   					});
+					$scope.requests.push(value);					
 				});
 
 			})
@@ -39,6 +56,13 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 
 	$scope.getRequests();
 
+	$scope.rindex;
+
+	$scope.typeSendingToken = function(index){		
+		$('#modalTSendingToken').openModal();
+		$scope.rindex = index;
+	};
+
 	$scope.finishRequest = function(index) {
 		$http.post('/api/request/finish', $scope.requests[index])
 		.success(function(data) {
@@ -47,6 +71,25 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 		.error(function(data) {
 			console.log('Error: ' + data);
 		});
+	};
+
+    $scope.submitSendingToken = function(){
+    	var req = $scope.requests[$scope.rindex];
+    	var rtoken = ""+req.sender_id.substring(req.sender_id.length-2)+req._id.substring(req._id.length-2);
+
+    	var messenger_id = req.messenger_id;
+    	var user = $cookies.get('_id').replace(/\"/g, "");
+
+    	if(rtoken == $scope.sendingToken && messenger_id == user){    		    		
+	    	var request_id = req._id;
+	    	$http.post('/api/request/accept/'+messenger_id+'/'+request_id)
+				.success(function(data) {
+					window.location.reload();
+				})
+				.error(function(data) {
+					console.log(data);
+				});
+    	};
 	};
 
 }]);

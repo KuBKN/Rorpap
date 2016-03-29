@@ -1,4 +1,4 @@
-app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', function($scope, $http, $cookies, profileViewer, loadUser, uiGmapGoogleMapApi){
+app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', function($scope, $http, $cookies, profileViewer, loadUser, requestColor, uiGmapGoogleMapApi){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -20,6 +20,10 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 	     });
 	};
 	$scope.load();
+
+	$scope.reqBackground = function(type) {
+		return requestColor.getColor(type);
+	};
 	
 	$scope.seeUser = function(user){
 		profileViewer.seeUser(user);

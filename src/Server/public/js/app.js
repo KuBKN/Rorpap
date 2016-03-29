@@ -74,3 +74,17 @@ app.factory('profileViewer', function() {
   };
 
 });
+
+app.service('requestColor', function(){
+	this.getColor = function(type){
+		if (type == 'Pending') {
+			return '#FFBCBC';
+		} else if (type == 'Reserved') {
+			return '#FFE952';
+		} else if (type == 'Inprogress') {
+			return '#BCBEFF';
+		} else {
+			return '#BCFFD1';
+		};
+	}
+});

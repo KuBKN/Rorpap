@@ -64,7 +64,7 @@
 							<div style="margin-bottom: 5px">
 								<h6>Email : {{request.recipient_email}}</h6>
 								<h6>Tel : {{request.recipient_tel}}</h6>
-								Due in {{request.shipLimitDate}} {{request.shipLimitTime}}<br>
+								Due in {{request.shipLimitDate}} {{request.shipLimitHour}}:{{request.shipLimitTime}}<br>
 								<h6 ng-if="request.type!='Pending'">Messenger
 									<a href="#!/profile_other" ng-click="seeUser(request.messenger)">{{request.messenger.firstname}} {{request.messenger.lastname}}</a>
 								</h6>
@@ -74,10 +74,13 @@
 
 						<div class="col s3 right green-text" style="text-align: right"><h5>{{request.price}}</h5></div>
 
-						<div class="col m12 s12" ng-if="request.type == 'Pending'">
-							<span class="right">
+						<div class="col m12 s12">
+							<span class="right" ng-if="request.type == 'Pending'">
 								<a id="edit{{$index}}" class="btn black-text" style="background-color: #FCFCFC">Edit</a>
 								<a id="remove{{$index}}" class="btn" style="background-color: #e51c23" ng-click="removeRequest($index)">Remove</a>
+							</span>
+							<span class="right" ng-if="request.type == 'Reserved'">
+								<a id="send{{$index}}" class="btn" style="background-color: #e51c23" ng-click="showSendingToken($index)">Send!!</a>
 							</span>
 						</div>
 
@@ -126,7 +129,7 @@
 <div id="modal1" class="modal" style="width: 280px">
   <div class="modal-content" style="padding: 0px">
       <ul class="collapsible popout" data-collapsible="accordion">
-		    <li ng-repeat="accept in allAccepts | orderBy: '_id'">
+		    <li id="accept{{$index}}" ng-repeat="accept in allAccepts | orderBy: '_id'">
 		      <div class="collapsible-header">		      		
 		      		{{ accept.firstname }} {{ accept.lastname }}</a>
 		      </div>
@@ -137,6 +140,6 @@
       			</p>
       		</div>
 		    </li>
-		  </ul>
+		</ul>
   </div>
 </div>

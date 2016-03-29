@@ -2,7 +2,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 
 	$scope.load = function() {
 		$('select').material_select();
-		$('#mySelect').val();
+		$('#mySelect').val();		
 	};
 	$scope.load();
 
@@ -43,6 +43,9 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 				
 		$scope.request.fromLoc = $scope.markers[0].position[0] + ', ' + $scope.markers[0].position[1];
 		$scope.request.toLoc = $scope.markers[1].position[0] + ', ' + $scope.markers[1].position[1];
+		var d = new Date($scope.request.shipLimitDate_tmp);
+		$scope.request.shipLimitDate = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
+		console.log($scope.request);
 
 		$http.post('/api/request/create', $scope.request)
 		.success(function(data) {

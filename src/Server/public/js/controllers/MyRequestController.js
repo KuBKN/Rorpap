@@ -1,4 +1,4 @@
-app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser', 'profileViewer', function($scope, $http, $cookies, loadUser, profileViewer) {
+app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser', 'profileViewer', 'requestColor', function($scope, $http, $cookies, loadUser, profileViewer, requestColor) {
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -8,18 +8,11 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 	$scope.load();
 
 	$scope.reqBackground = function(type) {
-		if (type == 'Pending') {
-			return '#FFBCBC';
-		} else if (type == 'Reserved') {
-			return '#FFE952';
-		} else if (type == 'Inprogress') {
-			return '#BCBEFF';
-		} else {
-			return '#BCFFD1';
-		};
-	}
+		return requestColor.getColor(type);
+	};
 
 	$scope.requests = [];
+	$scope.allAccepts = [];
 
 	$scope.seeUser = function(user){
 		profileViewer.seeUser(user);
@@ -48,8 +41,16 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 				});
 				$scope.requests.length = 0;
 				
+				data.sort(function(a,b) {return (a.type < b.type) ? 1 : (
+												(b.type < a.type) ? -1 : (
+													(a._id < b._id) ? 1 : (
+														(a._id > b._id) ? -1 : 0 ) )
+												);
+										} ); 
+				console.log(data);
+				
 				angular.forEach(data, function(value, key) {
-				if(value.type != "Pending"){						
+				if(value.type != "Pending"){										
 					loadUser.getUser(value.messenger_id).then(function(result){
    						value.messenger = result;	   						
    					});
@@ -121,7 +122,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 			$scope.marker_from.visible = true;
 			$scope.marker_to.visible = true;
 			var f = document.getElementById("marker_f");
-			console.log(f);
+			// console.log(f);
 			google.maps.event.addListener(f, 'click', function() {			
 	            console.log("this is marker");
 	        });
@@ -175,10 +176,18 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 		
 	};
 
-	$scope.openModal = function(index){
+	$scope.openModal = function(index){		
         
-        $('#modal1').openModal();
-        $scope.allAccepts = [];
+        $('#modal1').openModal();        
+        
+        var id = 0;        
+		angular.forEach($scope.allAccepts,function(value, key){
+			var e = document.getElementById("accept"+id);			
+			e.parentNode.removeChild(e);
+			id += 1;
+		});
+		$scope.allAccepts.length = 0;
+
         var allAccepts = $scope.requests[index].acceptAll;
     	for (var i = 0; i < allAccepts.length; i++) {	    		
    			$scope.getAcceptMessenger(allAccepts[i]);
@@ -198,7 +207,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 				firstname: firstname,
 				lastname: lastname,
 				email: email
-			});    						
+			});  						
     	});    		
     }
 
@@ -211,7 +220,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
     };
 
     $scope.confirmMessenger = function(messenger){
-    	var messenger_id = $scope.allAccepts[messenger]._id;
+    	var messenger_id = $scope.allAccepts[messenger].messenger_id;
     	var request_id = $scope.curRequest;
     	$http.post('/api/request/reserve/'+messenger_id+'/'+request_id)
 			.success(function(data) {
@@ -220,6 +229,15 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 			.error(function(data) {
 				console.log(data);
 			});
-    };    
+    };
+
+    $scope.showSendingToken = function(index){
+    	var e = document.getElementById("send"+index);
+    	e.disabled = true;
+    	var req = $scope.requests[index];
+		e.innerHTML = ""+req.sender_id.substring(req.sender_id.length-2)+req._id.substring(req._id.length-2);
+    };
+
+
 
 }]);
