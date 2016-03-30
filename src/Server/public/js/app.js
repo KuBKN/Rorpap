@@ -88,3 +88,19 @@ app.service('requestColor', function(){
 		};
 	}
 });
+
+app.service('requestParcelImg', function(){
+	var allImgs = ['images/parcels/parcel01.jpg',
+					'images/parcels/parcel02.jpg',
+					'images/parcels/parcel03.jpg',
+					'images/parcels/parcel04.jpg',
+					'images/parcels/parcel05.jpg'];
+
+	this.getAll = function(){
+		return allImgs;
+	};
+
+	this.getByIndex = function(index){
+		return allImgs[index];
+	};
+});

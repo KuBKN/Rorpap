@@ -24,6 +24,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 	};
 
 	$scope.getRequests = function(reqtype) {
+		$scope.lastCollepsed = -1;
 		if (reqtype == undefined) {
 			reqtype = ".*";
 		}
@@ -46,8 +47,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 													(a._id < b._id) ? 1 : (
 														(a._id > b._id) ? -1 : 0 ) )
 												);
-										} ); 
-				console.log(data);
+										} ); 				
 				
 				angular.forEach(data, function(value, key) {
 				if(value.type != "Pending"){										
@@ -94,6 +94,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 
 	// TODO still be suck function use inteads of checking if collapse right now, 555
 	$scope.showInMap = function(index) {
+		console.log($scope.requests[index]);
 		$scope.marker_from = {};
 		$scope.marker_to = {};
 		$scope.map.zoom = 10;

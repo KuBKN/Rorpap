@@ -1,4 +1,4 @@
-app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$location', '$timeout', 'loadUser', function($scope, $http, $cookies, $location, $timeout, loadUser) {
+app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$location', '$timeout', 'loadUser', 'requestParcelImg', function($scope, $http, $cookies, $location, $timeout, loadUser, requestParcelImg) {
 
 	$scope.load = function() {
 		$('select').material_select();
@@ -36,6 +36,12 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 		return isLogin;
 	}
 
+	$scope.parcelImgs = requestParcelImg.getAll();
+
+	$scope.chooseSize = function(index){
+		$scope.request.radiobutton = index;
+	}							
+
 	$scope.createQuest = function() {
 		if (!$scope.checkLogin()){
 			return;
@@ -45,18 +51,18 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 		$scope.request.toLoc = $scope.markers[1].position[0] + ', ' + $scope.markers[1].position[1];
 		var d = new Date($scope.request.shipLimitDate_tmp);
 		$scope.request.shipLimitDate = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
-		console.log($scope.request);
+		
 
-		$http.post('/api/request/create', $scope.request)
-		.success(function(data) {
-			$scope.request = {};
-			$scope.request.sender_id = $scope.get_id();
+		// $http.post('/api/request/create', $scope.request)
+		// .success(function(data) {
+		// 	$scope.request = {};
+		// 	$scope.request.sender_id = $scope.get_id();
 
-			$location.path('/myrequest');
-		})
-		.error(function(data) {
-			console.log('Error: ' + data);
-		});
+		// 	$location.path('/myrequest');
+		// })
+		// .error(function(data) {
+		// 	console.log('Error: ' + data);
+		// });
 		
 	};
 

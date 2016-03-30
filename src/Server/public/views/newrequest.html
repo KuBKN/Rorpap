@@ -52,21 +52,15 @@
 
 			<div class="col s11 row" style="margin-left: 42px; margin-bottom: 30px">
 				<label class="col s12"><h6>Size</h6></label>
-			    <div class="input-field col s4">
-					<label for="size_length">Length</label>
-					<input type="number" step="0.01" id="size_length" ng-model="request.size_length" class="validate" required>
-				</div>
-	
-			    <div class="input-field col s4">
-					<label for="size_width">Width</label>
-					<input type="number" step="0.01" id="size_width" ng-model="request.size_width" class="validate" required>
-				</div>
-		
-			    <div class="input-field col s4">
-					<label for="size_height">Height</label>
-					<input type="number" step="0.01" id="size_height" ng-model="request.size_height" class="validate" required>
-				</div>
-
+				<div class="col s12 m6 l4" style="max-width: 180px; padding: 0px" ng-repeat="img in parcelImgs">
+					<input name="group1" type="radio" id="test{{$index}}" />
+				    <label class="btn white card" style="padding-right: 0; height:100%; margin: 5px 5px" for="test{{$index}}" ng-click="chooseSize($index)">
+				    	<div for="test{{$index}}" class="card-image" style="height: 120px; padding: 5px">
+			              <img ng-src="{{img}}" height="100%">
+			            </div>	
+			        </label>					
+				</div>					 						
+				{{ request.radiobutton }}
 				<div class="input-field col s12">
 					<label for="weight">Weight</label>
 					<input type="number" step="0.01" id="weight" ng-model="request.weight" class="validate" required>

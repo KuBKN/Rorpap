@@ -161,7 +161,7 @@
 										<a class="btn" style="background-color: #e51c23" ng-click="typeSendingToken($index)">Start Shipping</a>
 									</span>
 									<span class="right" ng-if="request.type == 'Inprogress'">
-										<a class="btn" style="background-color: #e51c23" ng-click="finishRequest($index)">Finish</a>
+										<a class="btn" style="background-color: #e51c23" ng-click="typeFinishToken($index)">Finish</a>
 									</span>									
 								</div>
 
@@ -193,6 +193,15 @@
 			      	<label for="sendToken">Sending Token</label>
 			      </div>
 			      <center><a class="btn" style="background-color: #e51c23" ng-click="submitSendingToken()">Submit</a></center>
+			  </div>
+			</div>
+			<div id="modalTFinishToken" class="modal" style="width: 280px">
+			  <div class="modal-content">
+			      <div class="input-field">
+			      	<input id="finishToken" type="password" class="validate" ng-model="finishToken">
+			      	<label for="finishToken">Finish Token</label>
+			      </div>
+			      <center><a class="btn" style="background-color: #e51c23" ng-click="submitFinishToken()">Submit</a></center>
 			  </div>
 			</div>
 		</div>
@@ -267,7 +276,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>			
 		</div>
 	</div>
 </div>
