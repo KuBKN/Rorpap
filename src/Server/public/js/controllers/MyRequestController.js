@@ -1,4 +1,4 @@
-app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser', 'profileViewer', 'requestColor', function($scope, $http, $cookies, loadUser, profileViewer, requestColor) {
+app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location', 'loadUser', 'profileViewer', 'requestColor', 'requestParcelImg', 'requestEditor', function($scope, $http, $cookies, $location, loadUser, profileViewer, requestColor, requestParcelImg, requestEditor) {
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -59,7 +59,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 						value.acceptNum = result.length;
 						value.acceptAll = result;														
 					});
-				}
+				}	
+					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4));
 					$scope.requests.push(value);
 				});		
 			})
@@ -80,6 +81,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 			console.log('Error: ' + data);
 		});
 	};
+
+	requestEditor.seeReq(null);
 
 	$scope.map = {
 		center: [
@@ -239,6 +242,9 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', 'loadUser'
 		e.innerHTML = ""+req.sender_id.substring(req.sender_id.length-2)+req._id.substring(req._id.length-2);
     };
 
-
+    $scope.editRequest = function(index){
+    	requestEditor.seeReq($scope.requests[index]);
+    	$location.path('/newrequest');
+    };
 
 }]);

@@ -196,11 +196,10 @@ var Request = mongoose.model('requests', {
 
     recipient_name: String,
     recipient_email: String,
-    recipient_tel: String,
-    size_length: String,
-    size_width: String,
-    size_height: String,
+    recipient_tel: String,   
+    psize: String,
     weight: String,
+    declarable: Boolean,
 
     type: String,
     hasAccept: Boolean,
@@ -231,10 +230,9 @@ router.post('/request/create', function(req, res, next) {
     var recipient_name = req.body.recipient_name;
     var recipient_email = req.body.recipient_email;
     var recipient_tel = req.body.recipient_tel;
-    var size_length = req.body.size_length;
-    var size_width = req.body.size_width;
-    var size_height = req.body.size_height;
+    var psize = req.body.psize;    
     var weight = req.body.weight;
+    var declarable = req.body.declarable;
     var price = req.body.price;
     var comment = req.body.comment;
 
@@ -244,10 +242,9 @@ router.post('/request/create', function(req, res, next) {
         recipient_name: recipient_name,
         recipient_email: recipient_email,
         recipient_tel: recipient_tel,
-        size_length: size_length,
-        size_width: size_width,
-        size_height: size_height,
+        psize: psize,        
         weight: weight,
+        declarable: declarable,
         fromLoc: fromLoc,
         toLoc: toLoc,
         reqLimitDate: reqLimitDate,
@@ -263,6 +260,50 @@ router.post('/request/create', function(req, res, next) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
             }
             res.status(HTTP_CREATED).send();
+        });
+    });
+
+router.post('/request/update', function(req, res, next) {
+    var _id = req.body._id;
+    var sender_id = req.body.sender_id;
+    var type = 'Pending';
+    var hasAccept = false;
+    var fromLoc = req.body.fromLoc;
+    var toLoc = req.body.toLoc;
+    var messenger_id = req.body.messenger_id;    
+    var reqLimitDate = '01/01/2011'; //now.format('DD/MM/YYYY');
+    var reqLimitTime = '01:01'; //now.format('mm:hh');
+    var shipLimitDate = req.body.shipLimitDate;
+    var shipLimitHour = req.body.shipLimitHour;
+    var shipLimitTime = req.body.shipLimitTime;
+    var recipient_name = req.body.recipient_name;
+    var recipient_email = req.body.recipient_email;
+    var recipient_tel = req.body.recipient_tel;
+    var psize = req.body.psize;    
+    var weight = req.body.weight;
+    var declarable = req.body.declarable;
+    var price = req.body.price;
+    var comment = req.body.comment;
+    console.log('suc');
+
+    Request.findOneAndUpdate({_id: _id},
+     {fromLoc: fromLoc, 
+        toLoc: toLoc, 
+        shipLimitDate: shipLimitDate,
+        shipLimitHour: shipLimitHour,
+        shipLimitTime: shipLimitTime,
+        recipient_name: recipient_name,
+        recipient_email: recipient_email,
+        recipient_tel: recipient_tel,
+        psize: psize,
+        weight: weight,
+        declarable: declarable,
+        price: price,
+        comment: comment}, 
+        function(err, data) {
+            if (err)
+            return res.send(500, { error: err });
+            return res.send();
         });
     });
 

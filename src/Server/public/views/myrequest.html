@@ -1,12 +1,12 @@
 <br>
 
-<div class="container row" style="height: 600px; width:85%">
+<div class="container row" style="min-height: 600px; width:85%">
 
-	<div class="container hide-on-med-and-down col l2" style="min-weight: 500px">
+	<div class="container hide-on-med-and-down col m2" style="min-weight: 500px">
 		<div class="collection" style="border-style: none">
 
 			<div style="margin-bottom: 15px">
-				<a href="#!/newrequest" id="newRequest" class="btn" style="width: 100%">New Request</a>
+				<a href="#!/newrequest" id="newRequest" class="btn" style="width: 100%"><font size ="1">New Request</font></a>
 			</div>
 
 			<a href="#" onclick="return false;" class="collection-item" style="border-style: none; background-color: #FFE2C2" ng-click="getRequests()"><font size="3">My Request	</font></a>
@@ -24,59 +24,96 @@
 		</div>
 	</div>
 
-	<div class="col l6 m8 s12">
+	<div class="col l6 s12" style="max-width: 700px; margin: 0 auto">
 		<ul class="collapsible popout" data-collapsible="accordion">
 
 			<li id="request{{$index}}" class="request" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-type','-_id']">
 
-				<div class="collapsible-header" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
-					<div class="row">
+				<div class="collapsible-header" style="padding: 1vw" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
+					<div class="row" style="margin-bottom: 0px">
 
-						<div class="col m3 s12 hide-on-small-and-down" style="margin: 10px 0; border-style: solid; border-color: white">
-							{{request.size_length}}
-							{{request.size_width}}
-							{{request.size_height}}<br>
-							{{request.weight}}
+						<div class="col m4 s12 hide-on-small-and-down" style="margin: 10px 0">
+							<div style="background-color: white; padding: 5px; border-style: solid">
+								<img src="{{request.psize}}" width="100%" height="120px">
+								<div ng-if="request.declarable" style="position: relative">
+									<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
+								</div>
+																
+							</div>													
 						</div>
 
-						<div class="col m9 s12">
-							<h5>To : {{request.recipient_name}}
+						<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">		
+
+							<div class="hide-on-med-and-up col s8 row" style="margin-bottom: 0px">						
+								<div class="col s4" style="padding: 0">
+									<h6 style="text-align: right">To:</h6>
+									<h6 style="text-align: right">Email:</h6>
+									<h6 style="text-align: right">Tel:</h6>
+								</div>
+								<div class="col s8">
+									<h6><b>{{request.recipient_name}}</b></h6>
+									<h6>{{request.recipient_email}}</h6>
+									<h6>{{request.recipient_tel}}</h6>
+								</div>								
+							</div>
+							<div class="hide-on-small-only col s8 row">		
+								<div class="col s4"  style="padding: 0">
+									<h5 style="text-align: right">To:</h5>
+									<h5 style="text-align: right">Email:</h5>
+									<h5 style="text-align: right">Tel:</h5>
+								</div>
+								<div class="col s8">
+									<h5><b>{{request.recipient_name}}</b></h5>
+									<h5>{{request.recipient_email}}</h5>
+									<h5>{{request.recipient_tel}}</h5>
+								</div>								
+							</div>							
+							<div class="col s4" style="padding-right: 0; margin-bottom: 20px; position: relative">
 								<style type="text/css">
 									span.badge.new:after { content: " messenger";}
 								</style>
-							<span class="new badge right" style="position: relative" ng-click="openModal($index)" ng-if="request.type=='Pending' && request.hasAccept">{{ request.acceptNum }}</span></h5>
-								
-							<div class="chip">
-								<i class="material-icons">event</i>
-								{{request.reqLimitDate}}
+								<span class="new badge right" style="right: 0; line-height: 30px; height: 30px; width: 90px; position: relative" ng-click="openModal($index)" ng-if="request.type=='Pending' && request.hasAccept">
+									{{ request.acceptNum }}
+								</span>
 							</div>
-							<div class="chip">
-								<i class="material-icons">schedule</i>
-								{{request.reqLimitTime}}
+							<div class="container hide-on-med-and-up" style="clear: both">
+								<span class="chip left">
+									{{request.smallPsize}}
+								</span>
+								<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
 							</div>
-					</div>
+						</div>
+					</div>					
 				</div>
-			</div>
 
 				<div class="collapsible-body" style="background-color: #F8F8F8">
 					<div class="row" style="padding: 10px">
-						<div class="col s9">
-							<div style="margin-bottom: 5px">
-								<h6>Email : {{request.recipient_email}}</h6>
-								<h6>Tel : {{request.recipient_tel}}</h6>
-								Due in {{request.shipLimitDate}} {{request.shipLimitHour}}:{{request.shipLimitTime}}<br>
-								<h6 ng-if="request.type!='Pending'">Messenger
+						<div class="col s10">
+							<span class="chip">
+								<i class="material-icons">event</i>
+								{{request.shipLimitDate}}
+							</span>
+							<span class="chip">
+								<i class="material-icons">schedule</i>
+								{{request.shipLimitHour}}:{{request.shipLimitTime}}
+							</span>
+							<div style="margin-bottom: 5px; margin-left: 5px">								
+								<h6 ng-if="request.type=='Pending'">
+									{{request.reqLimitDate}} {{request.reqLimitTime}}
+								</h6>
+								<h6 ng-if="request.type!='Pending'">
+									Messenger
 									<a href="#!/profile_other" ng-click="seeUser(request.messenger)">{{request.messenger.firstname}} {{request.messenger.lastname}}</a>
 								</h6>
 								{{request.comment}}
 							</div>
 						</div>
 
-						<div class="col s3 right green-text" style="text-align: right"><h5>{{request.price}}</h5></div>
+						<div class="col s2 right green-text" style="text-align: right"><h5>{{request.price}}</h5></div>
 
 						<div class="col m12 s12">
 							<span class="right" ng-if="request.type == 'Pending'">
-								<a id="edit{{$index}}" class="btn black-text" style="background-color: #FCFCFC">Edit</a>
+								<a id="edit{{$index}}" class="btn black-text" style="background-color: #FCFCFC" ng-click="editRequest($index)">Edit</a>
 								<a id="remove{{$index}}" class="btn" style="background-color: #e51c23" ng-click="removeRequest($index)">Remove</a>
 							</span>
 							<span class="right" ng-if="request.type == 'Reserved'">
@@ -92,7 +129,7 @@
 		</ul>
 	</div>
 
-	<div class="right col l4 m4 s12">
+	<div class="right col l4 s12">
 		<div class="row">
 			<div class="col s12 m12">
 				<div class="card blue-grey darken-1">

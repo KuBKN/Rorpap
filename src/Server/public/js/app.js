@@ -95,6 +95,7 @@ app.service('requestParcelImg', function(){
 					'images/parcels/parcel03.jpg',
 					'images/parcels/parcel04.jpg',
 					'images/parcels/parcel05.jpg'];
+	var allSize = ['Paper','Flat','Box','Big Box','Long Box'];
 
 	this.getAll = function(){
 		return allImgs;
@@ -103,4 +104,25 @@ app.service('requestParcelImg', function(){
 	this.getByIndex = function(index){
 		return allImgs[index];
 	};
+
+	this.getNameByIndex = function(index){
+		return allSize[index];
+	};
+});
+
+app.factory('requestEditor', function() {
+  var curReq;
+  var seeReq = function(req) {
+      curReq = req;
+  };
+
+  var getReq = function(){
+      return curReq;
+  };
+
+  return {
+    seeReq: seeReq,
+    getReq: getReq
+  };
+
 });

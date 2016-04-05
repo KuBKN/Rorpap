@@ -1,4 +1,4 @@
-app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$location', '$timeout', 'loadUser', 'requestParcelImg', function($scope, $http, $cookies, $location, $timeout, loadUser, requestParcelImg) {
+app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$location', '$timeout', 'loadUser', 'requestParcelImg', 'requestEditor', function($scope, $http, $cookies, $location, $timeout, loadUser, requestParcelImg, requestEditor) {
 
 	$scope.load = function() {
 		$('select').material_select();
@@ -16,7 +16,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 	'48','49','50','51','52','53','54','55','56','57','58','59'];
 
 	$scope.request = {};
-	// TODO calculate later
+	
 	$scope.request.price = 75;
 
 	$scope.get_id = function() {
@@ -38,9 +38,11 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 
 	$scope.parcelImgs = requestParcelImg.getAll();
 
-	$scope.chooseSize = function(index){
-		$scope.request.radiobutton = index;
-	}							
+	$scope.chooseSize = function(index){		
+		$scope.request.psize = requestParcelImg.getByIndex(index);
+	};
+
+	$scope.chooseSize(3);
 
 	$scope.createQuest = function() {
 		if (!$scope.checkLogin()){
@@ -51,22 +53,33 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 		$scope.request.toLoc = $scope.markers[1].position[0] + ', ' + $scope.markers[1].position[1];
 		var d = new Date($scope.request.shipLimitDate_tmp);
 		$scope.request.shipLimitDate = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
-		
+		console.log($scope.request);
+		if($scope.editMode){
+			$http.post('/api/request/update', $scope.request)
+			.success(function(data) {
+				$scope.request = {};
+				$scope.request.sender_id = $scope.get_id();
 
-		// $http.post('/api/request/create', $scope.request)
-		// .success(function(data) {
-		// 	$scope.request = {};
-		// 	$scope.request.sender_id = $scope.get_id();
+				$location.path('/myrequest');
+			})
+			.error(function(data) {
+				console.log('Error: ' + data);
+			});
+		}else{
+			$http.post('/api/request/create', $scope.request)
+			.success(function(data) {
+				$scope.request = {};
+				$scope.request.sender_id = $scope.get_id();
 
-		// 	$location.path('/myrequest');
-		// })
-		// .error(function(data) {
-		// 	console.log('Error: ' + data);
-		// });
+				$location.path('/myrequest');
+			})
+			.error(function(data) {
+				console.log('Error: ' + data);
+			});
+		}
 		
 	};
 
-	// TODO makers splash
 	$scope.markers = [];
 
 	$scope.map = {
@@ -98,4 +111,37 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 		$scope.markers[index].position = [e.lat(),e.lng()];
 	}
 
+	$scope.editMode = false;
+
+	if(requestEditor.getReq() != null){
+		$scope.request = requestEditor.getReq();
+		$scope.editMode = true;
+	};
+
+	if ($scope.editMode) {
+		$scope.addMarker({
+			latLng: {
+				lat: function(){
+					return $scope.request.fromLoc.split(', ')[0];
+				},
+				lng: function(){
+					return $scope.request.fromLoc.split(', ')[1];
+				}
+			}
+		});
+		$scope.addMarker({
+			latLng: {
+				lat: function(){
+					return $scope.request.toLoc.split(', ')[0];
+				},
+				lng: function(){
+					return $scope.request.toLoc.split(', ')[1];
+				}
+			}
+		});
+		// var ps = $scope.request.psize.substring($scope.request.psize.length-5,$scope.request.psize.length-4);
+		// console.log(document.getElementById('psize2'));
+		// var d = $scope.request.shipLimitDate.split('/');
+		// document.getElementById('reqEndDate').value = d[2]+'/'+("0" + d[1]).slice(-2)+'/'+("0" + d[0]).slice(-2);		
+	};
 }]);

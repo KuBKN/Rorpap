@@ -1,7 +1,7 @@
 <br>
 <div class="container row" style="width:85%; min-width: 320px;">
 
-	<div class="right col s12 hide-on-large-only" style="border-style: solid">
+	<div class="right col s12 hide-on-large-only">
 
 		<ng-map center="{{map.center}}" zoom="12" on-click="addMarker(event)">
 			<marker ng-repeat="marker in markers" 
@@ -34,57 +34,67 @@
 			<div class="col s11 row" style="margin-bottom: 30px">
 				<div class="input-field col s12">
 					<i class="material-icons prefix">perm_identity</i>
-					<label for="recipient_name">Recipient</label>
+					<label for="recipient_name" class="active">Recipient</label>
 					<input type="text" id="recipient_name" ng-model="request.recipient_name" class="validate" required>
 				</div>
 
-				<div class="input-field col s6">
+				<div class="input-field col s12 m6">
 					<i class="material-icons prefix">email</i>
-					<label for="recipient_email">Email</label>
+					<label for="recipient_email" class="active">Email</label>
 					<input type="text" id="recipient_email" ng-model="request.recipient_email" class="validate" required>
 				</div>
-				<div class="input-field col s6">
+				<div class="input-field col s12 m6">
 					<i class="material-icons prefix">phone</i>
-					<label for="recipient_tel">Tel</label>
+					<label for="recipient_tel" class="active">Tel</label>
 					<input type="text" id="recipient_tel" ng-model="request.recipient_tel" class="validate" required>
 				</div>
 			</div>
 
 			<div class="col s11 row" style="margin-left: 42px; margin-bottom: 30px">
 				<label class="col s12"><h6>Size</h6></label>
-				<div class="col s12 m6 l4" style="max-width: 180px; padding: 0px" ng-repeat="img in parcelImgs">
-					<input name="group1" type="radio" id="test{{$index}}" />
-				    <label class="btn white card" style="padding-right: 0; height:100%; margin: 5px 5px" for="test{{$index}}" ng-click="chooseSize($index)">
-				    	<div for="test{{$index}}" class="card-image" style="height: 120px; padding: 5px">
-			              <img ng-src="{{img}}" height="100%">
-			            </div>	
-			        </label>					
-				</div>					 						
-				{{ request.radiobutton }}
-				<div class="input-field col s12">
-					<label for="weight">Weight</label>
-					<input type="number" step="0.01" id="weight" ng-model="request.weight" class="validate" required>
-				</div>
-			
-			</div>
+					<div class="col s12 m6 l4" style="max-width: 180px; padding: 0px" ng-repeat="img in parcelImgs">
+						<input name="group1" type="radio" id="psize{{$index}}" required>
+					    <label class="btn white card" style="padding-right: 0; height:100%; margin: 5px 5px" for="psize{{$index}}" ng-click="chooseSize($index)">
+					    	<div class="card-image" style="height: 120px; padding: 5px">
+				              <img ng-src="{{img}}" height="100%">
+				            </div>	
+				        </label>					
+					</div>
+	
 
+				<div class="col s12 row">
+					<div class="input-field col s12 m6">
+					    <select id="weight" class="browser-default" required ng-model="request.weight">
+					      <option value="" disabled selected>Weight</option>
+					      <option value=1>light (&#60; 1 kg)</option>
+					      <option value=2>medium (2 - 5 kg)</option>
+					      <option value=3>heavy (&#62; 6 kg)</option>
+					    </select>					    
+					</div>								
+					<div class="input-field col s12 m6">
+						<input type="checkbox" class="filled-in" id="filled-in-box" ng-model="request.declarable"/>
+					    <label for="filled-in-box">Accept for revelation</label>
+					</div>
+				</div>
+			</div>	
+				 						
 			<div class="col s11 row" style="margin-left: 42px; margin-bottom: 30px">
 				<div class="col s12 m6">
 					<label for="reqEndDate">Shipment End Date</label>
-					<input type="date" id="reqEndDate" ng-model="request.shipLimitDate_tmp" datepicker/>
+					<input type="date" id="reqEndDate" ng-model="request.shipLimitDate_tmp" datepicker required/>
 				</div>
 				<div class="col s12 m6">
 					<label>End Time</label>
 					<div class="row">
 						<div class="col s5">
-							<select id="endHour" class="browser-default" ng-model="request.shipLimitHour">
+							<select id="endHour" class="browser-default" ng-model="request.shipLimitHour" required>
 								<option value="" disabled selected>Hour</option>
 								<option ng-repeat="hour in hours" value="{{hour}}">{{hour}}</option>
 							</select>
 						</div>
 						<div class="col s1"> : </div>
 						<div class="col s5">
-							<select id="endMinutes" class="browser-default" ng-model="request.shipLimitTime">
+							<select id="endMinutes" class="browser-default" ng-model="request.shipLimitTime" required>
 								<option value="" disabled selected>Min</option>
 								<option ng-repeat="min in mins" value="{{min}}">{{min}}</option>
 							</select>
@@ -106,12 +116,10 @@
 			</div>
 		</form>
 
-		<center><a id="createRequest" class="btn" ng-click="createQuest()">Create Request</a></center>
-
-
+		<center><button id="createRequest" type="submit" class="btn" ng-disabled="newRequestForm.$invalid" ng-click="createQuest()">Create Request</button></center>
 	</div>
 
-	<div class="right col l6 s12">
+	<div class="hide-on-med-and-down right col l6 s12">
 		<ng-map id="map" center="{{map.center}}" zoom="12" on-click="addMarker(event)" style="height: 500px">
 			<marker id="mapMarker" ng-repeat="marker in markers"
 				position="{{marker.position}}"
