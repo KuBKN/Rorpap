@@ -60,7 +60,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 							value.acceptAll = result;														
 						});
 					}	
-					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);					
+					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);
 					$scope.requests.push(value);
 				});		
 			})
@@ -144,8 +144,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 			$http.get('/api/tracking/' + $scope.requests[index]._id)
 				.success(function(data) {
 
-					$scope.path = [];
-					console.log(data);
+					$scope.path = [];					
 					for (var i = 0; i < data.length; i++) {
 						var loc = data[i].location.split(',');
 						var dot = [Number(loc[0]), Number(loc[1])];
