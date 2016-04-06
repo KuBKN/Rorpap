@@ -50,17 +50,17 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 										} ); 				
 				
 				angular.forEach(data, function(value, key) {
-				if(value.type != "Pending"){										
-					loadUser.getUser(value.messenger_id).then(function(result){
-   						value.messenger = result;	   						
-   					});
-				}else{
-					$scope.getAllAccept(value._id).then(function(result){
-						value.acceptNum = result.length;
-						value.acceptAll = result;														
-					});
-				}	
-					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4));
+					if(value.type != "Pending"){										
+						loadUser.getUser(value.messenger_id).then(function(result){
+	   						value.messenger = result;	   						
+	   					});
+					}else{
+						$scope.getAllAccept(value._id).then(function(result){
+							value.acceptNum = result.length;
+							value.acceptAll = result;														
+						});
+					}	
+					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);					
 					$scope.requests.push(value);
 				});		
 			})
@@ -96,13 +96,11 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 	$scope.marker_to = {};
 
 	// TODO still be suck function use inteads of checking if collapse right now, 555
-	$scope.showInMap = function(index) {
-		console.log($scope.requests[index]);
+	$scope.showInMap = function(index) {		
 		$scope.marker_from = {};
 		$scope.marker_to = {};
 		$scope.map.zoom = 10;
-		$scope.path = [];
-
+		$scope.path = [];		
 		if (index != $scope.lastCollepsed) {
 			var loc = $scope.requests[index].fromLoc.split(', ');
 			$scope.marker_from.position = [loc[0],loc[1]];
@@ -124,15 +122,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 								, $scope.calculateCenter($scope.marker_from.position[1], $scope.marker_to.position[1])];
 
 			$scope.marker_from.visible = true;
-			$scope.marker_to.visible = true;
-			var f = document.getElementById("marker_f");
-			// console.log(f);
-			google.maps.event.addListener(f, 'click', function() {			
-	            console.log("this is marker");
-	        });
-			// $scope.map.addListener("mouseover",function(){
-			//  	console.log('nop');
-			// });
+			$scope.marker_to.visible = true;			
 
 			$scope.map.zoom = $scope.calculateZoom($scope.marker_from.position,$scope.marker_to.position);
 
@@ -149,21 +139,25 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 			$scope.map.center=[13.738432,100.530925];
 		}
 
-		$http.get('/api/tracking/' + $scope.requests[index]._id)
-			.success(function(data) {
+		$scope.trackable = ($scope.requests[index].type=='Inprogress'||$scope.requests[index].type=='Finished');
+		if($scope.trackable){
+			$http.get('/api/tracking/' + $scope.requests[index]._id)
+				.success(function(data) {
 
-				$scope.path = [];
-				for (var i = 0; i < data.length; i++) {
-					var loc = data[i].location.split(',');
-					var dot = [Number(loc[0]), Number(loc[1])];
+					$scope.path = [];
+					console.log(data);
+					for (var i = 0; i < data.length; i++) {
+						var loc = data[i].location.split(',');
+						var dot = [Number(loc[0]), Number(loc[1])];
 
-					$scope.path.push(dot);
-				}
+						$scope.path.push(dot);
+					}
 
-			})
-			.error(function(data) {
-				console.log(data);
-			});
+				})
+				.error(function(data) {
+					console.log(data);
+				});
+		};		
 	};
 
 	$scope.lastCollepsed = -1;
@@ -217,7 +211,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 
     $scope.getAllAccept = function(request_id){
     	$scope.curRequest = request_id;
-    	return $http.get('/api/acceptance/' + request_id)
+    	return $http.get('/api/acceptance/getbyreq/' + request_id)
 			.then(function(data) {		
 				return data.data;
 			});

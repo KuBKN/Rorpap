@@ -22,9 +22,9 @@ app.config(function($routeProvider, $locationProvider ) {
 	}).when('/findrequest', {
 		controller: 'FindRequestController',
 		templateUrl: './views/findrequest.html'
-	}).when('/myquest', {
-		controller: 'MyQuestController',
-		templateUrl: './views/myquest.html'
+	}).when('/messenger', {
+		controller: 'MessengerController',
+		templateUrl: './views/messenger.html'
 	}).when('/profile_other', {
 		controller: 'ProfileOtherController',
 		templateUrl: './views/profile_other.html'

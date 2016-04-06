@@ -40,8 +40,16 @@
 					<a id="beamessNav" href="#!/beamessenger" ng-if="user.status == 0 || !logIned" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
 						<font size="4"><center><b>Be a Messenger</b></center></font>
 					</a>
-					<a id="myquestNav" href="#!/myquest" ng-if="user.status == 1" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
-						<font size="4"><center><b>My Quest</b></center></font>
+					<a id="findrequestNav" href="#!/findrequest" ng-if="user.status == 1" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >		
+						<center style="height:30px; line-height:30px">
+							<i class="material-icons" style="font-size: 1rem; height:30px; line-height:30px; display: inline">search</i>
+							<font size="4"><b>Find Request</b></font>
+						</center>												
+					</a>
+				</li>
+				<li ng-if="user.status == 1">
+					<a id="messengerNav" href="#!/messenger" style="text-decoration: none" >
+						<font size="4"><center><b>Messenger</b></center></font>
 					</a>
 				</li>
 
@@ -207,9 +215,10 @@
 <script src="js/controllers/NewRequestController.js"></script>
 <script src="js/controllers/BeAMessengerController.js"></script>
 <script src="js/controllers/ProfileController.js"></script>
-<script src="js/controllers/MyQuestController.js"></script>
+<script src="js/controllers/MessengerController.js"></script>
 <script src="js/controllers/FindRequestController.js"></script>
 <script src="js/controllers/AdminController.js"></script>
+<script src="js/controllers/AcceptedController.js"></script>
 <script src="js/controllers/InProgressQuestController.js"></script>
 <script src="js/controllers/HistoryQuestController.js"></script>
 <script src="js/controllers/ProfileOtherController.js"></script>

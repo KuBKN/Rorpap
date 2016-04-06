@@ -11,7 +11,7 @@ app.controller('HeaderController', ['$scope', '$window', 'loadUser', function($s
 
     var loadMenus = function(type){
     	var menus = [
-    	{
+        {
             id: 'myrequest',
     		title: 'My Request',
     		href: '#!/myrequest',

@@ -32,13 +32,12 @@
 				<div class="collapsible-header" style="padding: 1vw" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
 					<div class="row" style="margin-bottom: 0px">
 
-						<div class="col m4 s12 hide-on-small-and-down" style="margin: 10px 0">
+						<div class="col m4 s12 hide-on-small-and-down">
 							<div style="background-color: white; padding: 5px; border-style: solid">
-								<img src="{{request.psize}}" width="100%" height="120px">
+								<img ng-src="{{request.psize}}" width="100%" height="120px">
 								<div ng-if="request.declarable" style="position: relative">
 									<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
-								</div>
-																
+								</div>							
 							</div>													
 						</div>
 
@@ -77,10 +76,10 @@
 								</span>
 							</div>
 							<div class="container hide-on-med-and-up" style="clear: both">
-								<span class="chip left">
+								<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
+								<span class="chip right">
 									{{request.smallPsize}}
 								</span>
-								<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
 							</div>
 						</div>
 					</div>					
@@ -147,7 +146,7 @@
 							visible="{{marker_to.visible}}"></marker>
 
 
-							<shape name="polyline"
+							<shape ng-if="trackable" name="polyline"
 							path="{{ path }}"
 							geodesic="true"
 							stroke-color="#FF0000"

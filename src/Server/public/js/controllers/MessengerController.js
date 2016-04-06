@@ -1,4 +1,4 @@
-app.controller('MyQuestController', ['$scope','$timeout', function($scope,$timeout) {
+app.controller('MessengerController', ['$scope','$timeout', function($scope,$timeout) {
 
 	$scope.load = function() {
 		$(document).ready(function(){

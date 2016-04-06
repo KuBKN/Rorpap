@@ -39,13 +39,20 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 		$http.get('/api/request/get_request/' + reqtype + '/!' + sender_id)
 			.success(function(data) {
 
-				$scope.requests = [];
-
-				angular.forEach(data, function(value, key) {
-					loadUser.getUser(value.sender_id).then(function(result){
-   						value.sender = result;
-   					});
-					$scope.requests.push(value);
+				$scope.accepts = [];
+				$scope.getAllAccept().then(function(result){
+					 angular.forEach(result, function(value,key){
+					 	$scope.accepts.push(value.request_id);
+					 });					 
+					$scope.requests = [];
+					angular.forEach(data, function(value, key) {
+						if($scope.accepts.indexOf(value._id) == -1){
+							loadUser.getUser(value.sender_id).then(function(result){
+		   						value.sender = result;
+		   					});
+							$scope.requests.push(value);
+						}
+					});
 				});
 
 			}).error(function(data) {
@@ -67,5 +74,13 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 			console.log('Error: ' + data);
 		});
 	};
+
+	$scope.getAllAccept = function(){
+		var messenger_id = $cookies.get('_id').replace(/\"/g, "");
+    	return $http.get('/api/acceptance/getbymess/' + messenger_id)
+			.then(function(data) {
+				return data.data;
+			});
+    }; 
 
 }]);

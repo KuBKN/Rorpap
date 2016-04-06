@@ -451,9 +451,19 @@ router.post('/request/update', function(req, res, next) {
         messenger_id: String
     });
 
-    router.get('/acceptance/:id', function(req, res, next) {
-        var request_id = req.params.id;
+    router.get('/acceptance/getbyreq/:request_id', function(req, res, next) {
+        var request_id = req.params.request_id;
         Acceptance.find({request_id: request_id}, function(err, acceptances) {
+            if (err) {
+                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+            }
+            res.send(acceptances);
+        });
+    });
+
+    router.get('/acceptance/getbymess/:messenger_id', function(req, res, next) {
+        var messenger_id = req.params.messenger_id;
+        Acceptance.find({messenger_id: messenger_id}, function(err, acceptances) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
             }
