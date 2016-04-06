@@ -1,4 +1,4 @@
-app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', function( $scope, $http, $cookies, profileViewer, loadUser, requestColor, uiGmapGoogleMapApi){
+app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', 'requestParcelImg', function( $scope, $http, $cookies, profileViewer, loadUser, requestColor, requestParcelImg, uiGmapGoogleMapApi){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -33,6 +33,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 					loadUser.getUser(value.sender_id).then(function(result){
    						value.sender = result;
    					});
+   					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);
 					$scope.requests.push(value);					
 				});
 
@@ -52,6 +53,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 					loadUser.getUser(value.sender_id).then(function(result){
    						value.sender = result;
    					});
+   					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);
 					$scope.requests.push(value);										
 				});				
 
