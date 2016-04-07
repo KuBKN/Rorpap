@@ -494,6 +494,34 @@ router.post('/request/update', function(req, res, next) {
         });
     });
 
+    router.post('/acceptance/remove', function(req, res, next) {
+        var request_id = req.body.request_id;
+        var messenger_id = req.body.messenger_id;
+        var request_count;
+        Acceptance.remove({request_id: request_id, messenger_id: messenger_id}, function(err) {
+            if (err) {
+                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+            }
+            else {
+                Acceptance.find({request_id: request_id}, function(err, acceptances) {
+                    if (err) {
+                        res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+                    }else{                        
+                        if(acceptances.length==0){                     
+                            Request.findOneAndUpdate({_id: request_id},{ hasAccept: false }, function(err, data) {                                
+                                if (err)
+                                    return res.send(500, { error: err });
+                            });
+                        }
+
+                    }
+
+                });
+                res.status(200).send();
+            }
+        });
+    });
+
     // ================== Mail =================
 
     router.post('/mailservice', function(req, res, next) {

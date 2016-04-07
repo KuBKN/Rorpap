@@ -1189,7 +1189,7 @@ $(document).ready(function(){
 
       $this.width('100%');
       var $active, $content, $links = $this.find('li.tab a'),
-          $tabs_width = $this.width(),
+          $tabs_width = $this.width()+2,
           $tab_width = $this.find('li').first().outerWidth(),
           $index = 0;
 
@@ -1220,7 +1220,7 @@ $(document).ready(function(){
         $indicator.css({"left": $index * $tab_width});
       }
       $(window).resize(function () {
-        $tabs_width = $this.width();
+        $tabs_width = $this.width()+2;
         $tab_width = $this.find('li').first().outerWidth();
         if ($index < 0) {
           $index = 0;
@@ -1244,7 +1244,7 @@ $(document).ready(function(){
           return;
         }
 
-        $tabs_width = $this.width();
+        $tabs_width = $this.width()+2;
         $tab_width = $this.find('li').first().outerWidth();
 
         // Make the old tab inactive.

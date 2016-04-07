@@ -24,17 +24,24 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
 
 		$http.get('/api/request/get_request/' + reqtype + '/!' + sender_id)
-			.success(function(data) {				
-				$scope.accepts = [];
+			.success(function(data) {
+				$scope.accepts = [];				
+				$scope.acceptsR = [];
 				$scope.getAllAccept().then(function(result){
 					 angular.forEach(result, function(value,key){
-					 	$scope.accepts.push(value.request_id);
-					 });					 
+					 	$scope.accepts.push(value);
+					 	$scope.acceptsR.push(value.request_id);
+					 });
+					 data.sort(function(a,b) {return (a._id < b._id) ? 1 : (
+														(a._id > b._id) ? -1 : 0 )
+										} ); 									
 					 angular.forEach(data, function(value, key) {
-						if($scope.accepts.indexOf(value._id) != -1){						
+					 	var indexA = $scope.acceptsR.indexOf(value._id);
+						if(indexA != -1){						
 							loadUser.getUser(value.sender_id).then(function(result){
 		   						value.sender = result;
 		   					});
+		   					value.accepto = $scope.accepts[indexA];
 		   					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);		   					
 							$scope.requests.push(value);
 						}
@@ -51,7 +58,7 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 	$scope.getAllAccept = function(){
 		var messenger_id = $cookies.get('_id').replace(/\"/g, "");
     	return $http.get('/api/acceptance/getbymess/' + messenger_id)
-			.then(function(data) {
+			.then(function(data) {				
 				return data.data;
 			});
     };
@@ -144,6 +151,16 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 		for(var i= dis; i>564.24861; i/=2, n++){}
 		return 20-n;
 		
-	};   
+	};
+
+	$scope.removeAccept = function(index) {		
+		$http.post('/api/acceptance/remove', $scope.requests[index].accepto)
+				.success(function(data) {					
+					window.location.reload();					
+				})
+				.error(function(data) {
+					console.log(data);
+				});
+	};
 
 }]);
