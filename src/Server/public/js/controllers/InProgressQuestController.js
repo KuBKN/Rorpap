@@ -18,13 +18,12 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 
 	$scope.requests = [];
 
-	$scope.getRequests = function(reqtype) {
+	$scope.getRequests = function() {
 		$scope.requests = [];
 		var messenger_id = $cookies.get('_id').replace(/\"/g, "");		
-		reqtype = "Reserved";		
+		var reqtype = "Reserved";		
 		$http.get('/api/request/get_quest/' + reqtype + '/' + messenger_id)
-			.success(function(data) {
-
+			.success(function(data) {				
 				data.sort(function(a,b) {return (a._id < b._id) ? 1 : (
 														(a._id > b._id) ? -1 : 0);
 				});
@@ -41,7 +40,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 			.error(function(data) {
 				console.log(data);
 			});
-
+		
 		reqtype = "Inprogress";		
 		$http.get('/api/request/get_quest/' + reqtype + '/' + messenger_id)
 			.success(function(data) {			
@@ -52,7 +51,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 				angular.forEach(data, function(value, key) {
 					loadUser.getUser(value.sender_id).then(function(result){
    						value.sender = result;
-   					});
+   					});   					
    					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);
 					$scope.requests.push(value);										
 				});				
@@ -212,6 +211,28 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 		for(var i= dis; i>564.24861; i/=2, n++){}
 		return 20-n;
 		
+	};
+
+	$scope.cancelReserved = function(index){
+		var request_id = $scope.requests[index]._id;
+    	$http.post('/api/request/cancel/'+request_id)
+			.success(function(data) {
+				window.location.reload();
+			})
+			.error(function(data) {
+				console.log(data);
+			});
+	};
+
+	$scope.cancelProgress = function(index){
+		var request_id = $scope.requests[index]._id;
+    	$http.post('/api/request/abandon/'+request_id)
+			.success(function(data) {
+				window.location.reload();
+			})
+			.error(function(data) {
+				console.log(data);
+			});
 	};
 
 }]);

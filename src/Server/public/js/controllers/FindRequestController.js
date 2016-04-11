@@ -21,6 +21,15 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 	};
 	$scope.load();
 
+	$scope.hours = ['00','01','02','03','04','05','06','07','08','09','10','11',
+	'12','13','14','15','16','17','18','19','20','21','22','23'];
+
+	$scope.mins = ['00','01','02','03','04','05','06','07','08','09','10','11',
+	'12','13','14','15','16','17','18','19','20','21','22','23',
+	'24','25','26','27','28','29','30','31','32','33','34','35',
+	'36','37','38','39','40','41','42','43','44','45','46','47',
+	'48','49','50','51','52','53','54','55','56','57','58','59'];
+
 	$scope.reqBackground = function(type) {
 		return requestColor.getColor(type);
 	};
@@ -45,6 +54,9 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 					 	$scope.accepts.push(value.request_id);
 					 });					 
 					$scope.requests = [];
+					data.sort(function(a,b) {return (a._id < b._id) ? 1 : (
+														(a._id > b._id) ? -1 : 0 );
+										} );
 					angular.forEach(data, function(value, key) {
 						if($scope.accepts.indexOf(value._id) == -1){
 							loadUser.getUser(value.sender_id).then(function(result){
@@ -52,8 +64,8 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 		   					});
 							$scope.requests.push(value);
 						}
-					});
-				});
+					});					
+				});				
 
 			}).error(function(data) {
 				console.log(data);
@@ -61,11 +73,13 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 	};
 
 	$scope.getRequests();
+ 	$scope.accept = {};
 
-	$scope.acceptRequest = function(index) {
+	$scope.acceptRequest = function() {		
 		var messenger_id = $cookies.get('_id').replace(/\"/g, "");
-		//$http.post('/api/request/accept/' + messenger_id, $scope.requests[index])
-		$http.post('/api/acceptance/add/' + messenger_id + "/" + $scope.requests[index]._id)
+		var date_t = $scope.accept.date_t;
+		$scope.accept.date = date_t.getDate()+"/"+(date_t.getMonth()+1)+"/"+date_t.getFullYear();
+		$http.post('/api/acceptance/add/' + messenger_id + "/" + $scope.curreq._id, $scope.accept)
 		.success(function(data) {
 			console.log(data);
 			window.location.reload();
@@ -81,6 +95,13 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 			.then(function(data) {
 				return data.data;
 			});
-    }; 
+    };
+
+    $scope.openModal = function(index){		
+        
+        $('#modalAccept').openModal();
+        $scope.curreq = $scope.requests[index];       
+        
+    };   
 
 }]);

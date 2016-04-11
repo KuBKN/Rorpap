@@ -74,8 +74,9 @@
 								<span class="new badge right" style="right: 0; line-height: 30px; height: 30px; width: 90px; position: relative" ng-click="openModal($index)" ng-if="request.type=='Pending' && request.hasAccept">
 									{{ request.acceptNum }}
 								</span>
-								<span class="right" ng-if="request.type == 'Reserved'">
-									<a id="send{{$index}}" class="btn" style="background-color: #e51c23" ng-click="showSendingToken($index)">Send</a>
+								<span class="right" ng-if="request.type == 'Reserved'">		
+									<a id="send{{$index}}" class="btn" style="background-color: #50C625; text-transform: none" ng-click="showSendingToken($index)">Send</a>
+									{{request.appointDate}} {{request.appointTime}}
 								</span>
 							</div>
 							<div class="container hide-on-med-and-up" style="clear: both">
@@ -99,7 +100,7 @@
 								<i class="material-icons">schedule</i>
 								{{request.shipLimitHour}}:{{request.shipLimitTime}}
 							</span>
-							<div style="margin-bottom: 5px; margin-left: 5px">								
+							<div style="margin-bottom: 5px; margin-left: 5px">			
 								<h6 ng-if="request.type=='Pending'">
 									{{request.reqLimitDate}} {{request.reqLimitTime}}
 								</h6>
@@ -116,7 +117,7 @@
 						<div class="col m12 s12">
 							<span class="right" ng-if="request.type !== 'Finished'">
 								<a id="edit{{$index}}" class="btn black-text" style="background-color: #FCFCFC" ng-click="editRequest($index)">Edit</a>
-								<a ng-if="request.type == 'Reserved'" id="cancel{{$index}}" class="btn" style="background-color: #e51c23">Cancel</a>
+								<a ng-if="request.type == 'Reserved'" id="cancel{{$index}}" class="btn" style="background-color: #e51c23" ng-click="cancelRequest($index)">Cancel</a>
 								<a ng-if="request.type == 'Pending'" id="remove{{$index}}" class="btn" style="background-color: #e51c23" ng-click="removeRequest($index)">Remove</a>
 							</span>							
 						</div>
@@ -166,41 +167,20 @@
 <div id="modal1" class="modal" style="width: 280px">
   <div class="modal-content" style="padding: 0px">
       <ul class="collapsible popout" data-collapsible="accordion">
-		    <li id="accept{{$index}}" ng-repeat="accept in allAccepts | orderBy: '_id'">
-		      <div class="collapsible-header">		      		
+		    <li id="accept{{$index}}" ng-repeat="accept in allAccepts | orderBy: 'sort'">
+		      <div class="collapsible-header">
+		      		{{accept.date}} {{accept.hour}}:{{accept.min}}<br>
 		      		{{ accept.firstname }} {{ accept.lastname }}
 		      </div>
 		      <div class="collapsible-body">
 		      	<p>
 		      		{{ accept.email }}<br>
 		      		<a href="#!/profile_other" ng-click="seeUserM(accept)">See detail</a>
-		      		<div class="container row" style="width: 80%">
-			      		<div class="col s12">
-									<label for="reqEndDate">Transfer Date</label>
-									<input type="date" id="reqEndDate" datepicker required/>
-								</div>
-								<div class="col s12">
-									<label>Transfer Time</label>
-									<div class="row">
-										<div class="col s5">
-											<select id="endHour" class="browser-default" required>
-												<option value="" disabled selected>Hour</option>
-												<option ng-repeat="hour in hours" value="{{hour}}">{{hour}}</option>
-											</select>
-										</div>
-										<div class="col s1"> : </div>
-										<div class="col s5">
-											<select id="endMinutes" class="browser-default" required>
-												<option value="" disabled selected>Min</option>
-												<option ng-repeat="min in mins" value="{{min}}">{{min}}</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<center>
-									<div class="btn" ng-click="confirmMessenger($index)">Confirm</div>
-								</center>
-							</div>		      		
+		      		<div class="container" style="width: 80%">			    
+						<center>
+							<div class="btn" ng-click="confirmMessenger($index)">Confirm</div>
+						</center>
+					</div>		      		
       			 </p>  			
       		</div>
 		    </li>

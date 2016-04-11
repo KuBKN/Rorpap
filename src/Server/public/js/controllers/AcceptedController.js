@@ -8,6 +8,15 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 	};
 	$scope.load();
 
+	$scope.hours = ['00','01','02','03','04','05','06','07','08','09','10','11',
+	'12','13','14','15','16','17','18','19','20','21','22','23'];
+
+	$scope.mins = ['00','01','02','03','04','05','06','07','08','09','10','11',
+	'12','13','14','15','16','17','18','19','20','21','22','23',
+	'24','25','26','27','28','29','30','31','32','33','34','35',
+	'36','37','38','39','40','41','42','43','44','45','46','47',
+	'48','49','50','51','52','53','54','55','56','57','58','59'];
+
 	$scope.reqBackground = function(type) {
 		return requestColor.getColor(type);
 	};
@@ -162,5 +171,28 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 					console.log(data);
 				});
 	};
+
+	$scope.accept = {};	
+
+	$scope.openModal = function(index){
+		$('#modalAccept').openModal();		
+		$scope.curAccept = $scope.requests[index].accepto;
+		console.log($scope.curAccept);
+	};
+
+	$scope.editTime = function(){
+		var date_t = $scope.accept.date_t;
+		$scope.accept.date = date_t.getDate()+"/"+(date_t.getMonth()+1)+"/"+date_t.getFullYear();		
+		var id = $scope.curAccept._id;
+		$http.post('/api/acceptance/edit/'+id, $scope.accept)
+				.success(function(data) {					
+					window.location.reload();					
+				})
+				.error(function(data) {
+					console.log(data);
+				});
+	};
+
+
 
 }]);

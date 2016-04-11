@@ -7,16 +7,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 		$('select').material_select();
 		$('#mySelect').val();	
 	};
-	$scope.load();
-	
-	$scope.hours = ['00','01','02','03','04','05','06','07','08','09','10','11',
-	'12','13','14','15','16','17','18','19','20','21','22','23'];
-
-	$scope.mins = ['00','01','02','03','04','05','06','07','08','09','10','11',
-	'12','13','14','15','16','17','18','19','20','21','22','23',
-	'24','25','26','27','28','29','30','31','32','33','34','35',
-	'36','37','38','39','40','41','42','43','44','45','46','47',
-	'48','49','50','51','52','53','54','55','56','57','58','59'];
+	$scope.load();	
 
 	$scope.reqBackground = function(type) {
 		return requestColor.getColor(type);
@@ -184,7 +175,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 		
 	};
 
-	$scope.openModal = function(index){		
+	$scope.openModal = function(index){	
+    	$scope.curRequest = $scope.requests[index];	
         
         $('#modal1').openModal();        
         
@@ -197,40 +189,55 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 		$scope.allAccepts.length = 0;
 
         var allAccepts = $scope.requests[index].acceptAll;
-    	for (var i = 0; i < allAccepts.length; i++) {	    		
+        allAccepts.sort(function(a,b) {
+        	aa = a.date.split("/");
+        	bb = b.date.split("/");        	
+    		return (aa[2] > bb[2]) ? 1 : ((bb[2] > aa[2]) ? -1 : (
+    			(aa[1] > bb[1]) ? 1 : ((bb[1] > aa[1]) ? -1 : (
+    			(aa[0] > bb[0]) ? 1 : ((bb[0] > aa[0]) ? -1 : 0)))))
+    	});
+    	for (var i = 0; i < allAccepts.length; i++) {
+	    	allAccepts[i].sort = i;	    		
    			$scope.getAcceptMessenger(allAccepts[i]);
-    	}      
+    	}    	
     };
 
     $scope.getAcceptMessenger = function(accept){
     	loadUser.getUser(accept.messenger_id).then(function(data){
+    		var sort = accept.sort;
 			var _id = accept._id;
     		var messenger_id = accept.messenger_id;
+    		var date = accept.date;
+    		var hour = accept.hour;
+    		var min = accept.min;
 			var firstname = data.firstname;
 			var lastname = data.lastname;
 			var email = data.email;
 			$scope.allAccepts.push({
+				sort: sort,
 				_id: _id,
 				messenger_id: messenger_id,
+				date: date,
+				hour: hour,
+				min: min,
 				firstname: firstname,
 				lastname: lastname,
 				email: email
-			});  						
+			});			
     	});    		
     }
 
     $scope.getAllAccept = function(request_id){
-    	$scope.curRequest = request_id;
     	return $http.get('/api/acceptance/getbyreq/' + request_id)
 			.then(function(data) {		
 				return data.data;
 			});
     };
 
-    $scope.confirmMessenger = function(messenger){
-    	var messenger_id = $scope.allAccepts[messenger].messenger_id;
-    	var request_id = $scope.curRequest;
-    	$http.post('/api/request/reserve/'+messenger_id+'/'+request_id)
+    $scope.confirmMessenger = function(index){
+    	var accept = $scope.allAccepts[index];
+    	var request_id = $scope.curRequest._id;
+    	$http.post('/api/request/reserve/'+request_id, accept)
 			.success(function(data) {
 				window.location.reload();
 			})
@@ -249,13 +256,18 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
     $scope.editRequest = function(index){
     	var ureq = $scope.requests[index];
     	requestEditor.seeReq(ureq);
-    	// if(ureq.type=="Pending"){
-    		$location.path('/newrequest');
-    	// }else if(ureq.type=="Reserved"){
-    		
-    	// }else{
+    	$location.path('/newrequest');
+    };
 
-    	// }
+    $scope.cancelRequest = function(index){
+    	var request_id = $scope.requests[index]._id;
+    	$http.post('/api/request/cancel/'+request_id)
+			.success(function(data) {
+				window.location.reload();
+			})
+			.error(function(data) {
+				console.log(data);
+			});
     };
 
 }]);

@@ -1,5 +1,5 @@
-<br>
 <div class="container row">
+	<br>
 	<div class="container hide-on-med-and-down col l5">
 		<form name="findRequestForm" action="#">
 			<div class="input-field">
@@ -30,65 +30,117 @@
 		</div>
 	</div>
 
-	<div class="col l7 m8 s12">
+	<div class="col l7 s12">
 		<ul class="collapsible popout" data-collapsible="accordion">
+			<li id="arequest{{$index}}" class="request" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-_id']">
 
-			<li style="margin: 10px 0" ng-repeat="request in requests" ng-click="showInMap($index)">
+				<div class="collapsible-header" style="padding: 1vw" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
+					<div class="row" style="margin-bottom: 0px">
 
-				<div class="collapsible-header" style="text-align: left" ng-style="{'background-color': reqBackground(request.type)}">
-					<div class="row">
-
-						<div class="col m3 s12 hide-on-small-and-down" style="margin: 10px 0; border-style: solid; border-color: black">
-							{{request.size_length}} 
-							{{request.size_width}} 
-							{{request.size_height}}<br>
-							{{request.weight}}<br>
+						<div class="col m4 s12 hide-on-small-and-down">
+							<div style="background-color: white; padding: 5px; border-style: solid">
+								<img ng-src="{{request.psize}}" width="100%" height="120px">
+								<div ng-if="request.declarable" style="position: relative">
+									<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
+								</div>											
+							</div>	
 						</div>
 
-						<div class="col m9 s12">									
-							<h5>To : {{request.recipient_name}}</h5>
-
-							<div class="chip">
-								<i class="material-icons">event</i>
-								{{request.reqLimitDate}}
+						<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">		
+							<div class="hide-on-med-and-up col s12 row" style="margin-bottom: 0px">
+								<div class="col s3" style="padding: 0">
+									<h6 style="text-align: right">To:</h6>
+									<h6 style="text-align: right">Email:</h6>
+									<h6 style="text-align: right">Tel:</h6>
+								</div>
+								<div class="col s9">
+									<h6 style="text-align: left"><b>{{request.recipient_name}}</b></h6>
+									<h6 style="text-align: left">{{request.recipient_email}}</h6>
+									<h6 style="text-align: left">{{request.recipient_tel}}</h6>
+								</div>								
 							</div>
-							<div class="chip">
-								<i class="material-icons">schedule</i>
-								{{request.reqLimitTime}}
+							<div class="hide-on-small-only col s12 row">		
+								<div class="col s3"  style="padding: 0">
+									<h5 style="text-align: right">To:</h5>
+									<h5 style="text-align: right">Email:</h5>
+									<h5 style="text-align: right">Tel:</h5>
+								</div>
+								<div class="col s9">
+									<h5 style="text-align: left"><b>{{request.recipient_name}}</b></h5>
+									<h5 style="text-align: left">{{request.recipient_email}}</h5>
+									<h5 style="text-align: left">{{request.recipient_tel}}</h5>
+								</div>								
+							</div>					
+							<div class="container hide-on-med-and-up" style="clear: both">
+								<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
+								<span class="chip right">
+									{{request.smallPsize}}
+								</span>										
 							</div>
 						</div>
-
-
 					</div>
 				</div>
 
 				<div class="collapsible-body" style="background-color: #F8F8F8; text-align: left">
 					<div class="row" style="padding: 10px">
-						<div class="col s9">
-							<div style="margin-bottom: 5px">
-								<h6>Email : {{request.recipient_email}}</h6>
-								<h6>Tel : {{request.recipient_tel}}</h6>
-								Due in {{request.shipLimitDate}} {{request.shipLimitTime}}<br>
-								<h6>Sender 
-									<a href="#!/profile_other" ng-click="seeUser(request.sender)">{{request.sender.firstname}} {{request.sender.lastname}}</a>
-								</h6>
+						<div class="col s8 m8">
+							<span class="chip">
+								<i class="material-icons">event</i>
+								{{request.shipLimitDate}}
+							</span>
+							<span class="chip">
+								<i class="material-icons">schedule</i>
+								{{request.shipLimitHour}}:{{request.shipLimitTime}}
+							</span>
+							<div style="margin-bottom: 5px; margin-left: 5px">								
+								<h6>
+									{{request.reqLimitDate}} {{request.reqLimitTime}}
+								</h6>									
 								{{request.comment}}
 							</div>
 						</div>
 
-						<div class="col s3 right green-text" style="text-align: right"><h5>{{request.price}}</h5></div>
+						<div class="col s4 m4 right green-text" style="text-align: right"><h5>{{request.price}} Baht</h5></div>
 
 						<div class="col m12 s12" ng-if="request.type == 'Pending'">
 							<span class="right">
-								<a class="btn" style="background-color: #e51c23" ng-click="acceptRequest($index)">Accept</a>
+								<a class="btn" style="background-color: #e51c23" ng-click="openModal($index)">Accept</a>
 							</span>
 						</div>
-
 					</div>
 				</div>
-
 			</li>
-
 		</ul>
 	</div>
+	<div id="modalAccept" class="modal" style="width: 280px; height: 260px">
+	  <div class="modal-content" style="padding: 0px">
+	  	<form name="acceptForm">	  		
+		  	<div class="col s12">
+					<label for="appoinmentDate">Transfer Date</label>
+					<input type="date" id="appoinmentDate" ng-model="accept.date_t" datepicker required>
+				</div>
+				<div class="col s12">
+					<label>Transfer Time</label>
+					<div class="row">
+						<div class="col s5">
+							<select id="appoinmentHour" class="browser-default" ng-model="accept.hour" required>
+								<option value="" disabled selected>Hour</option>
+								<option ng-repeat="hour in hours" value="{{hour}}">{{hour}}</option>
+							</select>
+						</div>
+						<div class="col s1"><font size="3"> : </font></div>
+						<div class="col s5">
+							<select id="appoinmentMinutes" class="browser-default" ng-model="accept.min" required>
+								<option value="" disabled selected>Min</option>
+								<option ng-repeat="min in mins" value="{{min}}">{{min}}</option>
+							</select>
+						</div>
+					</div>				
+				</div>
+				<center>
+					<button id="acceptBtn" type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="acceptRequest()" ng-disabled="acceptForm.$invalid">Accept</button>
+				</center>	
+			</form>			
+	  </div>
+	</div>	
 </div>
