@@ -198,7 +198,7 @@ var Request = mongoose.model('requests', {
 
     recipient_name: String,
     recipient_email: String,
-    recipient_tel: String,   
+    recipient_tel: String,
     psize: String,
     weight: String,
     declarable: Boolean,
@@ -234,7 +234,7 @@ router.post('/request/create', function(req, res, next) {
     var recipient_name = req.body.recipient_name;
     var recipient_email = req.body.recipient_email;
     var recipient_tel = req.body.recipient_tel;
-    var psize = req.body.psize;    
+    var psize = req.body.psize;
     var weight = req.body.weight;
     var declarable = req.body.declarable;
     var price = req.body.price;
@@ -246,7 +246,7 @@ router.post('/request/create', function(req, res, next) {
         recipient_name: recipient_name,
         recipient_email: recipient_email,
         recipient_tel: recipient_tel,
-        psize: psize,        
+        psize: psize,
         weight: weight,
         declarable: declarable,
         fromLoc: fromLoc,
@@ -274,7 +274,7 @@ router.post('/request/update', function(req, res, next) {
     var hasAccept = false;
     var fromLoc = req.body.fromLoc;
     var toLoc = req.body.toLoc;
-    var messenger_id = req.body.messenger_id;    
+    var messenger_id = req.body.messenger_id;
     var reqLimitDate = '01/01/2011'; //now.format('DD/MM/YYYY');
     var reqLimitTime = '01:01'; //now.format('mm:hh');
     var shipLimitDate = req.body.shipLimitDate;
@@ -283,15 +283,15 @@ router.post('/request/update', function(req, res, next) {
     var recipient_name = req.body.recipient_name;
     var recipient_email = req.body.recipient_email;
     var recipient_tel = req.body.recipient_tel;
-    var psize = req.body.psize;    
+    var psize = req.body.psize;
     var weight = req.body.weight;
     var declarable = req.body.declarable;
     var price = req.body.price;
     var comment = req.body.comment;
 
     Request.findOneAndUpdate({_id: _id},
-     {fromLoc: fromLoc, 
-        toLoc: toLoc, 
+     {fromLoc: fromLoc,
+        toLoc: toLoc,
         shipLimitDate: shipLimitDate,
         shipLimitHour: shipLimitHour,
         shipLimitTime: shipLimitTime,
@@ -302,7 +302,7 @@ router.post('/request/update', function(req, res, next) {
         weight: weight,
         declarable: declarable,
         price: price,
-        comment: comment}, 
+        comment: comment},
         function(err, data) {
             if (err)
             return res.send(500, { error: err });
@@ -547,9 +547,9 @@ router.post('/request/update', function(req, res, next) {
                 Acceptance.find({request_id: request_id}, function(err, acceptances) {
                     if (err) {
                         res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-                    }else{                        
-                        if(acceptances.length==0){                     
-                            Request.findOneAndUpdate({_id: request_id},{ hasAccept: false }, function(err, data) {                                
+                    }else{
+                        if(acceptances.length==0){
+                            Request.findOneAndUpdate({_id: request_id},{ hasAccept: false }, function(err, data) {
                                 if (err)
                                     return res.send(500, { error: err });
                             });
@@ -592,34 +592,34 @@ router.post('/request/update', function(req, res, next) {
     });
 
     router.post('/gcm/push', function(req, res, next) {
-        console.log(1);
-        var device_tokens = ["APA91bEET31jiZ83eJde--jrl9PzfkxWkvUQucyiMe9OVRqHORODyi9i0bqgX8HiNIAQZYM9uBM4NLjGT1AznQeBhz7og24U2a8VMPIniN8_oAw9RBi-fERvesM_SZOcPuwSiU9Y4jP1mvuvrBkCaqINMo5MWOEZEg"]; //create array for storing device tokens
+        var type = req.body.type;
+        var signal = req.body.signal;
+        var title = req.body.title;
+        var content = req.body.content;
+        // var device_tokens = req.body.device_tokens;
+        var device_tokens = ["APA91bFoAWdARBc2y9F8dQ03P12NA-yFGAExwSNlMrUxwfbZAmzxIuAdeqoOpC62cogzStiR7YB7MbwGP-uDJdnatoaoFBSpUwAwHlnJ7Nx9ea0shegVLx3cUUEgFpzR-fUit-IWjUOX"]; //create array for storing device tokens
         var retry_times = 4; //the number of times to retry sending the message if it fails
-console.log(2);
+
         var sender = new gcm.Sender('AIzaSyAfx5LifSQtCuxr86ZgVOg5b4VzAauLCDM'); //create a new sender
         var message = new gcm.Message(); //create a new message
-console.log(3);
-        message.addData('title', 'New Message');
-        message.addData('message', 'Hello this is a push notification');
-        message.addData('sound', 'notification');
-console.log(4);
+
+        message.addData('type', type);
+        message.addData('signal', signal);
+        message.addData('title', title);
+        message.addData('content', content);
+
         message.collapseKey = 'testing'; //grouping messages
         message.delayWhileIdle = true; //delay sending while receiving device is offline
         message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
-console.log(5);
+
 
         // device_tokens.push(device_token);
-console.log(6);
         sender.send(message, device_tokens, retry_times, function(result){
             console.log(result);
             console.log('push sent to: ' + device_tokens);
         });
-console.log(7);
-        res.send('ok');
+        res.send(JSON.stringify({sender: sender, message: message}));
     });
-
-
-
 
 
 
