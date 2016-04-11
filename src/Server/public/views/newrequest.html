@@ -50,8 +50,8 @@
 				</div>
 			</div>
 
-			<div class="col s11 row" style="margin-left: 42px; margin-bottom: 30px">
-				<label class="col s12"><h6>Size</h6></label>
+			<div ng-if="fullEdit" class="col s11 offset-s1 row" style="margin-bottom: 30px">
+				<label class="col s12 left" style="padding: 0"><h6>Size</h6></label>
 					<div class="col s12 m6 l4" style="max-width: 180px; padding: 0px" ng-repeat="img in parcelImgs">
 						<input name="group1" type="radio" id="psize{{$index}}" required>
 					    <label class="btn white card" style="padding-right: 0; height:100%; margin: 5px 5px" for="psize{{$index}}" ng-click="chooseSize($index)">
@@ -62,7 +62,7 @@
 					</div>
 	
 
-				<div class="col s12 row">
+				<div class="col s12 row left">
 					<div class="input-field col s12 m6">
 					    <select id="weight" class="browser-default" required ng-model="request.weight">
 					      <option value="" disabled selected>Weight</option>
@@ -78,7 +78,7 @@
 				</div>
 			</div>	
 				 						
-			<div class="col s11 row" style="margin-left: 42px; margin-bottom: 30px">
+			<div ng-if="fullEdit" class="col s11 offset-s1 row" style="margin-bottom: 30px; padding: 0">
 				<div class="col s12 m6">
 					<label for="reqEndDate">Shipment End Date</label>
 					<input type="date" id="reqEndDate" ng-model="request.shipLimitDate_tmp" datepicker required/>
@@ -108,15 +108,17 @@
 						<input type="range" id="price" ng-model="request.price" min="35" max="100" />
 					</p>
 				</div>
-
-				<div class="input-field col s12">
-					<label for="comment" class="active">Comment</label>
-					<textarea id="comment" ng-model="request.comment" class="materialize-textarea"></textarea>
-				</div>
+			</div>
+			<div class="input-field col s11 offset-s1">
+				<label for="comment" class="active">Comment</label>
+				<textarea id="comment" ng-model="request.comment" class="materialize-textarea"></textarea>
 			</div>
 		</form>
 
-		<center><button id="createRequest" type="submit" class="btn" ng-disabled="newRequestForm.$invalid" ng-click="createQuest()">Create Request</button></center>
+		<center><button id="createRequest" type="submit" class="btn" ng-disabled="newRequestForm.$invalid" ng-click="createQuest()">
+			<h6 ng-if="!editMode">Create Request</h6>
+			<h6 ng-if="editMode">Edit Request</h6>
+		</button></center>
 	</div>
 
 	<div class="hide-on-med-and-down right col l6 s12">

@@ -52,8 +52,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 		$scope.request.fromLoc = $scope.markers[0].position[0] + ', ' + $scope.markers[0].position[1];
 		$scope.request.toLoc = $scope.markers[1].position[0] + ', ' + $scope.markers[1].position[1];
 		var d = new Date($scope.request.shipLimitDate_tmp);
-		$scope.request.shipLimitDate = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
-		console.log($scope.request);
+		$scope.request.shipLimitDate = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();		
 		if($scope.editMode){
 			$http.post('/api/request/update', $scope.request)
 			.success(function(data) {
@@ -112,10 +111,14 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 	}
 
 	$scope.editMode = false;
+	$scope.fullEdit = true;
 
 	if(requestEditor.getReq() != null){
 		$scope.request = requestEditor.getReq();
+		var shipLD = $scope.request.shipLimitDate.split("/");
+		$scope.request.shipLimitDate_tmp = new Date(shipLD[1]+"/"+shipLD[0]+"/"+shipLD[2]);
 		$scope.editMode = true;
+		$scope.fullEdit = requestEditor.getReq().type == "Pending";
 	};
 
 	if ($scope.editMode) {
