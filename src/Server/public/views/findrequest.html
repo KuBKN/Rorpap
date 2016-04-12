@@ -95,7 +95,11 @@
 							<div style="margin-bottom: 5px; margin-left: 5px">								
 								<h6>
 									{{request.reqLimitDate}} {{request.reqLimitTime}}
-								</h6>									
+								</h6>
+								<h6>
+									Sender
+									<a href="#!/profile_other" ng-click="seeUser(request.sender)">{{request.sender.firstname}} {{request.sender.lastname}}</a>
+								</h6>										
 								{{request.comment}}
 							</div>
 						</div>

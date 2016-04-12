@@ -1,4 +1,4 @@
-app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location', 'loadUser', 'profileViewer', 'requestColor', 'requestParcelImg', 'requestEditor', function($scope, $http, $cookies, $location, loadUser, profileViewer, requestColor, requestParcelImg, requestEditor) {
+app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location', 'loadUser', 'profileViewer', 'requestColor', 'requestParcelImg', 'requestEditor', 'NgMap', function($scope, $http, $cookies, $location, loadUser, profileViewer, requestColor, requestParcelImg, requestEditor, NgMap) {
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -8,6 +8,10 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 		$('#mySelect').val();	
 	};
 	$scope.load();	
+
+	NgMap.getMap().then(function(map) {
+	    $scope.rmap = map;
+	});
 
 	$scope.reqBackground = function(type) {
 		return requestColor.getColor(type);
@@ -91,74 +95,77 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 			13.738432,
 			100.530925
 		],
-		zoom: 12
+		zoom: 12,
+		zoomToIncludeMarkers: false
+	};	
+
+	$scope.markers = [];
+
+	$scope.updateMarkers = function(index){
+		var loc = $scope.requests[index].fromLoc.split(', ');
+		$scope.markers.push({ pos: [loc[0],loc[1]],
+								optimized: true,
+								icon: { url:'images/LOGO-RED.png',
+						        		scaledSize:[40,40]
+						      	} 
+						    });
+		loc = $scope.requests[index].toLoc.split(', ');
+		$scope.markers.push({ pos: [loc[0],loc[1]],
+								optimized: true,
+								icon: { url:'images/LOGO-GREEN.png',
+						        		scaledSize:[40,40]
+						      	} 
+						    });
 	};
 
-	$scope.marker_from = {};
-	$scope.marker_to = {};
-
 	// TODO still be suck function use inteads of checking if collapse right now, 555
-	$scope.showInMap = function(index) {		
-		$scope.marker_from = {};
-		$scope.marker_to = {};
-		$scope.map.zoom = 10;
-		$scope.path = [];		
+	$scope.showInMap = function(index) {			
+		$scope.map.zoomToIncludeMarkers = 'auto';		
+
+		$scope.markers = [];
 		if (index != $scope.lastCollepsed) {
-			var loc = $scope.requests[index].fromLoc.split(', ');
-			$scope.marker_from.position = [loc[0],loc[1]];
-			$scope.marker_from.optimized = true;
-			$scope.marker_from.icon = {
-						        url:'images/LOGO-RED.png',
-						        scaledSize:[40,40]
-						      };
-
-		    var loc = $scope.requests[index].toLoc.split(', ');
-			$scope.marker_to.position = [loc[0],loc[1]];
-			$scope.marker_to.optimized = false;
-			$scope.marker_to.icon = {
-						        url:'images/LOGO-GREEN.png',
-						        scaledSize:[40,40]
-						      };
-
-			$scope.map.center= [ $scope.calculateCenter($scope.marker_from.position[0], $scope.marker_to.position[0])
-								, $scope.calculateCenter($scope.marker_from.position[1], $scope.marker_to.position[1])];
-
-			$scope.marker_from.visible = true;
-			$scope.marker_to.visible = true;			
-
-			$scope.map.zoom = $scope.calculateZoom($scope.marker_from.position,$scope.marker_to.position);
+			$scope.trackable = ($scope.requests[index].type=='Inprogress'||$scope.requests[index].type=='Finished');			
+			if($scope.trackable){								
+				$http.get('/api/tracking/' + $scope.requests[index]._id)
+					.then(function(data) {						
+						$scope.path = [];
+						$scope.tracking = [];						
+						$scope.trackers = [];
+						var dot;				
+						for (var i = 0; i < data.data.length; i++) {
+							var loc = data.data[i].location.split(',');
+							dot = [Number(loc[0]), Number(loc[1])];						
+							$scope.path.push(dot);
+							$scope.tracking.push(data.data[i].date);
+							var ico = 'images/tracking_icon.png';
+							var scale = [10,10];
+							if(i==data.data.length-1){
+								ico = 'images/LOGO-BLUE.png';
+								scale = [40,40]
+							}
+							$scope.trackers.push({ pos: dot,
+											optimized: true,
+											icon: { url: ico,
+												    scaledSize: scale
+												}
+						    				});
+						}
+						$scope.updateMarkers(index);
+					});
+			}else{
+				$scope.updateMarkers(index);
+			};		
 
 			$scope.lastCollepsed = index;
 		}
-		else {
-			$scope.marker_from = {};
-			$scope.marker_to = {};
+		else {			
 			$scope.path = [];
 
 			$scope.lastCollepsed = -1;
-			$scope.marker_from.visible = false;
-			$scope.marker_to.visible = false;
-			$scope.map.center=[13.738432,100.530925];
+			$scope.map.center = [13.738432, 100.530925];
+			$scope.map.zoom = 12;
+			$scope.map.zoomToIncludeMarkers = false;			
 		}
-
-		$scope.trackable = ($scope.requests[index].type=='Inprogress'||$scope.requests[index].type=='Finished');
-		if($scope.trackable){
-			$http.get('/api/tracking/' + $scope.requests[index]._id)
-				.success(function(data) {
-
-					$scope.path = [];					
-					for (var i = 0; i < data.length; i++) {
-						var loc = data[i].location.split(',');
-						var dot = [Number(loc[0]), Number(loc[1])];
-
-						$scope.path.push(dot);
-					}
-
-				})
-				.error(function(data) {
-					console.log(data);
-				});
-		};		
 	};
 
 	$scope.lastCollepsed = -1;
@@ -269,5 +276,16 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 				console.log(data);
 			});
     };
+
+    $scope.showwindow = function(event,index){
+    	// console.log($scope.tracking);
+    	// var e = document.getElementById('tracking_date');
+    	// e.innerHTML = $scope.tracking[index];
+    	// console.log(e);
+    	var d = new Date($scope.tracking[index]);
+    	$scope.date = d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
+    	$scope.time = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();   	  
+    	$scope.rmap.showInfoWindow('bar',this);    
+    }
 
 }]);

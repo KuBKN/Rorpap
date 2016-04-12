@@ -136,26 +136,31 @@
 				<div class="card blue-grey darken-1">
 					<div class="card-content white-text">
 						<span class="card-title">Location</span>
-						<ng-map center="{{map.center}}" zoom="{{map.zoom}}">
-							<marker id="marker_f" position="{{marker_from.position}}"
-							optimized="{{marker_from.optimized}}"
-							icon="{{marker_from.icon}}"
-							visible="{{marker_from.visible}}"></marker>
+						<ng-map style="height: 300px" center="{{map.center}}" zoom="{{map.zoom}}" 
+						zoom-to-include-markers="{{map.zoomToIncludeMarkers}}">
 
-							<marker id="marker_t" position="{{marker_to.position}}"
-							optimized="{{marker_to.optimized}}"
-							icon="{{marker_to.icon}}"
-							visible="{{marker_to.visible}}"></marker>
+							<marker ng-if="trackable" id="tracker{{$index}}" ng-repeat="tracker in trackers" 
+							position="{{tracker.pos}}" icon="{{tracker.icon}}"
+							optimized="{{tracker.optimized}}"
+							on-mouseover="showwindow(event,$index)">
+							</marker>
+							<info-window id='bar'>
+							 <div ng-non-bindable class="black-text">
+							 	<p id="tracking_date">{{date}}<br>{{time}}</p>
+						     </div>			    					         
+						    </info-window>
 
+							<marker id="marker{{$index}}" ng-repeat="marker in markers" 
+							position="{{marker.pos}}" icon="{{marker.icon}}"
+							optimized="{{marker.optimized}}"></marker>						
 
 							<shape ng-if="trackable" name="polyline"
 							path="{{ path }}"
 							geodesic="true"
-							stroke-color="#FF0000"
+							stroke-color="#0000ff"
 							stroke-opacity="1.0"
-							stroke-weight="3">
+							stroke-weight="5">
 							</shape>
-
 						</ng-map>
 					</div>
 				</div>
