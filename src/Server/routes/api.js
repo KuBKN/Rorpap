@@ -1,7 +1,7 @@
 /* Webservice API */
 
 var express = require('express');
-// var nodemailer = require('nodemailer');
+var Mailgun = require('mailgun-js');
 var router = express.Router();
 
 var mongoose = require("mongoose");
@@ -563,11 +563,27 @@ router.post('/request/update', function(req, res, next) {
         });
     });
 
-    // ================== Mail =================
-
     router.post('/mailservice', function(req, res, next) {
-        // var transporter = nodemailer.createTransport(transport[, defaults]);
-        res.JSON({ res: 'test mail'});
+        var api_key = 'key-b233bd5306bce63c6df7e975b27cd00d';       
+        var domain = 'nop.rorpap.com';
+        var mailgun = new Mailgun({apiKey: api_key, domain: domain});
+        var data = {        
+          from: 'nopapiwat@gmail.com',        
+          to: 'nopapiwat@gmail.com',        
+          subject: 'Hello from Mailgun',
+          html: 'Hello, This is not a plain-text email, I wanted to test some spicy Mailgun sauce in NodeJS! <a href="http://0.0.0.0:3030/validate?' + req.params.mail + '">Click here to add your email address to a mailing list</a>'
+        }
+        console.log('set mail');        
+        mailgun.messages().send(data, function (err, body) {
+            if (err) {                
+                console.log("got an error: ", err);
+            }            
+            else {
+                console.log('Success');
+                console.log(body);
+            }
+        });
+        res.send('test mail');
     });
 
     // ================== GCM ==================

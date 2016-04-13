@@ -57,12 +57,12 @@ app.controller('ProfileController', ['$scope', '$http', '$window', 'loadUser', f
 
     $scope.sendmail = function(){
         console.log('in function');
-        // $http.post('/api/mailservice').success(function(data){
-        //     console.log('success\n');
-        //     console.log(data);
-        // }).error(function(){
-        //     console.log('error');
-        // });
+        $http.post('/api/mailservice').success(function(data){
+            console.log('success\n');
+            console.log(data);
+        }).error(function(){
+            console.log('error');
+        });
     };
 
 }]);
