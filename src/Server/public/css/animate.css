@@ -3365,3 +3365,9 @@
   width: 100%;
   animation: fadeInUp 1s;
 }
+
+.request.ng-leave{
+  position: relative;
+  width: 100%;
+  animation: fadeOutUp 1s;
+}

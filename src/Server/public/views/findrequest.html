@@ -32,8 +32,7 @@
 
 	<div class="col l7 s12">
 		<ul class="collapsible popout" data-collapsible="accordion">
-			<li id="arequest{{$index}}" class="request" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-_id']">
-
+			<li ng-if="filted($index)" id="arequest{{$index}}" class="request" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-_id']">				
 				<div class="collapsible-header" style="padding: 1vw" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
 					<div class="row" style="margin-bottom: 0px">
 

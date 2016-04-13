@@ -141,10 +141,6 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 					return $scope.request.toLoc.split(', ')[1];
 				}
 			}
-		});
-		// var ps = $scope.request.psize.substring($scope.request.psize.length-5,$scope.request.psize.length-4);
-		// console.log(document.getElementById('psize2'));
-		// var d = $scope.request.shipLimitDate.split('/');
-		// document.getElementById('reqEndDate').value = d[2]+'/'+("0" + d[1]).slice(-2)+'/'+("0" + d[0]).slice(-2);		
+		});		
 	};
 }]);

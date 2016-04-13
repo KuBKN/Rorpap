@@ -1,52 +1,15 @@
 app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', function($scope, $http, $cookies, profileViewer, loadUser, requestColor, uiGmapGoogleMapApi){
 
-	$scope.load = function() {
-		$('.collapsible').collapsible({
-			accordion : false
-		});
-
-	    var slider = document.getElementById('range-input');
-	    noUiSlider.create(slider, {
-	     	start: [20, 80],
-	       	connect: true,
-	       	step: 1,
-	       	range: {
-	         'min': 0,
-	         'max': 100
-	       },
-	       format: wNumb({
-	         decimals: 0
-	       })
-	     });
-	};
-	$scope.load();
-
-	$scope.hours = ['00','01','02','03','04','05','06','07','08','09','10','11',
-	'12','13','14','15','16','17','18','19','20','21','22','23'];
-
-	$scope.mins = ['00','01','02','03','04','05','06','07','08','09','10','11',
-	'12','13','14','15','16','17','18','19','20','21','22','23',
-	'24','25','26','27','28','29','30','31','32','33','34','35',
-	'36','37','38','39','40','41','42','43','44','45','46','47',
-	'48','49','50','51','52','53','54','55','56','57','58','59'];
-
-	$scope.reqBackground = function(type) {
-		return requestColor.getColor(type);
-	};
-	
-	$scope.seeUser = function(user){
-		profileViewer.seeUser(user);
-	};
-
+	$scope.filter = { prices_max: 80, prices_min: 20 };
 	$scope.requests = [];
 
-	$scope.getRequests = function(reqtype) {
-		reqtype = "Pending";
+	$scope.getRequests = function() {
+		var reqtype = "Pending";
 
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
 
 		$http.get('/api/request/get_request/' + reqtype + '/!' + sender_id)
-			.success(function(data) {
+			.success(function(data) {			
 
 				$scope.accepts = [];
 				$scope.getAllAccept().then(function(result){
@@ -73,6 +36,54 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 	};
 
 	$scope.getRequests();
+
+	$scope.load = function() {
+		$('.collapsible').collapsible({
+			accordion : false
+		});
+
+	    var slider = document.getElementById('range-input');
+	    noUiSlider.create(slider, {
+	     	start: [20, 80],
+	       	connect: true,
+	       	step: 1,
+	       	range: {
+	         'min': 0,
+	         'max': 100
+	       },
+	       format: wNumb({
+	         decimals: 0
+	       })
+	     });
+
+	    slider.noUiSlider.on('change', function( values, handle ) {	    		    	
+			if ( handle ) {				
+				$scope.filter.prices_max = parseInt(values[handle]);
+			} else {
+				$scope.filter.prices_min = parseInt(values[handle]);
+			}
+			$scope.getRequests();
+		});
+	};
+	$scope.load();
+
+	$scope.hours = ['00','01','02','03','04','05','06','07','08','09','10','11',
+	'12','13','14','15','16','17','18','19','20','21','22','23'];
+
+	$scope.mins = ['00','01','02','03','04','05','06','07','08','09','10','11',
+	'12','13','14','15','16','17','18','19','20','21','22','23',
+	'24','25','26','27','28','29','30','31','32','33','34','35',
+	'36','37','38','39','40','41','42','43','44','45','46','47',
+	'48','49','50','51','52','53','54','55','56','57','58','59'];
+
+	$scope.reqBackground = function(type) {
+		return requestColor.getColor(type);
+	};
+	
+	$scope.seeUser = function(user){
+		profileViewer.seeUser(user);
+	};
+
  	$scope.accept = {};
 
 	$scope.acceptRequest = function() {		
@@ -97,11 +108,18 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 			});
     };
 
-    $scope.openModal = function(index){		
-        
+    $scope.openModal = function(index){		       
         $('#modalAccept').openModal();
         $scope.curreq = $scope.requests[index];       
-        
-    };   
+    };    
+
+    $scope.filted = function(index){
+    	var req =  parseInt($scope.requests[index].price);
+    	return $scope.filter.prices_min <= req && req <= $scope.filter.prices_max;
+    };
+
+    $scope.showInMap = function(index){    	
+    	console.log($scope.filter); 	
+    };
 
 }]);
