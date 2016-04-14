@@ -1,36 +1,47 @@
-<div class="container row">
+<div class="row">
 	<br>
-	<div class="container hide-on-med-and-down col l5">
-		<form name="findRequestForm" action="#">
-			<div class="input-field">
-				<i class="material-icons prefix" style="color: red">location_on</i>
-				<label for="fromLoc">From Location</label>
-				<input type="text" id="fromLoc" ng-model="request.fromLoc" class="validate" required>
-			</div>
-
-			<div class="input-field">
-				<i class="material-icons prefix" style="color: green">location_on</i>
-				<label for="toLoc">To Location</label>
-				<input type="text" id="toLoc" ng-model="request.toLoc" class="validate" required>
-			</div>
-
-			<div class="input-field">
-				<label>Price</label><br><br>
-				<div id="range-input"></div>
-				<p>&nbsp;</p>
-			</div>
-
-		</form>
-
+	<div class="container col l7 m12 s12">
 		<div class="card blue-grey darken-1">
 			<div class="card-content white-text">
 				<span class="card-title">Location</span>
-				<ng-map center="[40.74, -74.18]"></ng-map>
+				<ng-map center="{{map.center}}" zoom="{{map.zoom}}" 
+						zoom-to-include-markers="{{map.zoomToIncludeMarkers}}" 
+						style="height: 80vh" on-click="addMarker(event)">
+					<marker ng-repeat="marker in markerO" position="{{marker.pos}}"
+					optimized="{{marker.optimized}}" icon="{{marker.icon}}"></marker>
+					<marker id="marker{{$index}}" ng-repeat="marker in markers" 
+							position="{{marker.pos}}" icon="{{marker.icon}}"
+							optimized="{{marker.optimized}}"></marker>
+					<directions
+						draggable="true"
+			          	travel-mode="DRIVING"
+			          	origin="{{origin}}"
+			          	destination="{{des}}">
+			        </directions>
+				</ng-map>				
 			</div>
 		</div>
 	</div>
 
-	<div class="col l7 s12">
+	<div class="col l5 m12 s12">		
+		<div id="filter" class="filter" style="background-color: yellow" ng-show="showFilter">
+			<form name="findRequestForm" id="findRequestForm" action="#">			
+				<div class="input-field">
+					<label>Price</label><br><br>
+					<div id="price-input"></div>
+					<p>&nbsp;</p>
+				</div>
+				<div class="input-field">
+					<label>Weight</label><br><br>						
+					<div id="weight-input"></div>
+					<p>&nbsp;</p>
+				</div>
+			</form>
+		</div>		
+		<center><a class="btn-floating wave" ng-click="showFilter = !showFilter">
+			<i class="material-icons">add</i>
+		</a></center>	
+		
 		<ul class="collapsible popout" data-collapsible="accordion">
 			<li ng-if="filted($index)" id="arequest{{$index}}" class="request" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-_id']">				
 				<div class="collapsible-header" style="padding: 1vw" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
@@ -38,7 +49,7 @@
 
 						<div class="col m4 s12 hide-on-small-and-down">
 							<div style="background-color: white; padding: 5px; border-style: solid">
-								<img ng-src="{{request.psize}}" width="100%" height="120px">
+								<img ng-src="{{request.pimg.url}}" width="100%" height="120px">
 								<div ng-if="request.declarable" style="position: relative">
 									<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
 								</div>											
@@ -73,7 +84,7 @@
 							<div class="container hide-on-med-and-up" style="clear: both">
 								<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
 								<span class="chip right">
-									{{request.smallPsize}}
+									{{request.pimg.name}}
 								</span>										
 							</div>
 						</div>
@@ -98,8 +109,10 @@
 								<h6>
 									Sender
 									<a href="#!/profile_other" ng-click="seeUser(request.sender)">{{request.sender.firstname}} {{request.sender.lastname}}</a>
-								</h6>										
-								{{request.comment}}
+								</h6>									
+								<h6>Dimension: {{request.size_w}} x {{request.size_l}} x {{request.size_h}} cm</h6>
+								<h6>Weight: {{request.weight}} kg</h6>
+								Comment: {{request.comment}}
 							</div>
 						</div>
 
