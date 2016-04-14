@@ -169,15 +169,6 @@ router.post('/admin/user_reject', function(req, res, next) {
     });
 });
 
-/*router.get('/user/', function(req, res, next) {
-User.find(function(err, users) {
-if (err) {
-res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-}
-res.send(users);
-})
-});*/
-
 router.get('/user/get/:id', function(req, res, next) {
     var _id = req.params.id;
 
@@ -199,9 +190,12 @@ var Request = mongoose.model('requests', {
     recipient_name: String,
     recipient_email: String,
     recipient_tel: String,
-    psize: String,
+    img: String,
+    size_w: String,
+    size_l: String,
+    size_h: String,
     weight: String,
-    declarable: Boolean,
+    disclosure: Boolean,
 
     type: String,
     hasAccept: Boolean,
@@ -225,7 +219,7 @@ router.post('/request/create', function(req, res, next) {
     var fromLoc = req.body.fromLoc;
     var toLoc = req.body.toLoc;
     var messenger_id = req.body.messenger_id;
-    // var now = new Date();
+    
     var reqLimitDate = '01/01/2011'; //now.format('DD/MM/YYYY');
     var reqLimitTime = '01:01'; //now.format('mm:hh');
     var shipLimitDate = req.body.shipLimitDate;
@@ -234,9 +228,13 @@ router.post('/request/create', function(req, res, next) {
     var recipient_name = req.body.recipient_name;
     var recipient_email = req.body.recipient_email;
     var recipient_tel = req.body.recipient_tel;
-    var psize = req.body.psize;
+
+    var img = req.body.img;
+    var size_w = req.body.size_w;
+    var size_l = req.body.size_l;
+    var size_h = req.body.size_h;
     var weight = req.body.weight;
-    var declarable = req.body.declarable;
+    var disclosure = req.body.disclosure;
     var price = req.body.price;
     var comment = req.body.comment;
 
@@ -246,9 +244,12 @@ router.post('/request/create', function(req, res, next) {
         recipient_name: recipient_name,
         recipient_email: recipient_email,
         recipient_tel: recipient_tel,
-        psize: psize,
+        img: img,
+        size_w: size_w,
+        size_l: size_l,
+        size_h: size_h,
         weight: weight,
-        declarable: declarable,
+        disclosure: disclosure,
         fromLoc: fromLoc,
         toLoc: toLoc,
         reqLimitDate: reqLimitDate,
@@ -283,9 +284,12 @@ router.post('/request/update', function(req, res, next) {
     var recipient_name = req.body.recipient_name;
     var recipient_email = req.body.recipient_email;
     var recipient_tel = req.body.recipient_tel;
-    var psize = req.body.psize;
+    var img = req.body.img;
+    var size_w = req.body.size_w;
+    var size_l = req.body.size_l;
+    var size_h = req.body.size_h;
     var weight = req.body.weight;
-    var declarable = req.body.declarable;
+    var disclosure = req.body.disclosure;
     var price = req.body.price;
     var comment = req.body.comment;
 
@@ -298,9 +302,12 @@ router.post('/request/update', function(req, res, next) {
         recipient_name: recipient_name,
         recipient_email: recipient_email,
         recipient_tel: recipient_tel,
-        psize: psize,
+        img: img,
+        size_w: size_w,
+        size_l: size_l,
+        size_h: size_h,
         weight: weight,
-        declarable: declarable,
+        disclosure: disclosure,
         price: price,
         comment: comment},
         function(err, data) {

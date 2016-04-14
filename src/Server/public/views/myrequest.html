@@ -34,11 +34,11 @@
 
 						<div class="col m4 s12 hide-on-small-and-down">
 							<div style="background-color: white; padding: 5px; border-style: solid">
-								<img ng-src="{{request.psize}}" width="100%" height="120px">
-								<div ng-if="request.declarable" style="position: relative">
+								<img ng-src="{{request.pimg.url}}" width="100%" height="120px">
+								<div ng-if="request.disclosure" style="position: relative">
 									<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
-								</div>							
-							</div>													
+								</div>
+							</div>
 						</div>
 
 						<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">		
@@ -80,9 +80,9 @@
 								</span>
 							</div>
 							<div class="container hide-on-med-and-up" style="clear: both">
-								<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
+								<img ng-if="request.disclosure" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
 								<span class="chip right">
-									{{request.smallPsize}}
+									{{request.pimg.name}}
 								</span>
 							</div>
 						</div>
@@ -108,7 +108,9 @@
 									Messenger
 									<a href="#!/profile_other" ng-click="seeUser(request.messenger)">{{request.messenger.firstname}} {{request.messenger.lastname}}</a>
 								</h6>
-								{{request.comment}}
+								<h6>Dimension: {{request.size_w}} x {{request.size_l}} x {{request.size_h}} cm</h6>
+								<h6>Weight: {{request.weight}} kg</h6>
+								Comment: {{request.comment}}
 							</div>
 						</div>
 

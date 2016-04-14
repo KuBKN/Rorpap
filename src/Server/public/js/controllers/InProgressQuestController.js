@@ -32,7 +32,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 					loadUser.getUser(value.sender_id).then(function(result){
    						value.sender = result;
    					});
-   					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);
+   					value.pimg = requestParcelImg.getByIndex(value.img);
 					$scope.requests.push(value);					
 				});
 
@@ -52,7 +52,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 					loadUser.getUser(value.sender_id).then(function(result){
    						value.sender = result;
    					});   					
-   					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);
+   					value.pimg = requestParcelImg.getByIndex(value.img);
 					$scope.requests.push(value);										
 				});				
 
@@ -68,7 +68,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 
 	$scope.typeSendingToken = function(index){		
 		$('#modalTSendingToken').openModal();
-		$scope.rindex = index;
+		$scope.rindex = index;		
 	};
 
 	$scope.typeFinishToken = function(index){		
@@ -76,18 +76,9 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 		$scope.rindex = index;
 	};
 
-	$scope.finishRequest = function(index) {
-		$http.post('/api/request/finish', $scope.requests[index])
-		.success(function(data) {
-			window.location.reload();
-		})
-		.error(function(data) {
-			console.log('Error: ' + data);
-		});
-	};
-
     $scope.submitSendingToken = function(){    	    	
     	var req = $scope.requests[$scope.rindex];
+    	console.log(req);
     	var rtoken = ""+req.sender_id.substring(req.sender_id.length-2)+req._id.substring(req._id.length-2);
 
     	var messenger_id = req.messenger_id;
@@ -109,7 +100,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 	};
 
 	$scope.submitFinishToken = function(){
-		console.log("Send");
+		console.log($scope.finishToken);
     	var req = $scope.requests[$scope.rindex];    
 
     	if($scope.finishToken == "Send"){    		    		

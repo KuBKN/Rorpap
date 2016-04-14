@@ -51,7 +51,7 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 		   						value.sender = result;
 		   					});
 		   					value.accepto = $scope.accepts[indexA];
-		   					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);		   					
+		   					value.pimg = requestParcelImg.getByIndex(value.img);
 							$scope.requests.push(value);
 						}
 					});

@@ -90,12 +90,18 @@ app.service('requestColor', function(){
 });
 
 app.service('requestParcelImg', function(){
-	var allImgs = ['images/parcels/parcel01.jpg',
-					'images/parcels/parcel02.jpg',
-					'images/parcels/parcel03.jpg',
-					'images/parcels/parcel04.jpg',
-					'images/parcels/parcel05.jpg'];
-	var allSize = ['Paper','Flat','Box','Big Box','Long Box'];
+	var allImgs = [{ url: 'images/parcels/parcel01.jpg',						
+						name: 'Paper'},
+					{ url: 'images/parcels/parcel02.jpg',						
+						name: 'Small'},
+					{ url: 'images/parcels/parcel03.jpg',						
+						name: 'Flat'},
+					{ url: 'images/parcels/parcel04.jpg',						
+						name: 'Medium'},
+					{ url: 'images/parcels/parcel05.jpg',						
+						name: 'Big'},
+					{ url: 'images/parcels/parcel06.jpg',						
+						name: 'Long'}];	
 
 	this.getAll = function(){
 		return allImgs;
@@ -103,11 +109,7 @@ app.service('requestParcelImg', function(){
 
 	this.getByIndex = function(index){
 		return allImgs[index];
-	};
-
-	this.getNameByIndex = function(index){
-		return allSize[index];
-	};
+	};	
 });
 
 app.factory('requestEditor', function() {

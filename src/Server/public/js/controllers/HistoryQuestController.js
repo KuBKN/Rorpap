@@ -32,7 +32,7 @@ app.controller('HistoryQuestController', ['$scope', '$http','$cookies', 'loadUse
 					loadUser.getUser(value.sender_id).then(function(result){
    						value.sender = result;
    					});
-   					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);
+   					value.pimg = requestParcelImg.getByIndex(value.img);
 					$scope.requests.push(value);
 				});
 

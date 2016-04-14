@@ -38,11 +38,11 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 
 	$scope.parcelImgs = requestParcelImg.getAll();
 
-	$scope.chooseSize = function(index){		
-		$scope.request.psize = requestParcelImg.getByIndex(index);
+	$scope.chooseImg = function(index){		
+		$scope.request.img = index;
 	};
 
-	$scope.chooseSize(3);
+	$scope.chooseImg(3);
 
 	$scope.createQuest = function() {
 		if (!$scope.checkLogin()){
@@ -53,6 +53,7 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 		$scope.request.toLoc = $scope.markers[1].position[0] + ', ' + $scope.markers[1].position[1];
 		var d = new Date($scope.request.shipLimitDate_tmp);
 		$scope.request.shipLimitDate = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();		
+		console.log($scope.request);
 		if($scope.editMode){
 			$http.post('/api/request/update', $scope.request)
 			.success(function(data) {
@@ -117,6 +118,10 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 		$scope.request = requestEditor.getReq();
 		var shipLD = $scope.request.shipLimitDate.split("/");
 		$scope.request.shipLimitDate_tmp = new Date(shipLD[1]+"/"+shipLD[0]+"/"+shipLD[2]);
+		$scope.request.size_w = parseFloat($scope.request.size_w);
+		$scope.request.size_l = parseFloat($scope.request.size_l);
+		$scope.request.size_h = parseFloat($scope.request.size_h);
+		$scope.request.weight = parseFloat($scope.request.weight);
 		$scope.editMode = true;
 		$scope.fullEdit = requestEditor.getReq().type == "Pending";
 	};
@@ -141,6 +146,6 @@ app.controller('NewRequestController', ['$scope', '$http', '$cookies', '$locatio
 					return $scope.request.toLoc.split(', ')[1];
 				}
 			}
-		});		
+		});	
 	};
 }]);

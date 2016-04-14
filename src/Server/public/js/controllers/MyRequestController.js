@@ -66,7 +66,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 							value.acceptAll = result;														
 						});
 					}	
-					value.smallPsize = requestParcelImg.getNameByIndex(value.psize.substring(value.psize.length-5,value.psize.length-4)-1);
+					value.pimg = requestParcelImg.getByIndex(value.img);
 					$scope.requests.push(value);
 				});		
 			})

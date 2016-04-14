@@ -17,7 +17,7 @@
 
 	<div class="col l6 s12">
 		<form name="newRequestForm">
-			<div class="col s11 row" style="margin-bottom: 30px">
+			<div class="col s11 row" style="margin-bottom: 10px">
 				<div class="input-field col s12">
 					<i class="material-icons prefix" style="color: red">location_on</i>
 					<label for="fromLoc" class="active">From Location</label>
@@ -31,7 +31,7 @@
 				</div>
 			</div>
 
-			<div class="col s11 row" style="margin-bottom: 30px">
+			<div class="col s11 row" style="margin-bottom: 10px">
 				<div class="input-field col s12">
 					<i class="material-icons prefix">perm_identity</i>
 					<label for="recipient_name" class="active">Recipient</label>
@@ -50,30 +50,41 @@
 				</div>
 			</div>
 
-			<div ng-if="fullEdit" class="col s11 offset-s1 row" style="margin-bottom: 30px">
-				<label class="col s12 left" style="padding: 0"><h6>Size</h6></label>
-					<div class="col s12 m6 l4" style="max-width: 180px; padding: 0px" ng-repeat="img in parcelImgs">
-						<input name="group1" type="radio" id="psize{{$index}}" required>
-					    <label class="btn white card" style="padding-right: 0; height:100%; margin: 5px 5px" for="psize{{$index}}" ng-click="chooseSize($index)">
-					    	<div class="card-image" style="height: 120px; padding: 5px">
-				              <img ng-src="{{img}}" height="100%">
-				            </div>	
-				        </label>					
-					</div>
-	
+			<div ng-if="fullEdit" class="col s11 offset-s1 row" style="padding: 0; margin-bottom: 20px">
+				<label class="col s12 left"><h6>Size</h6></label>				
+  	
+  			    <div class="input-field col s4">
+ 					<label for="size_width" class="active">Width</label>
+ 					<input type="number" step="0.1" min="0.1" id="size_width" ng-model="request.size_w" class="validate" required>
+  				</div>
 
-				<div class="col s12 row left">
-					<div class="input-field col s12 m6">
-					    <select id="weight" class="browser-default" required ng-model="request.weight">
-					      <option value="" disabled selected>Weight</option>
-					      <option value=1>light (&#60; 1 kg)</option>
-					      <option value=2>medium (2 - 5 kg)</option>
-					      <option value=3>heavy (&#62; 6 kg)</option>
-					    </select>					    
-					</div>								
-					<div class="input-field col s12 m6">
-						<input type="checkbox" class="filled-in" id="filled-in-box" ng-model="request.declarable"/>
-					    <label for="filled-in-box">Accept for disclosure</label>
+  				<div class="input-field col s4">					
+ 					<label for="size_lenght" class="active">Length</label>
+ 					<input type="number" step="0.1" min="0.1" id="size_lenght" ng-model="request.size_l" class="validate" required>
+  				</div>
+  		
+  			    <div class="input-field col s4">
+ 					<label for="size_height" class="active">Height</label>
+ 					<input type="number" step="0.1" min="0.1" id="size_height" ng-model="request.size_h" class="validate" required>
+  				</div>
+
+				<div class="input-field col s6">
+					<label for="weight" class="active">Weight</label>
+ 					<input type="number" step="0.1" min="0.1" id="weight"ng-model="request.weight" class="validate" required>
+				</div>								
+				<div class="input-field col s6">
+					<input type="checkbox" class="filled-in" id="filled-in-box" ng-model="request.disclosure"/>
+				    <label for="filled-in-box">Accept for disclosure</label>
+				</div>
+				
+				<div class="col s12" style="padding: 0">			
+					<div class="col s12 m6 l4 black-text" style="width: 180px; padding: 0px" ng-repeat="img in parcelImgs">
+						<input name="group1" type="radio" id="psize{{$index}}" required>
+					    <label class="btn white card" style="padding-right: 0; height:100%; margin: 5px 5px" for="psize{{$index}}" ng-click="chooseImg($index)">
+					    	<div class="card-image" style="height: 120px; padding: 5px">
+				              <img ng-src="{{img.url}}" height="100%">
+				            </div>				            
+				        </label>				        
 					</div>
 				</div>
 			</div>	
