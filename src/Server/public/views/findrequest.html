@@ -3,13 +3,13 @@
 	<div class="container col l7 m12 s12">
 		<div class="card blue-grey darken-1">
 			<div class="card-content white-text">
-				<span class="card-title">Location</span>
+				<span class="card-title">Location <font size="2">Select your route</font></span>
 				<a class="btn right" ng-click="clearDirection()">clear</a>
 				<div class="card">
 					<div class="card-content">						
 						<label>Scope</label>
 						<p class="range-field">
-					      <input type="range" id="scope_input" ng-model="filter.scope" min="0" max="10000" step="50"/>
+					      <input type="range" id="scope_input" ng-model="filter.scope" min="0" max="5000" step="50" ng-change="callNop()"/>
 					    </p>					
 					</div>					
 				</div>				
@@ -27,6 +27,7 @@
 			          	origin="{{origin}}"
 			          	destination="{{des}}">
 			        </directions>
+
 				</ng-map>				
 			</div>
 		</div>
@@ -57,7 +58,7 @@
 				</div>				
 			</form>
 		</div>		
-		<center><a class="btn-floating wave" ng-click="showFilter = !showFilter">
+		<center><a class="btn-floating wave pull-left" ng-click="showFilter = !showFilter">
 			<i class="material-icons">view_list</i>
 		</a></center>	
 		

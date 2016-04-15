@@ -1,6 +1,6 @@
 app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', 'requestParcelImg', function($scope, $http, $cookies, profileViewer, loadUser, requestColor, requestParcelImg, uiGmapGoogleMapApi){
 
-	$scope.filter = { prices_max: 80, prices_min: 20, weight_max: 10, weight_min: 1, scope: 10000 };
+	$scope.filter = { prices_max: 80, prices_min: 20, weight_max: 10, weight_min: 1, scope: 2500 };
 	$scope.requests = [];
 
 	$scope.getRequests = function() {
@@ -161,20 +161,28 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
     	var to = req.toLoc.split(', ');
     	from = [parseFloat(from[0]),parseFloat(from[1])];
     	to = [parseFloat(to[0]),parseFloat(to[1])];
+    	var nearF = false;
+    	var nearT = false;
     	for(var i = 0; i < $scope.path.length; i++){    	
     		var p = [$scope.path[i].lat(),$scope.path[i].lng()];
     		var distF = $scope.getDistance(from,p);
-    		var distT = $scope.getDistance(to,p);
-    		if(distF<$scope.filter.scope || distT<$scope.filter.scope) {    			
+    		var distT = $scope.getDistance(to,p);    		
+    		if(!nearF && distF<=$scope.filter.scope) {
+    			nearF = true;
+    		}
+    		if (!nearT && distT<=$scope.filter.scope) {
+    			nearT = true;
+    		}
+    		if(nearF && nearT){
     			return true;
-    		}    			
+    		}
     	}
     	return false;
     };
 
     $scope.path = [];
     $scope.markers = [];
-    $scope.filted = function(index){    	
+    $scope.filted = function(index){	    
     	var price =  parseInt($scope.requests[index].price);
     	var weight =  parseInt($scope.requests[index].weight);
     	var inTime = true;
@@ -240,8 +248,15 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
     $scope.markerO = [];
     $scope.$on('mapInitialized', function(event, map) {
 			 $scope.rmap = map;
-			 $scope.rmap.directionsRenderers[0].setOptions( { markerOptions: {
-			 	icon: 'images/LOGO-ORANGE.png'}
+			 $scope.rmap.directionsRenderers[0].setOptions( { 
+			 	markerOptions: {
+			 		icon: 'images/LOGO-ORANGE.png'
+			 	},
+			 	polylineOptions: {
+			 		strokeColor: 'blue',
+			 		strokeWeight: '10',
+			 		strokeOpacity: '0.5'
+			 	}
 			 } );
 
 			 $scope.rmap.directionsRenderers[0].addListener('directions_changed', function() {
@@ -285,6 +300,14 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 		$scope.des = null;
 		$scope.countM = 0;
 		$scope.getRequests();
+	};
+
+	$scope.callNop = function(){
+		// $scope.rmap.directionsRenderers[0].setOptions( { 			 	
+		// 	 	polylineOptions: {
+		// 	 		strokeWeight: $scope.filter.scope			 		
+		// 	 	}
+		// 	 });
 	};
 
 }]);
