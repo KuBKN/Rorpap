@@ -4,6 +4,15 @@
 		<div class="card blue-grey darken-1">
 			<div class="card-content white-text">
 				<span class="card-title">Location</span>
+				<a class="btn right" ng-click="clearDirection()">clear</a>
+				<div class="card">
+					<div class="card-content">						
+						<label>Scope</label>
+						<p class="range-field">
+					      <input type="range" id="scope_input" ng-model="filter.scope" min="0" max="10000" step="50"/>
+					    </p>					
+					</div>					
+				</div>				
 				<ng-map center="{{map.center}}" zoom="{{map.zoom}}" 
 						zoom-to-include-markers="{{map.zoomToIncludeMarkers}}" 
 						style="height: 80vh" on-click="addMarker(event)">
@@ -13,7 +22,7 @@
 							position="{{marker.pos}}" icon="{{marker.icon}}"
 							optimized="{{marker.optimized}}"></marker>
 					<directions
-						draggable="true"
+						draggable="true"						
 			          	travel-mode="DRIVING"
 			          	origin="{{origin}}"
 			          	destination="{{des}}">
@@ -24,8 +33,8 @@
 	</div>
 
 	<div class="col l5 m12 s12">		
-		<div id="filter" class="filter" style="background-color: yellow" ng-show="showFilter">
-			<form name="findRequestForm" id="findRequestForm" action="#">			
+		<div id="filter" class="card filter" ng-show="showFilter">
+			<form class="card-content" name="findRequestForm" id="findRequestForm" action="#">
 				<div class="input-field">
 					<label>Price</label><br><br>
 					<div id="price-input"></div>
@@ -36,10 +45,20 @@
 					<div id="weight-input"></div>
 					<p>&nbsp;</p>
 				</div>
+				<div class="row">
+					<div class="input-field col s6">
+						<label class="active" for="fromDate">Start</label>
+						<input type="date" id="fromDate" ng-model="filter.fromDate" datepicker />
+					</div>
+					<div class="input-field col s6">
+						<label class="active" for="toDate">End</label>
+						<input type="date" id="toDate" ng-model="filter.toDate" datepicker />
+					</div>
+				</div>				
 			</form>
 		</div>		
 		<center><a class="btn-floating wave" ng-click="showFilter = !showFilter">
-			<i class="material-icons">add</i>
+			<i class="material-icons">view_list</i>
 		</a></center>	
 		
 		<ul class="collapsible popout" data-collapsible="accordion">

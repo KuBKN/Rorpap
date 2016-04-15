@@ -1,6 +1,6 @@
 app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', 'requestParcelImg', function($scope, $http, $cookies, profileViewer, loadUser, requestColor, requestParcelImg, uiGmapGoogleMapApi){
 
-	$scope.filter = { prices_max: 80, prices_min: 20, weight_max: 10, weight_min: 1 };
+	$scope.filter = { prices_max: 80, prices_min: 20, weight_max: 10, weight_min: 1, scope: 10000 };
 	$scope.requests = [];
 
 	$scope.getRequests = function() {
@@ -41,7 +41,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 	$scope.load = function() {
 		$('.collapsible').collapsible({
 			accordion : false
-		});
+		});		
 
 	    var slider = document.getElementById('price-input');
 	    noUiSlider.create(slider, {
@@ -62,8 +62,9 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 				$scope.filter.prices_max = parseInt(values[handle]);
 			} else {
 				$scope.filter.prices_min = parseInt(values[handle]);
-			}
-			$scope.getRequests();
+			}			
+			console.log('filted price');
+			$scope.getRequests();			
 		});
 
 	    slider = document.getElementById('weight-input');
@@ -86,8 +87,9 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 			} else {
 				$scope.filter.weight_min = parseFloat(values[handle]);
 			}
-			$scope.getRequests();
-		});
+			console.log('filted weight');
+			$scope.getRequests();	
+		});		
 
 	};
 	$scope.load();
@@ -138,23 +140,56 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
         $scope.curreq = $scope.requests[index];       
     };
 
-    $scope.calNear = function(req){
+    var rad = function(x) {
+	  return x * Math.PI / 180;
+	};
 
-    	return true;
+	$scope.getDistance = function(p1, p2) {
+	  var R = 6378137; // Earth’s mean radius in meter
+	  var dLat = rad(p2[0] - p1[0]);
+	  var dLong = rad(p2[1] - p1[1]);
+	  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+	    Math.cos(rad(p1[0]) * Math.cos(rad(p2[0]))) *
+	    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+	  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	  var d = R * c;
+	  return d; // returns the distance in meter
+	};
+
+    $scope.calNear = function(req){    
+    	var from = req.fromLoc.split(', ');
+    	var to = req.toLoc.split(', ');
+    	from = [parseFloat(from[0]),parseFloat(from[1])];
+    	to = [parseFloat(to[0]),parseFloat(to[1])];
+    	for(var i = 0; i < $scope.path.length; i++){    	
+    		var p = [$scope.path[i].lat(),$scope.path[i].lng()];
+    		var distF = $scope.getDistance(from,p);
+    		var distT = $scope.getDistance(to,p);
+    		if(distF<$scope.filter.scope || distT<$scope.filter.scope) {    			
+    			return true;
+    		}    			
+    	}
+    	return false;
     };
 
     $scope.path = [];
     $scope.markers = [];
-    $scope.filted = function(index){
+    $scope.filted = function(index){    	
     	var price =  parseInt($scope.requests[index].price);
     	var weight =  parseInt($scope.requests[index].weight);
+    	var inTime = true;
+    	if($scope.filter.fromDate!=null && $scope.filter.toDate!=null){
+    		var date = $scope.requests[index].shipLimitDate.split('/');
+	    	date = new Date(date[1]+"/"+date[0]+"/"+date[2]);
+	    	inTime = $scope.filter.fromDate <= date && date <= $scope.filter.toDate;
+    	}    	
     	var near = true;
     	if($scope.path.length != 0){
     		near = $scope.calNear($scope.requests[index]);
-    	}
+    	}    	
     	return ($scope.filter.prices_min <= price && price <= $scope.filter.prices_max)
     	 && ($scope.filter.weight_min <= weight && weight <= $scope.filter.weight_max)
-    	 && near;
+    	 && near && inTime;
     };
 
     $scope.map = {
@@ -183,8 +218,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 						    });
 	};
 
-    $scope.showInMap = function(index){
-	    console.log($scope.path);
+    $scope.showInMap = function(index){	    
     	$scope.map.zoomToIncludeMarkers = 'auto';
 		$scope.markers = [];
 		if (index != $scope.lastCollepsed) {
@@ -206,14 +240,13 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
     $scope.markerO = [];
     $scope.$on('mapInitialized', function(event, map) {
 			 $scope.rmap = map;
-			 // $scope.rmap.directionsRenderers[0].setOptions({
-				//   map: map,
-				//   suppressMarkers : true
-				// });
-
 			 $scope.rmap.directionsRenderers[0].setOptions( { markerOptions: {
-			 	icon: 'images/LOGO-ORANGE.png' }
+			 	icon: 'images/LOGO-ORANGE.png'}
 			 } );
+
+			 $scope.rmap.directionsRenderers[0].addListener('directions_changed', function() {
+			    $scope.updateDirection()
+			  });
 		});
     $scope.addMarker = function(event) {
     	if($scope.countM < 2){
@@ -223,23 +256,36 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 				var originM = {};
 				originM.pos = pos;
 				originM.optimized = false;
-				originM.icon = 'images/LOGO-GREEN.png'
+				originM.icon = 'images/LOGO-ORANGE.png'
 				$scope.markerO.push(originM);				
 				$scope.origin = pos;
 			}else{
 				$scope.des = pos;
 				$scope.markerO = [];
+				$scope.rmap.directionsRenderers[0].setMap($scope.rmap);
 				setTimeout(function(){
 				    $scope.path = $scope.rmap.directionsRenderers[0].directions.routes[0].overview_path;
 				    $scope.getRequests();
-				    console.log($scope.rmap)
 				}, 500);						
 			}
 			$scope.countM+=1;						
 		}
-
 	};
 
+	$scope.updateDirection = function(event){
+		$scope.path = $scope.rmap.directionsRenderers[0].directions.routes[0].overview_path;
+		console.log('updateDirection');
+		$scope.getRequests();
+	};
 
+	$scope.clearDirection = function(){
+		$scope.rmap.directionsRenderers[0].setMap();
+		$scope.path = [];
+		$scope.origin = null;
+		$scope.des = null;
+		$scope.countM = 0;
+		$scope.getRequests();
+	};
 
 }]);
+

@@ -3373,9 +3373,9 @@
 }
 
 .filter.ng-hide-remove{
-  animation: slideInDown 1s;
+  animation: flipInX 1s;
 }
 
 .filter.ng-hide{  
-  animation: slideOutUp 1s;
+  animation: flipOutX 1s;
 }
