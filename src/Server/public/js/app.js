@@ -31,6 +31,9 @@ app.config(function($routeProvider, $locationProvider ) {
     }).when('/admin', {
 		controller: 'AdminController',
 		templateUrl: './views/admin.html'
+    }).when('/trackrequest',{
+    	controller: 'TrackRequestController',
+    	templateUrl: './views/trackrequest.html'
     }).otherwise({ redirectTo: "/" });
 
 });
@@ -126,18 +129,14 @@ app.factory('requestEditor', function() {
     seeReq: seeReq,
     getReq: getReq
   };
-
 });
 
-app.filter("filted", function() {
-	return function(array, prices_min, prices_max) {
-    	var result = [];
-    	for (var i = 0; i < array.length; i++) {
-    		var req = array[i];
-    		if (req.price <= prices_max && req.price >= prices_min) {
-    			result.push(req);
-    		};
-    	}
-    	return result;   	    
-    }
+app.service('trackingRequest',function(){
+	var request;
+	this.setRequest = function(req){
+		request = req;
+	}
+	this.getRequest = function(){
+		return request;
+	}
 });

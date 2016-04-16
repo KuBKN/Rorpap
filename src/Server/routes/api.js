@@ -353,6 +353,17 @@ router.post('/request/update', function(req, res, next) {
         });
     });
 
+    router.get('/request/get/:request_id',function(req, res, next){
+        var request_id = req.params.request_id;
+        Request.find({request_id: request_id}, function(err, trackings) {
+            if (err) {
+                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+            }
+
+            res.send(trackings);
+        })
+    });
+
     router.post('/request/remove', function(req, res, next) {
         var _id = req.body._id;
 
@@ -420,7 +431,7 @@ router.post('/request/update', function(req, res, next) {
     });
 
 
-    // ================== Request ==================
+    // ================== Tracking ==================
 
     var Tracking = mongoose.model('trackings', {
         request_id: String,

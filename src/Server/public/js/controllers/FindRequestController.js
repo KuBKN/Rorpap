@@ -9,8 +9,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
 
 		$http.get('/api/request/get_request/' + reqtype + '/!' + sender_id)
-			.success(function(data) {			
-
+			.success(function(data) {
 				$scope.accepts = [];
 				$scope.getAllAccept().then(function(result){
 					 angular.forEach(result, function(value,key){
@@ -182,9 +181,9 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 
     $scope.path = [];
     $scope.markers = [];
-    $scope.filted = function(index){	    
+    $scope.filted = function(index){		
     	var price =  parseInt($scope.requests[index].price);
-    	var weight =  parseInt($scope.requests[index].weight);
+    	var weight =  parseFloat($scope.requests[index].weight);
     	var inTime = true;
     	if($scope.filter.fromDate!=null && $scope.filter.toDate!=null){
     		var date = $scope.requests[index].shipLimitDate.split('/');
@@ -195,9 +194,9 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
     	if($scope.path.length != 0){
     		near = $scope.calNear($scope.requests[index]);
     	}    	
-    	return ($scope.filter.prices_min <= price && price <= $scope.filter.prices_max)
-    	 && ($scope.filter.weight_min <= weight && weight <= $scope.filter.weight_max)
-    	 && near && inTime;
+    	var inprice = $scope.filter.prices_min <= price && price <= $scope.filter.prices_max;
+    	var inweight = $scope.filter.weight_min <= weight && weight <= $scope.filter.weight_max;    	
+    	return inprice && inweight && near && inTime;
     };
 
     $scope.map = {

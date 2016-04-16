@@ -1,4 +1,4 @@
-app.controller('HomeController', ['$scope', function($scope) {
+app.controller('HomeController', ['$scope','trackingRequest', function($scope,trackingRequest) {
 	$scope.images = [
 		'images/woman.jpg',
 		'images/pic3.jpg',
@@ -7,4 +7,8 @@ app.controller('HomeController', ['$scope', function($scope) {
 		'images/gift.jpg',
 		'images/wdriver.jpg'
 	];
+
+	$scope.setTrackingRequest = function(){
+		trackingRequest.setRequest($scope.tracking_no);
+	};
 }]);
