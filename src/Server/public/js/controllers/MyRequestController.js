@@ -139,6 +139,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 							$scope.tracking.push(data.data[i].date);
 							var ico = 'images/tracking_icon.png';
 							var scale = [10,10];
+							var anchor = [5,6.5];
 							if(i==data.data.length-1){
 								ico = 'images/LOGO-BLUE.png';
 								scale = [40,40]
@@ -146,7 +147,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 							$scope.trackers.push({ pos: dot,
 											optimized: true,
 											icon: { url: ico,
-												    scaledSize: scale
+												    scaledSize: scale,
+												    anchor: anchor
 												}
 						    				});
 						}
@@ -278,10 +280,6 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
     };
 
     $scope.showwindow = function(event,index){
-    	// console.log($scope.tracking);
-    	// var e = document.getElementById('tracking_date');
-    	// e.innerHTML = $scope.tracking[index];
-    	// console.log(e);
     	var d = new Date($scope.tracking[index]);
     	$scope.date = d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
     	$scope.time = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();   	  

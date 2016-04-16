@@ -1,6 +1,5 @@
 app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', 'requestParcelImg', function($scope, $http, $cookies, profileViewer, loadUser, requestColor, requestParcelImg, uiGmapGoogleMapApi){
-
-	$scope.filter = { prices_max: 80, prices_min: 20, weight_max: 10, weight_min: 1, scope: 2500 };
+	
 	$scope.requests = [];
 
 	$scope.getRequests = function() {
@@ -37,6 +36,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 
 	$scope.getRequests();
 
+	$scope.filter = { prices_max: 100, prices_min: 0, weight_max: 15, weight_min: 0, scope: 2500, distance_max: 30000, distance_min: 0};
 	$scope.load = function() {
 		$('.collapsible').collapsible({
 			accordion : false
@@ -44,7 +44,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 
 	    var slider = document.getElementById('price-input');
 	    noUiSlider.create(slider, {
-	     	start: [20, 80],
+	     	start: [0, 100],
 	       	connect: true,
 	       	step: 1,
 	       	range: {
@@ -66,13 +66,37 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 			$scope.getRequests();			
 		});
 
+		slider = document.getElementById('distance-input');
+	    noUiSlider.create(slider, {
+	     	start: [0, 30000],
+	       	connect: true,
+	       	step: 100,
+	       	range: {
+	         'min': 0,
+	         'max': 30000
+	       },
+	       format: wNumb({
+	         decimals: 0
+	       })
+	     });
+
+	    slider.noUiSlider.on('change', function( values, handle ) {	    		    	
+			if ( handle ) {				
+				$scope.filter.distance_max = parseInt(values[handle]);
+			} else {
+				$scope.filter.distance_min = parseInt(values[handle]);
+			}			
+			console.log('filted distance');
+			$scope.getRequests();			
+		});
+
 	    slider = document.getElementById('weight-input');
 	    noUiSlider.create(slider, {
-	     	start: [1, 10],
+	     	start: [0, 15],
 	       	connect: true,
 	       	step: 0.1,
 	       	range: {
-	         'min': 0.1,
+	         'min': 0,
 	         'max': 15
 	       },
 	       format: wNumb({
@@ -155,11 +179,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 	  return d; // returns the distance in meter
 	};
 
-    $scope.calNear = function(req){    
-    	var from = req.fromLoc.split(', ');
-    	var to = req.toLoc.split(', ');
-    	from = [parseFloat(from[0]),parseFloat(from[1])];
-    	to = [parseFloat(to[0]),parseFloat(to[1])];
+    $scope.calNear = function(from,to){
     	var nearF = false;
     	var nearT = false;
     	for(var i = 0; i < $scope.path.length; i++){    	
@@ -189,14 +209,22 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
     		var date = $scope.requests[index].shipLimitDate.split('/');
 	    	date = new Date(date[1]+"/"+date[0]+"/"+date[2]);
 	    	inTime = $scope.filter.fromDate <= date && date <= $scope.filter.toDate;
-    	}    	
+    	}
+
+    	var from = $scope.requests[index].fromLoc.split(', ');
+    	var to = $scope.requests[index].toLoc.split(', ');
+    	from = [parseFloat(from[0]),parseFloat(from[1])];
+    	to = [parseFloat(to[0]),parseFloat(to[1])];
     	var near = true;
     	if($scope.path.length != 0){
-    		near = $scope.calNear($scope.requests[index]);
+    		near = $scope.calNear(from,to);
     	}    	
+       	var dist = $scope.getDistance(from,to);
+       	var indist = $scope.filter.distance_min <= dist && dist <= $scope.filter.distance_max;
+
     	var inprice = $scope.filter.prices_min <= price && price <= $scope.filter.prices_max;
     	var inweight = $scope.filter.weight_min <= weight && weight <= $scope.filter.weight_max;    	
-    	return inprice && inweight && near && inTime;
+    	return inprice && inweight && near && inTime && indist;
     };
 
     $scope.map = {

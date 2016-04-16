@@ -355,11 +355,10 @@ router.post('/request/update', function(req, res, next) {
 
     router.get('/request/get/:request_id',function(req, res, next){
         var request_id = req.params.request_id;
-        Request.find({request_id: request_id}, function(err, trackings) {
+        Request.find({_id: request_id}, function(err, trackings) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
             }
-
             res.send(trackings);
         })
     });
