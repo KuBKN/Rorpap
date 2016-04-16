@@ -2,7 +2,7 @@
 	<div class="row" style="width: 80%; left: auto; right: auto">
 		<br>
 		<div class="col s6">
-			<h5>Profile</h5>					
+			<h5>Profile</h5>
 			<div class="input-field row">
 				<label for="firstName" class="active">First Name</label>
 				<input type="text" id="firstName" ng-model="user.firstname" class="col s10" disabled required>
@@ -44,6 +44,46 @@
 			</div>
 			<br>
 			<center><button id="updateProfileBtn" type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="update()">Update</button></center>
+
+
+
+
+
+					<div class="card">
+						<div class="card-image" ng-hide="doc.hidden">
+							<img src="{{ doc.filename }}">
+							<span class="card-title">{{ doc.provedDate }}</span>
+						</div>
+						<div class="card-action">
+							<form ng-app="rorpap" name="form">
+								<div class="file-field input-field">
+									<div class="btn">
+										<span>File</span>
+										<input type="file" ngf-select="" ng-model="file" name="file" ngf-accept="'image/*'"
+										required="" class="ng-pristine ng-invalid ng-invalid-required" accept="image/*">
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" type="text">
+									</div>
+								</div>
+
+								<a class="waves-effect waves-light btn" ng-click="upload()" ng-hide="doc.uploaded || doc.filename != ''"><i class="material-icons right">cloud</i>Upload</a>
+								<a class="waves-effect waves-light btn" ng-click="upload()" ng-hide="doc.uploaded || doc.filename == ''"><i class="material-icons right">cloud</i>Update</a>
+								<a class="waves-effect waves-light btn" ng-click="save()" ng-show="doc.uploaded"><i class="material-icons right">cloud</i>Save</a>
+							</form>
+						</div>
+					</div>
+
+
+
+
+
+
+
+
+
+
+
 		</div>
 
 		<div class="col s5 offset-s1">

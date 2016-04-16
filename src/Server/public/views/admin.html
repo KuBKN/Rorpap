@@ -1,18 +1,50 @@
 <div class="container">
-	<table>
+
+	<h3>User Management</h3>
+
+	<h4>Enrolled Users</h4>
+	<table class="striped">
 	   <thead>
 		 <tr>
 			 <th data-field="name">Name</th>
 			 <th colspan="2" data-field="action"></th>
 		 </tr>
 	   </thead>
-
 	   <tbody>
-		 <tr ng-repeat="user in users">
-		   <td>{{ user.firstname + " " + user.lastname }}</td>
+		 <tr ng-repeat="user in enrolledUsers">
+		   <td><a href="#!/profile_other" ng-click="seeUser(user)">{{ user.firstname + " " + user.lastname }}</a></td>
 		   <td><a class="btn cyan darken waves-effect waves-light ng-scope" ng-click="accept($index)">Accept <i class="material-icons right">send</i></a></td>
-		   <td><a class="btn red darken waves-effect waves-light ng-scope" ng-click="reject($index)">Reject <i class="material-icons right">send</i></a></td>
+ 		   <td><a class="btn red darken waves-effect waves-light ng-scope" ng-click="reject($index)">Reject <i class="material-icons right">send</i></a></td>
 		 </tr>
 	   </tbody>
 	 </table>
+
+	<div class="progress" ng-show="enrolledUsers_loading">
+		<div class="indeterminate"></div>
+  	</div>
+
+	 <h4>All Users</h4>
+	 <table class="striped">
+ 	   <thead>
+ 		 <tr>
+ 			 <th data-field="name">Name</th>
+ 			 <th data-field="email">Email</th>
+			 <th data-field="dateOfBirth">Date of Birth</th>
+			 <th data-field="status">Status</th>
+ 		 </tr>
+ 	   </thead>
+ 	   <tbody>
+ 		 <tr ng-repeat="user in users">
+ 		   <td><a href="#!/profile_other" ng-click="seeUser(user)">{{ user.firstname + " " + user.lastname }}</a></td>
+ 		   <td>{{ user.email }}</td>
+		   <td>{{ user.dateOfBirth }}</td>
+		   <td>{{ user.status == 1 ? "Messenger" : (user.status == 0 ? "Sender" : "Enrolled") }}</td>
+ 		 </tr>
+ 	   </tbody>
+ 	 </table>
+	 <div class="progress" ng-show="users_loading">
+ 		<div class="indeterminate"></div>
+   	</div>
+
+	 <h3>Request Management</h3>
 </div>

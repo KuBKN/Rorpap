@@ -24,7 +24,6 @@
 	<script src="js/shared/ng-file-upload-shim.js"></script>
 	<script src="js/shared/ng-file-upload.js"></script>
 	<script src="js/shared/ng-map.js"></script>
-
 </head>
 
 <body ng-app="rorpap">
@@ -42,7 +41,7 @@
 					</a>
 					<a id="messengerNav" href="#!/messenger" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" ng-if="user.status == 1">
 						<font size="4"><center><b>Messenger</b></center></font>
-					</a>					
+					</a>
 				</li>
 				<li ng-repeat="menu in menus">
 					<a id="{{ menu.id }}Nav" style="text-decoration: none" class="{{ menu.class }}" href="{{ menu.href }}" data-activates="{{ menu.dactivate }}">
@@ -221,7 +220,7 @@
 <script src="js/shared/jquery-2.1.1.min.js"></script>
 <script src="css/materialize/js/materialize.js"></script>
 
-<script> 
+<script>
 $(document).ready(function(){
 
 	$('.dropdown-button').dropdown({
