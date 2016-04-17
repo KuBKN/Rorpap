@@ -5,7 +5,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 			accordion : false
 		});
 		$('select').material_select();
-		$('#mySelect').val();	
+		$('#mySelect').val();
+		$('#mapcard').pushpin({ top: $('#mapcard').offset().top });
 	};
 	$scope.load();	
 
@@ -142,7 +143,8 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 							var anchor = [5,6.5];
 							if(i==data.data.length-1){
 								ico = 'images/LOGO-BLUE.png';
-								scale = [40,40]
+								scale = [40,40];
+								anchor = [20,40];
 							}
 							$scope.trackers.push({ pos: dot,
 											optimized: true,

@@ -9,7 +9,15 @@ app.config(function($routeProvider, $locationProvider ) {
         templateUrl: './views/about.html'
 	}).when('/myrequest', {
 		controller: 'MyRequestController',	
-		templateUrl: './views/myrequest.html'
+		templateUrl: './views/myrequest.html',
+		resolve:{
+	        "check":function(loadUser,$location){   	        	
+	            if(!loadUser.isLogIned()){ 
+	                $location.path('/');    //redirect user to home.
+	                alert("You don't have access here")
+	            }
+	        }
+        }
 	}).when('/newrequest', {
         controller: 'NewRequestController',
         templateUrl: './views/newrequest.html'
@@ -18,13 +26,37 @@ app.config(function($routeProvider, $locationProvider ) {
 		templateUrl: './views/beamessenger.html'
 	}).when('/profile', {
 		controller: 'ProfileController',
-		templateUrl: './views/profile.html'
+		templateUrl: './views/profile.html',
+		resolve:{
+	        "check":function(loadUser,$location){   	        	
+	            if(!loadUser.isLogIned()){ 
+	                $location.path('/');    //redirect user to home.
+	                alert("You don't have access here")
+	            }
+	        }
+        }
 	}).when('/findrequest', {
 		controller: 'FindRequestController',
-		templateUrl: './views/findrequest.html'
+		templateUrl: './views/findrequest.html',
+		resolve:{
+	        "check":function(loadUser,$location){   	        	
+	            if(!loadUser.isLogIned()){ 
+	                $location.path('/');    //redirect user to home.
+	                alert("You don't have access here")
+	            }
+	        }
+        }
 	}).when('/messenger', {
 		controller: 'MessengerController',
-		templateUrl: './views/messenger.html'
+		templateUrl: './views/messenger.html',
+		resolve:{
+	        "check":function(loadUser,$location){   	        	
+	            if(!loadUser.isLogIned()){ 
+	                $location.path('/');    //redirect user to home.
+	                alert("You don't have access here")
+	            }
+	        }
+        }
 	}).when('/profile_other', {
 		controller: 'ProfileOtherController',
 		templateUrl: './views/profile_other.html'

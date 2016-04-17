@@ -1,15 +1,4 @@
 app.controller('TrackRequestController', ['$scope', '$http', 'trackingRequest', 'NgMap', function($scope,$http,trackingRequest,NgMap) {
-	 $scope.map = {
-		center: [
-			13.738432,
-			100.530925
-		],
-		zoom: 12
-	};
-
-	NgMap.getMap().then(function(map) {
-	    $scope.rmap = map;
-	});
 
 	$scope.markers = [];
 	$scope.getTracking = function(){
@@ -59,7 +48,18 @@ app.controller('TrackRequestController', ['$scope', '$http', 'trackingRequest', 
 			});
 		});
 	};
-	$scope.getTracking();
+	$scope.map = {
+		center: [
+			13.738432,
+			100.530925
+		],
+		zoom: 12,
+		zoomToIncludeMarkers: true
+	};
+    $scope.getTracking();
+	NgMap.getMap().then(function(map) {
+	    $scope.rmap = map;
+	});
 	$scope.showwindow = function(event,index){
     	var d = new Date($scope.tracking[index]);
     	$scope.date = d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()

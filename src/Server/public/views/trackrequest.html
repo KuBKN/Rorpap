@@ -3,11 +3,11 @@
 		<div class="card-content white-text">			
 			<span class="card-title">Location</span>			
 			<ng-map center="{{map.center}}" zoom="{{map.zoom}}" 
-					zoom-to-include-markers="true" 
-					style="height: 80vh">
+				zoom-to-include-markers="{{map.zoomToIncludeMarkers}}" 
+				style="height: 80vh">
 				 <marker id="marker{{$index}}" ng-repeat="marker in markers" 
-							position="{{marker.pos}}" icon="{{marker.icon}}"
-							optimized="{{marker.optimized}}"></marker>					
+				position="{{marker.pos}}" icon="{{marker.icon}}"
+				optimized="{{marker.optimized}}"></marker>					
 
 				<marker id="tracker{{$index}}" ng-repeat="tracker in trackers" 
 				position="{{tracker.pos}}" icon="{{tracker.icon}}"
