@@ -1,4 +1,4 @@
-app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', 'requestParcelImg', function( $scope, $http, $cookies, profileViewer, loadUser, requestColor, requestParcelImg, uiGmapGoogleMapApi){
+app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', 'requestParcelImg', 'mailMessage', function( $scope, $http, $cookies, profileViewer, loadUser, requestColor, requestParcelImg, mailMessage, uiGmapGoogleMapApi){
 
 	$scope.load = function() {
 		$('.collapsible').collapsible({
@@ -78,7 +78,6 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 
     $scope.submitSendingToken = function(){    	    	
     	var req = $scope.requests[$scope.rindex];
-    	console.log(req);
     	var rtoken = ""+req.sender_id.substring(req.sender_id.length-2)+req._id.substring(req._id.length-2);
 
     	var messenger_id = req.messenger_id;
@@ -86,6 +85,15 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
     
     	if(rtoken == $scope.sendingToken && messenger_id == user){    		    		
 	    	var request_id = req._id;
+	    	var message = mailMessage.getMessage('sendTokenToRec',req);
+	    	console.log(message);
+	   //  	$http.post('/api/mailservice/',message)
+				// .success(function(data) {
+					
+				// })
+				// .error(function(data) {
+				// 	console.log(data);
+				// });
 	    	$http.post('/api/request/accept/'+messenger_id+'/'+request_id)
 				.success(function(data) {
 					window.location.reload();
@@ -104,7 +112,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
     	var req = $scope.requests[$scope.rindex];    
 
     	if($scope.finishToken == "Send"){    		    		
-	    	var request_id = req._id;
+	    	var request_id = req._id;	    	
 	    	$http.post('/api/request/finish', req)
 				.success(function(data) {
 					window.location.reload();
@@ -205,7 +213,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 	};
 
 	$scope.cancelReserved = function(index){
-		var request_id = $scope.requests[index]._id;
+		var request_id = $scope.requests[index]._id;		
     	$http.post('/api/request/cancel/'+request_id)
 			.success(function(data) {
 				window.location.reload();
@@ -217,13 +225,22 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 
 	$scope.cancelProgress = function(index){
 		var request_id = $scope.requests[index]._id;
+		var message = mailMessage.getMessage('sendAbandonToRec',$scope.requests[index]);
+		console.log(message);
+  // 		$http.post('/api/mailservice/',message)
+		// .success(function(data) {
+			
+		// })
+		// .error(function(data) {
+		// 	console.log(data);
+		// });
     	$http.post('/api/request/abandon/'+request_id)
-			.success(function(data) {
-				window.location.reload();
-			})
-			.error(function(data) {
-				console.log(data);
-			});
+		.success(function(data) {
+			window.location.reload();
+		})
+		.error(function(data) {
+			console.log(data);
+		});
 	};
 
 }]);

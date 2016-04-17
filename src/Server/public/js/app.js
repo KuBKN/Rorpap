@@ -140,3 +140,24 @@ app.service('trackingRequest',function(){
 		return request;
 	}
 });
+
+app.service('mailMessage',function(){
+
+	var sendTokenToRec = function(req){ 
+		return {email: req.recipient_email,
+				topic: 'Receive Token',
+				html: '<h4>Hello, Your shipment has started!</h4><br>You can track your shipment by using this tracking number.<br><label style="background-color: yellow">'+req._id+'</label><br><br>Please use this token to receive your parcel.<br><h2><label style="background-color: yellow">'+'Send'+'</label></h2>'}
+			}
+	var sendAbandonToRec = function(req){ 
+		return {email: req.recipient_email,
+				topic: 'Request Abandoned',
+				html: '<h4>Hello, Your shipment has been canceled!</h4><br>Please wait until the next messenger get this shipment<br>Request No. <label style="background-color: yellow">'+req._id+'</label>'}
+			}
+	
+	this.getMessage = function(type,request){
+		if(type=="sendTokenToRec"){
+			return sendTokenToRec(request) }
+		else if(type=="sendAbandonToRec"){
+			return sendAbandonToRec(request) }
+	}
+});
