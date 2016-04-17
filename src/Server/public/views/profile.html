@@ -49,11 +49,8 @@
 
 
 
-					<div class="card">
-						<div class="card-image" ng-hide="doc.hidden">
-							<img src="{{ doc.filename }}">
-							<span class="card-title">{{ doc.provedDate }}</span>
-						</div>
+
+				<div class="card">
 						<div class="card-action">
 							<form ng-app="rorpap" name="form">
 								<div class="file-field input-field">
@@ -103,6 +100,18 @@
 			<a href="#!/findrequest" ng-if="user.status == 1" class="btn cyan darken waves-effect waves-teal">Find Request
 				<i class="material-icons right">send</i>
 			</a>
+
+			<div class="card" ng-hide="doc.hidden">
+				<div class="card-content">
+		          <p>Identify Document</p>
+		        </div>
+				<div class="card-image">
+					<img src="{{ doc.filename }}">
+					<span class="card-title">{{ doc.provedDate }}</span>
+				</div>
+
+			</div>
+
 		</div>
 	</div>
 <!-- </div> -->

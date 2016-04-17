@@ -12,15 +12,6 @@ mongoose.connect('mongodb://188.166.180.204/rorpap');
 
 var gcm = require('node-gcm');
 
-var nodemailer = require('nodemailer');
-var transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'batmasterkn@gmail.com', // Your email id
-            pass: '190936bmt' // Your password
-        }
-    });
-
 var HTTP_CREATED = 201;
 var HTTP_FOUND = 302;
 var HTTP_NOT_MODIFIED = 304;
@@ -36,7 +27,20 @@ var User = mongoose.model('users', {
     password: String,
     dateOfBirth: String,
     status: Number,
-    point: Number
+    point: Number,
+    date: {
+        type: String,
+        default: Date.now()
+    }
+});
+
+var Admin = mongoose.model('admins', {
+    email: String,
+    password: String,
+    date: {
+        type: String,
+        default: Date.now()
+    }
 });
 
 router.post('/user/create', function(req, res, next) {
@@ -148,6 +152,27 @@ router.post('/user/enroll', function(req, res, next) {
     });
 });
 
+router.post('/admin/login', function(req, res, next) {
+    var email = req.body.email;
+    var password = req.body.password;
+
+    var admin = new Admin({email: email, password: password});
+    console.log(JSON.stringify(admin));
+    Admin.find({email: email, password: password}, {_id: 1}, function(err, users) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            if (users.length) {
+                res.status(200).send(users);
+            }
+            else {
+                res.status(HTTP_NOT_FOUND).send();
+            }
+        }
+    });
+});
+
 router.get('/admin/user_enroll', function(req, res, next) {
     User.find({status: -1}, function(err, users) {
         if (err) {
@@ -256,7 +281,11 @@ var Request = mongoose.model('requests', {
     shipLimitHour: String,
     shipLimitTime: String,
     price: String,
-    comment: String
+    comment: String,
+    date: {
+        type: String,
+        default: Date.now() // `Date.now()` returns the current unix timestamp as a number
+    }
 });
 
 router.post('/request/create', function(req, res, next) {
@@ -493,7 +522,11 @@ router.post('/request/update', function(req, res, next) {
     //===================Request Acceptance==================
     var Acceptance = mongoose.model('accepts', {
         request_id: String,
-        messenger_id: String
+        messenger_id: String,
+        date: {
+            type: String,
+            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
+        }
     });
 
     router.get('/acceptance/getbyreq/:request_id', function(req, res, next) {
@@ -597,7 +630,11 @@ router.post('/request/update', function(req, res, next) {
 
     var GCM = mongoose.model('gcms', {
         user_id: String,
-        token: String
+        token: String,
+        date: {
+            type: String,
+            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
+        }
     });
 
     router.post('/gcm/register', function(req, res, next) {

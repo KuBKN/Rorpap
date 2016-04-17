@@ -8,7 +8,7 @@ app.config(function($routeProvider, $locationProvider ) {
 	}).when('/about', {
         templateUrl: './views/about.html'
 	}).when('/myrequest', {
-		controller: 'MyRequestController',	
+		controller: 'MyRequestController',
 		templateUrl: './views/myrequest.html'
 	}).when('/newrequest', {
         controller: 'NewRequestController',
@@ -30,8 +30,11 @@ app.config(function($routeProvider, $locationProvider ) {
 		templateUrl: './views/profile_other.html'
     }).when('/admin', {
 		controller: 'AdminController',
-		templateUrl: './views/admin.html'
-    }).otherwise({ redirectTo: "/" });
+		templateUrl: './views/admin.html',
+	}).when('/adminlogin', {
+		controller: 'AdminLoginController',
+		templateUrl: './views/admin_login.html',
+	}).otherwise({ redirectTo: "/" });
 
 });
 
@@ -44,7 +47,7 @@ app.factory('loadUser',['$http', '$cookies', function($http, $cookies){
 	var isLogIned = function(){
 		return $cookies.get('_id') != undefined;
 	}
-    
+
     var getUser = function(id){
     	if(id == undefined){
 	    	id = $cookies.get('_id').replace(/\"/g, '');
@@ -53,7 +56,7 @@ app.factory('loadUser',['$http', '$cookies', function($http, $cookies){
 	    .then(function(response) {
 	        return response.data[0];
 		});
-    } 
+    }
 
     return { isLogIned: isLogIned, getUser: getUser };
 }]);
