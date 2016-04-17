@@ -409,16 +409,6 @@ router.post('/request/update', function(req, res, next) {
         });
     });
 
-    router.post('/request/abandon/:request_id', function(req, res, next) {
-        var _id = req.params.request_id;        
-
-        Request.findOneAndUpdate({_id: _id, type: 'Inprogress'}, {type: 'Reserved'}, function(err, data) {
-            if (err)
-            return res.send(500, { error: err });
-            return res.send();
-        });
-    });
-
     router.post('/request/finish/', function(req, res, next) {
         var _id = req.body._id;
 

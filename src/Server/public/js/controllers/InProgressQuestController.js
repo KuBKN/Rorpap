@@ -223,24 +223,4 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 			});
 	};
 
-	$scope.cancelProgress = function(index){
-		var request_id = $scope.requests[index]._id;
-		var message = mailMessage.getMessage('sendAbandonToRec',$scope.requests[index]);
-		console.log(message);
-  // 		$http.post('/api/mailservice/',message)
-		// .success(function(data) {
-			
-		// })
-		// .error(function(data) {
-		// 	console.log(data);
-		// });
-    	$http.post('/api/request/abandon/'+request_id)
-		.success(function(data) {
-			window.location.reload();
-		})
-		.error(function(data) {
-			console.log(data);
-		});
-	};
-
 }]);

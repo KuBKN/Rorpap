@@ -118,7 +118,7 @@
 
 						<div class="col m12 s12">
 							<span class="right" ng-if="request.type !== 'Finished'">
-								<a id="edit{{$index}}" class="btn black-text" style="background-color: #FCFCFC" ng-click="editRequest($index)">Edit</a>
+								<a ng-if="request.type != 'Inprogress'" id="edit{{$index}}" class="btn black-text" style="background-color: #FCFCFC" ng-click="editRequest($index)">Edit</a>
 								<a ng-if="request.type == 'Reserved'" id="cancel{{$index}}" class="btn" style="background-color: #e51c23" ng-click="cancelRequest($index)">Cancel</a>
 								<a ng-if="request.type == 'Pending'" id="remove{{$index}}" class="btn" style="background-color: #e51c23" ng-click="removeRequest($index)">Remove</a>
 							</span>							
