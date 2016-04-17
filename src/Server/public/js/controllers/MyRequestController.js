@@ -1,5 +1,10 @@
 app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location', 'loadUser', 'profileViewer', 'requestColor', 'requestParcelImg', 'requestEditor', 'NgMap', function($scope, $http, $cookies, $location, loadUser, profileViewer, requestColor, requestParcelImg, requestEditor, NgMap) {
 
+    NgMap.getMap().then(function(map) {
+	    $scope.rmap = map;
+	    console.log('set Rmap');
+	});
+
 	$scope.load = function() {
 		$('.collapsible').collapsible({
 			accordion : false
@@ -8,11 +13,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 		$('#mySelect').val();
 		$('#mapcard').pushpin({ top: $('#mapcard').offset().top });
 	};
-	$scope.load();	
-
-	NgMap.getMap().then(function(map) {
-	    $scope.rmap = map;
-	});
+	$scope.load();
 
 	$scope.reqBackground = function(type) {
 		return requestColor.getColor(type);
@@ -98,7 +99,7 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 		],
 		zoom: 12,
 		zoomToIncludeMarkers: false
-	};	
+	};
 
 	$scope.markers = [];
 
@@ -171,7 +172,6 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 			$scope.map.zoomToIncludeMarkers = false;			
 		}
 	};
-
 	$scope.lastCollepsed = -1;
 
 	$scope.calculateCenter = function(var1, var2) {

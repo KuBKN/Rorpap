@@ -59,7 +59,9 @@ app.controller('TrackRequestController', ['$scope', '$http', 'trackingRequest', 
     $scope.getTracking();
 	NgMap.getMap().then(function(map) {
 	    $scope.rmap = map;
+	    console.log('set Rmap');
 	});
+	console.log('After set Rmap');
 	$scope.showwindow = function(event,index){
     	var d = new Date($scope.tracking[index]);
     	$scope.date = d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
