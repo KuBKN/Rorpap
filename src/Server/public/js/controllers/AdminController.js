@@ -1,11 +1,13 @@
-app.controller('AdminController', ['$scope', '$http', '$window', function($scope, $http, $window) {
+app.controller('AdminController', ['$scope', '$http', '$window', 'profileViewer', function($scope, $http, $window, profileViewer) {
 
-    $scope.users = [];
-
+    // enrolled
+    $scope.enrolledUsers = [];
+    $scope.enrolledUsers_loading = true;
     $scope.getEnrolled = function() {
 		$http.get('/api/admin/user_enroll')
 			.success(function(data) {
-				$scope.users = data;
+				$scope.enrolledUsers = data;
+                $scope.enrolledUsers_loading = false;
 			})
 			.error(function(data) {
 				console.log(data);
@@ -34,4 +36,24 @@ app.controller('AdminController', ['$scope', '$http', '$window', function($scope
 				console.log(data);
 			});
     }
+
+    // all
+    $scope.users = [];
+    $scope.users_loading = true;
+    $scope.getUsers = function() {
+		$http.get('/api/user/get')
+			.success(function(data) {
+				$scope.users = data;
+                $scope.users_loading = false;
+			})
+			.error(function(data) {
+				console.log(data);
+			});
+	}
+    $scope.getUsers();
+
+    $scope.seeUser = function(user){
+		profileViewer.seeUser(user);
+	};
+
 }]);

@@ -7,6 +7,9 @@ var router = express.Router();
 var mongoose = require("mongoose");
 mongoose.connect('mongodb://188.166.180.204/rorpap');
 
+// var mongoosePaginate = require('mongoose-paginate');
+// mongoose.plugin(mongoosePaginate);
+
 var gcm = require('node-gcm');
 
 var HTTP_CREATED = 201;
@@ -24,7 +27,20 @@ var User = mongoose.model('users', {
     password: String,
     dateOfBirth: String,
     status: Number,
-    point: Number
+    point: Number,
+    date: {
+        type: String,
+        default: Date.now()
+    }
+});
+
+var Admin = mongoose.model('admins', {
+    email: String,
+    password: String,
+    date: {
+        type: String,
+        default: Date.now()
+    }
 });
 
 router.post('/user/create', function(req, res, next) {
@@ -108,8 +124,6 @@ router.post('/user/update', function(req, res, next) {
 router.post('/user/login', function(req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
-    console.log(email);
-    console.log(password);
 
     var user = new User({email: email, password: password});
     User.find({email: email, password: password}, {_id: 1}, function(err, users) {
@@ -135,6 +149,27 @@ router.post('/user/enroll', function(req, res, next) {
         if (err)
         return res.send(500, { error: err });
         return res.send();
+    });
+});
+
+router.post('/admin/login', function(req, res, next) {
+    var email = req.body.email;
+    var password = req.body.password;
+
+    var admin = new Admin({email: email, password: password});
+    console.log(JSON.stringify(admin));
+    Admin.find({email: email, password: password}, {_id: 1}, function(err, users) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            if (users.length) {
+                res.status(200).send(users);
+            }
+            else {
+                res.status(HTTP_NOT_FOUND).send();
+            }
+        }
     });
 });
 
@@ -168,6 +203,48 @@ router.post('/admin/user_reject', function(req, res, next) {
         return res.send();
     });
 });
+
+// npm install mongoose-paginate
+
+// router.get('/user/get/:limit/:page', function(req, res, next) {
+//     var limit = req.params.limit;
+//     var page = req.params.page;
+//
+//
+//     User.paginate({}, { page: page, limit: limit }, function(err, data) {
+//         res.send(data);
+//     });
+// });
+
+// var User = mongoose.model('users', {
+//     firstname: String,
+//     lastname: String,
+//     email: String,
+//     tel: String,
+//     password: String,
+//     dateOfBirth: String,
+//     status: Number,
+//     point: Number
+// });
+
+router.get('/user/get', function(req, res, next) {
+
+    User.find({}, function(err, users) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        res.send(users);
+    })
+});
+
+/*router.get('/user/', function(req, res, next) {
+User.find(function(err, users) {
+if (err) {
+res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+}
+res.send(users);
+})
+});*/
 
 router.get('/user/get/:id', function(req, res, next) {
     var _id = req.params.id;
@@ -203,13 +280,15 @@ var Request = mongoose.model('requests', {
     toLoc: String,
     reqLimitDate: String,
     reqLimitTime: String,
-    appointDate: String,
-    appointTime: String,
     shipLimitDate: String,
     shipLimitHour: String,
     shipLimitTime: String,
     price: String,
-    comment: String
+    comment: String,
+    date: {
+        type: String,
+        default: Date.now() // `Date.now()` returns the current unix timestamp as a number
+    }
 });
 
 router.post('/request/create', function(req, res, next) {
@@ -292,6 +371,7 @@ router.post('/request/update', function(req, res, next) {
     var disclosure = req.body.disclosure;
     var price = req.body.price;
     var comment = req.body.comment;
+    console.log('suc');
 
     Request.findOneAndUpdate({_id: _id},
      {fromLoc: fromLoc,
@@ -341,8 +421,7 @@ router.post('/request/update', function(req, res, next) {
         if (messenger_id.charAt(0)=='!') {
             messenger_id = {$ne: messenger_id.substring(1)};
         };
-        console.log(reqtype);
-        console.log(messenger_id);
+
         Request.find({messenger_id: messenger_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1, reqLimitDate: -1}}, function(err, requests) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -387,7 +466,7 @@ router.post('/request/update', function(req, res, next) {
         });
     });
 
-    router.post('/request/reserve/:request_id', function(req, res, next) {
+    router.post('/request/reserve/:messenger_id/:request_id', function(req, res, next) {
         var _id = req.params.request_id;
         var messenger_id = req.body.messenger_id;
         var date = req.body.date;
@@ -481,9 +560,10 @@ router.post('/request/update', function(req, res, next) {
     var Acceptance = mongoose.model('accepts', {
         request_id: String,
         messenger_id: String,
-        date: String,
-        hour: String,
-        min: String
+        date: {
+            type: String,
+            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
+        }
     });
 
     router.get('/acceptance/getbyreq/:request_id', function(req, res, next) {
@@ -509,35 +589,22 @@ router.post('/request/update', function(req, res, next) {
     router.post('/acceptance/add/:messenger_id/:request_id', function(req, res, next) {
         var messenger_id = req.params.messenger_id;
         var request_id = req.params.request_id;
-        var date = req.body.date;
-        var hour = req.body.hour;
-        var min = req.body.min;
         Request.findOneAndUpdate({_id: request_id, type: 'Pending'}, { hasAccept: true }, function(err, data) {
             if (err)
                 return res.send(500, { error: err });
             else{
-                var acceptance = new Acceptance({request_id: request_id, messenger_id: messenger_id, date: date, hour: hour, min: min});
+                var acceptance = new Acceptance({request_id: request_id, messenger_id: messenger_id});
                 acceptance.save(function(err) {
-                    if (err) {                    
+                    console.log('e')
+                    if (err) {
+                        console.log('f')
                         res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-                    }                    
+                    }
+                    console.log('g')
                     res.status(HTTP_CREATED).send();
                 });
-                return res.send();
-            };
-        });
-    });
 
-     router.post('/acceptance/edit/:accept_id', function(req, res, next) {
-        var _id = req.params.accept_id;        
-        var date = req.body.date;
-        var hour = req.body.hour;
-        var min = req.body.min;
-        Acceptance.findOneAndUpdate({_id: _id}, { date: date, hour: hour, min: min }, function(err, data) {
-            if (err)                
-                res.send(500, { error: err });
-            else{               
-                res.send();
+                return res.send();
             };
         });
     });
@@ -596,7 +663,11 @@ router.post('/request/update', function(req, res, next) {
 
     var GCM = mongoose.model('gcms', {
         user_id: String,
-        token: String
+        token: String,
+        date: {
+            type: String,
+            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
+        }
     });
 
     router.post('/gcm/register', function(req, res, next) {
@@ -618,31 +689,100 @@ router.post('/request/update', function(req, res, next) {
         var signal = req.body.signal;
         var title = req.body.title;
         var content = req.body.content;
+        var user_id = req.body.user_id;
         // var device_tokens = req.body.device_tokens;
-        var device_tokens = ["APA91bFoAWdARBc2y9F8dQ03P12NA-yFGAExwSNlMrUxwfbZAmzxIuAdeqoOpC62cogzStiR7YB7MbwGP-uDJdnatoaoFBSpUwAwHlnJ7Nx9ea0shegVLx3cUUEgFpzR-fUit-IWjUOX"]; //create array for storing device tokens
-        var retry_times = 4; //the number of times to retry sending the message if it fails
+        GCM.distinct("token", {user_id: user_id}, function(err, data) {
+            var device_tokens = data;
 
-        var sender = new gcm.Sender('AIzaSyAfx5LifSQtCuxr86ZgVOg5b4VzAauLCDM'); //create a new sender
-        var message = new gcm.Message(); //create a new message
+            var retry_times = 4; //the number of times to retry sending the message if it fails
 
-        message.addData('type', type);
-        message.addData('signal', signal);
-        message.addData('title', title);
-        message.addData('content', content);
+            var sender = new gcm.Sender('AIzaSyAfx5LifSQtCuxr86ZgVOg5b4VzAauLCDM'); //create a new sender
+            var message = new gcm.Message(); //create a new message
 
-        message.collapseKey = 'testing'; //grouping messages
-        message.delayWhileIdle = true; //delay sending while receiving device is offline
-        message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
+            message.addData('type', type);
+            message.addData('signal', signal);
+            message.addData('title', title);
+            message.addData('content', content);
+
+            message.collapseKey = 'testing'; //grouping messages
+            message.delayWhileIdle = true; //delay sending while receiving device is offline
+            message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
 
 
-        // device_tokens.push(device_token);
-        sender.send(message, device_tokens, retry_times, function(result){
-            console.log(result);
-            console.log('push sent to: ' + device_tokens);
+            // device_tokens.push(device_token);
+            sender.send(message, device_tokens, retry_times, function(result){
+                console.log(result);
+                console.log('push sent to: ' + device_tokens);
+            });
+            res.send(JSON.stringify({sender: sender, message: message}));
         });
-        res.send(JSON.stringify({sender: sender, message: message}));
     });
 
+    // ================== File ==================
 
+    var File = mongoose.model('files', {
+        user_id: String,
+        filename: String,
+        type: Number, // 0 avartar, 1 doc
+        provedDate: Date,
+        date: {
+            type: String,
+            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
+        }
+    });
+
+    var util = require('util');
+    var path = require('path');
+    var multer  = require('multer');
+
+    router.post('/file/upload', function(req, res, next) {
+        var storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+                cb(null, 'public/uploads/');
+            },
+            filename: function (req, file, cb) {
+                cb(null, Date.now() + path.extname(file.originalname));
+            }
+        });
+        var upload = multer({ storage: storage }).single('file');
+
+        upload(req, res, function (err) {
+            if (err) {
+                console.log("err: " + err);
+                return "err";
+            }
+            console.log(util.inspect(req.file.filename, false, null));
+            res.send(req.file.filename);
+        });
+    });
+
+    router.post('/file/save', function(req, res, next) {
+        var user_id = req.body.user_id;
+        var filename = req.body.filename;
+        var type = req.body.type;
+
+        var file = new File({user_id: user_id, filename: filename, type: type});
+
+        file.save(function(err) {
+            if (err) {
+                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+            }
+            res.status(HTTP_CREATED).send();
+        });
+    });
+
+    router.post('/file/get', function(req, res, next) {
+        var user_id = req.body.user_id;
+        var type = req.body.type;
+
+        File.findOne({user_id: user_id, type: type}, null, {sort: {_id: -1}}, function(err, file) {
+            if (err) {
+                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+            }
+            else {
+                res.send(file);
+            }
+        });
+    });
 
     module.exports = router;

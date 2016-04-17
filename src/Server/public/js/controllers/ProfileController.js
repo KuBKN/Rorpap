@@ -1,4 +1,4 @@
-app.controller('ProfileController', ['$scope', '$http', '$window', 'loadUser', function($scope, $http, $window, loadUser) {
+app.controller('ProfileController', ['$scope', '$http', '$window', 'loadUser', 'Upload', '$cookies', function($scope, $http, $window, loadUser, Upload, $cookies) {
 
     $scope.logIned = loadUser.isLogIned();
 
@@ -64,5 +64,82 @@ app.controller('ProfileController', ['$scope', '$http', '$window', 'loadUser', f
             console.log('error');
         });
     };
+
+
+
+
+
+
+
+
+
+    $scope.upload = function() {
+        console.log($scope.file);
+      if ($scope.form.file.$valid && $scope.file) {
+        $scope.uploadFile($scope.file);
+      }
+    };
+
+    $scope.uploadFile = function (file) {
+        Upload.upload({
+            url: '/api/file/upload',
+            data: {
+                file: file
+            }
+        }).then(function (resp) {
+            // console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+            $scope.doc.hidden = false;
+            $scope.doc.filename = "uploads/" + resp.data;
+            $scope.doc.uploaded = true;
+        }, function (resp) {
+            // console.log('Error status: ' + resp.status);
+        }, function (evt) {
+            // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            // console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
+    };
+
+    $scope.save = function() {
+        $http.post('/api/file/save', {
+            user_id: $scope.user._id,
+            filename: $scope.doc.filename,
+            type: 1
+        })
+        .success(function(data) {
+            $window.location.reload();
+        })
+        .error(function(err) {
+            console.log(err);
+        });
+    }
+
+    $scope.doc = {};
+    $scope.doc.hidden = true;
+    $scope.doc.filename = "";
+    $scope.doc.provedDate = "";
+    $scope.doc.uploaded = false;
+
+    $scope.loadDoc = function() {
+        var user_id = $cookies.get('_id').replace(/\"/g, '');
+        $http.post('/api/file/get', {
+            user_id: user_id,
+            type: 1
+        })
+        .success(function(data) {
+            console.log(data.filename);
+            if (data.filename == undefined) {
+
+            }
+            else {
+                $scope.doc.hidden = false;
+                $scope.doc.filename = data.filename;
+                $scope.doc.provedDate = data.provedDate;
+            }
+        })
+        .error(function(err) {
+            console.log(err);
+        });
+    };
+    $scope.loadDoc();
 
 }]);

@@ -66,8 +66,10 @@ app.config(function($routeProvider, $locationProvider ) {
     }).when('/trackrequest',{
     	controller: 'TrackRequestController',
     	templateUrl: './views/trackrequest.html'
-    }).otherwise({ redirectTo: "/" });
-
+    }).when('/adminlogin', {
+		controller: 'AdminLoginController',
+		templateUrl: './views/admin_login.html',
+	}).otherwise({ redirectTo: "/" });
 });
 
 app.config(function ($locationProvider) {
@@ -79,7 +81,7 @@ app.factory('loadUser',['$http', '$cookies', function($http, $cookies){
 	var isLogIned = function(){
 		return $cookies.get('_id') != undefined;
 	}
-    
+
     var getUser = function(id){
     	if(id == undefined){
 	    	id = $cookies.get('_id').replace(/\"/g, '');
@@ -88,7 +90,7 @@ app.factory('loadUser',['$http', '$cookies', function($http, $cookies){
 	    .then(function(response) {
 	        return response.data[0];
 		});
-    } 
+    }
 
     return { isLogIned: isLogIned, getUser: getUser };
 }]);

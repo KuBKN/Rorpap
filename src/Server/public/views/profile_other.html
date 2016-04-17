@@ -10,9 +10,19 @@
 			Tel: {{ user.tel }}<br>
 			Status: {{ user.status }}<br>
 			Point: {{ user.point }}</font>
+			<br>
+			<a href="javascript:void(0)" ng-click="doc.show = !doc.show" ng-hide="doclink.hidden">Identify Document</a>
 		</div>
 
-		<div class="card col l8 offset-l1">
+		<div class="col l8 offset-l1">
+
+			<div class="card" ng-show="doc.show">
+				<div class="card-image" ng-hide="doc.hidden">
+					<img src="{{ doc.filename }}">
+					<span class="card-title">{{ doc.provedDate }}</span>
+				</div>
+			</div>
+
 			First Name: {{ user.firstname }} <br>
 			Last Name: {{ user.lastname }} <br>
 			E-mail: {{ user.email }} <br>
