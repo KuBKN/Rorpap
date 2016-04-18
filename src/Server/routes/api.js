@@ -28,19 +28,13 @@ var User = mongoose.model('users', {
     dateOfBirth: String,
     status: Number,
     point: Number,
-    date: {
-        type: String,
-        default: Date.now()
-    }
+    date: String
 });
 
 var Admin = mongoose.model('admins', {
     email: String,
     password: String,
-    date: {
-        type: String,
-        default: Date.now()
-    }
+    date: String
 });
 
 router.post('/user/create', function(req, res, next) {
@@ -51,7 +45,7 @@ router.post('/user/create', function(req, res, next) {
     var password = req.body.password;
     var dateOfBirth = req.body.dateOfBirth;
 
-    var user = new User({firstname: firstname, lastname: lastname, email: email, tel: tel, password: password, dateOfBirth: dateOfBirth, status: 0});
+    var user = new User({firstname: firstname, lastname: lastname, email: email, tel: tel, password: password, dateOfBirth: dateOfBirth, status: 0, date: Date.now()});
     User.find({email: email, password: password}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -80,10 +74,16 @@ router.post('/user/update', function(req, res, next) {
     var tel = req.body.tel;
     var password = req.body.password;
 
+    User.findOneAndUpdate({_id: _id}, {date: Date.now()}, function(err, data) {
+        if (err)
+            return res.send(500, { error: err });
+        return res.send();
+    });
+
     if (firstname != "" && firstname != undefined) {
         User.findOneAndUpdate({_id: _id}, {firstname: firstname}, function(err, data) {
             if (err)
-            return res.send(500, { error: err });
+                return res.send(500, { error: err });
             return res.send();
         });
     }
@@ -91,7 +91,7 @@ router.post('/user/update', function(req, res, next) {
     if (lastname != "" && lastname != undefined) {
         User.findOneAndUpdate({_id: _id}, {lastname: lastname}, function(err, data) {
             if (err)
-            return res.send(500, { error: err });
+                return res.send(500, { error: err });
             return res.send();
         });
     }
@@ -99,7 +99,7 @@ router.post('/user/update', function(req, res, next) {
     if (email != "" && email != undefined) {
         User.findOneAndUpdate({_id: _id}, {email: email}, function(err, data) {
             if (err)
-            return res.send(500, { error: err });
+                return res.send(500, { error: err });
             return res.send();
         });
     }
@@ -115,7 +115,7 @@ router.post('/user/update', function(req, res, next) {
     if (password != "" && password != undefined) {
         User.findOneAndUpdate({_id: _id}, {password: password}, function(err, data) {
             if (err)
-            return res.send(500, { error: err });
+                return res.send(500, { error: err });
             return res.send();
         });
     }
@@ -144,7 +144,7 @@ router.post('/user/login', function(req, res, next) {
 
 router.post('/user/enroll', function(req, res, next) {
     var _id = req.body._id;
-    User.findOneAndUpdate({_id: _id, status: 0}, {status: '-1'}, function(err, data) {
+    User.findOneAndUpdate({_id: _id, status: 0}, {status: '-1', date: Date.now()}, function(err, data) {
         console.log(data);
         if (err)
         return res.send(500, { error: err });
@@ -185,7 +185,7 @@ router.get('/admin/user_enroll', function(req, res, next) {
 router.post('/admin/user_accept', function(req, res, next) {
     var _id = req.body._id;
 
-    User.findOneAndUpdate({_id: _id, status: -1}, {status: 1}, function(err, data) {
+    User.findOneAndUpdate({_id: _id, status: -1}, {status: 1, date: Date.now()}, function(err, data) {
         if (err)
         return res.send(500, { error: err });
         return res.send();
@@ -197,35 +197,12 @@ router.post('/admin/user_reject', function(req, res, next) {
 
     console.log(_id);
 
-    User.findOneAndUpdate({_id: _id, status: -1}, {status: 0}, function(err, data) {
+    User.findOneAndUpdate({_id: _id, status: -1}, {status: 0, date: Date.now()}, function(err, data) {
         if (err)
         return res.send(500, { error: err });
         return res.send();
     });
 });
-
-// npm install mongoose-paginate
-
-// router.get('/user/get/:limit/:page', function(req, res, next) {
-//     var limit = req.params.limit;
-//     var page = req.params.page;
-//
-//
-//     User.paginate({}, { page: page, limit: limit }, function(err, data) {
-//         res.send(data);
-//     });
-// });
-
-// var User = mongoose.model('users', {
-//     firstname: String,
-//     lastname: String,
-//     email: String,
-//     tel: String,
-//     password: String,
-//     dateOfBirth: String,
-//     status: Number,
-//     point: Number
-// });
 
 router.get('/user/get', function(req, res, next) {
 
@@ -236,15 +213,6 @@ router.get('/user/get', function(req, res, next) {
         res.send(users);
     })
 });
-
-/*router.get('/user/', function(req, res, next) {
-User.find(function(err, users) {
-if (err) {
-res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-}
-res.send(users);
-})
-});*/
 
 router.get('/user/get/:id', function(req, res, next) {
     var _id = req.params.id;
@@ -285,10 +253,7 @@ var Request = mongoose.model('requests', {
     shipLimitTime: String,
     price: String,
     comment: String,
-    date: {
-        type: String,
-        default: Date.now() // `Date.now()` returns the current unix timestamp as a number
-    }
+    date: String
 });
 
 router.post('/request/create', function(req, res, next) {
@@ -337,8 +302,8 @@ router.post('/request/create', function(req, res, next) {
         shipLimitHour: shipLimitHour,
         shipLimitTime: shipLimitTime,
         price: price,
-        comment: comment});
-        // res.send(request);
+        comment: comment,
+        date: Date.now()});
         request.save(function(err) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -374,22 +339,24 @@ router.post('/request/update', function(req, res, next) {
     console.log('suc');
 
     Request.findOneAndUpdate({_id: _id},
-     {fromLoc: fromLoc,
-        toLoc: toLoc,
-        shipLimitDate: shipLimitDate,
-        shipLimitHour: shipLimitHour,
-        shipLimitTime: shipLimitTime,
-        recipient_name: recipient_name,
-        recipient_email: recipient_email,
-        recipient_tel: recipient_tel,
-        img: img,
-        size_w: size_w,
-        size_l: size_l,
-        size_h: size_h,
-        weight: weight,
-        disclosure: disclosure,
-        price: price,
-        comment: comment},
+        {fromLoc: fromLoc,
+            toLoc: toLoc,
+            shipLimitDate: shipLimitDate,
+            shipLimitHour: shipLimitHour,
+            shipLimitTime: shipLimitTime,
+            recipient_name: recipient_name,
+            recipient_email: recipient_email,
+            recipient_tel: recipient_tel,
+            img: img,
+            size_w: size_w,
+            size_l: size_l,
+            size_h: size_h,
+            weight: weight,
+            disclosure: disclosure,
+            price: price,
+            comment: comment,
+            date: Date.now()
+        },
         function(err, data) {
             if (err)
             return res.send(500, { error: err });
@@ -459,7 +426,7 @@ router.post('/request/update', function(req, res, next) {
         var _id = req.params.request_id;
         var messenger_id = req.params.messenger_id;
 
-        Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Inprogress', messenger_id: messenger_id}, function(err, data) {
+        Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Inprogress', messenger_id: messenger_id, date: Date.now()}, function(err, data) {
             if (err)
             return res.send(500, { error: err });
             return res.send();
@@ -471,7 +438,7 @@ router.post('/request/update', function(req, res, next) {
         var messenger_id = req.body.messenger_id;
         var date = req.body.date;
         var time = req.body.hour+":"+req.body.min;
-        Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Reserved', messenger_id: messenger_id, appointDate: date, appointTime: time}, function(err, data) {
+        Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Reserved', messenger_id: messenger_id, appointDate: date, appointTime: time, date: Date.now()}, function(err, data) {
             if (err)
             return res.send(500, { error: err });
             return res.send();
@@ -481,7 +448,7 @@ router.post('/request/update', function(req, res, next) {
     router.post('/request/cancel/:request_id', function(req, res, next) {
         var _id = req.params.request_id;
 
-        Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Pending', messenger_id: null, appointDate: null, appointTime: null}, function(err, data) {
+        Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Pending', messenger_id: null, appointDate: null, appointTime: null, date: Date.now()}, function(err, data) {
             if (err)
             return res.send(500, { error: err });
             return res.send();
@@ -491,7 +458,7 @@ router.post('/request/update', function(req, res, next) {
     router.post('/request/finish/', function(req, res, next) {
         var _id = req.body._id;
 
-        Request.findOneAndUpdate({_id: _id, type: 'Inprogress'}, {type: 'Finished'}, function(err, data) {
+        Request.findOneAndUpdate({_id: _id, type: 'Inprogress'}, {type: 'Finished', date: Date.now()}, function(err, data) {
             if (err)
             return res.send(500, { error: err });
             return res.send();
@@ -560,10 +527,7 @@ router.post('/request/update', function(req, res, next) {
     var Acceptance = mongoose.model('accepts', {
         request_id: String,
         messenger_id: String,
-        date: {
-            type: String,
-            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
-        }
+        date: String
     });
 
     router.get('/acceptance/getbyreq/:request_id', function(req, res, next) {
@@ -589,7 +553,7 @@ router.post('/request/update', function(req, res, next) {
     router.post('/acceptance/add/:messenger_id/:request_id', function(req, res, next) {
         var messenger_id = req.params.messenger_id;
         var request_id = req.params.request_id;
-        Request.findOneAndUpdate({_id: request_id, type: 'Pending'}, { hasAccept: true }, function(err, data) {
+        Request.findOneAndUpdate({_id: request_id, type: 'Pending'}, {hasAccept: true, date: Date.now()}, function(err, data) {
             if (err)
                 return res.send(500, { error: err });
             else{
@@ -664,17 +628,14 @@ router.post('/request/update', function(req, res, next) {
     var GCM = mongoose.model('gcms', {
         user_id: String,
         token: String,
-        date: {
-            type: String,
-            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
-        }
+        date: String
     });
 
     router.post('/gcm/register', function(req, res, next) {
         var user_id = req.body.user_id;
         var token = req.body.token;
 
-        var gcm = new GCM({user_id: user_id, token: token});
+        var gcm = new GCM({user_id: user_id, token: token, date: Date.now()});
         GCM.remove({user_id: user_id}, function(err) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -731,10 +692,7 @@ router.post('/request/update', function(req, res, next) {
         filename: String,
         type: Number, // 0 avartar, 1 doc
         provedDate: Date,
-        date: {
-            type: String,
-            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
-        }
+        date: String
     });
 
     var util = require('util');
@@ -767,7 +725,7 @@ router.post('/request/update', function(req, res, next) {
         var filename = req.body.filename;
         var type = req.body.type;
 
-        var file = new File({user_id: user_id, filename: filename, type: type});
+        var file = new File({user_id: user_id, filename: filename, type: type, date: Date.now()});
 
         file.save(function(err) {
             if (err) {
