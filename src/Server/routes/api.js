@@ -7,9 +7,6 @@ var router = express.Router();
 var mongoose = require("mongoose");
 mongoose.connect('mongodb://188.166.180.204/rorpap');
 
-// var mongoosePaginate = require('mongoose-paginate');
-// mongoose.plugin(mongoosePaginate);
-
 var gcm = require('node-gcm');
 
 var HTTP_CREATED = 201;
@@ -17,6 +14,64 @@ var HTTP_FOUND = 302;
 var HTTP_NOT_MODIFIED = 304;
 var HTTP_NOT_FOUND = 404;
 var HTTP_INTERNAL_SERVER_ERROR = 500;
+
+
+// ================== Admin =================
+var Admin = mongoose.model('admins', {
+    email: String,
+    password: String,
+    reisterDate: {
+        type: String
+    }
+});
+
+router.post('/admin/login', function(req, res, next) {
+    var email = req.body.email;
+    var password = req.body.password;
+
+    var admin = new Admin({email: email, password: password});
+    console.log(JSON.stringify(admin));
+    Admin.find({email: email, password: password}, {_id: 1}, function(err, users) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            if (users.length) {
+                res.status(200).send(users);
+            }
+            else {
+                res.status(HTTP_NOT_FOUND).send();
+            }
+        }
+    });
+});
+
+router.get('/admin/user_enroll', function(req, res, next) {
+    User.find({status: -1}, function(err, users) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        res.send(users);
+    })
+});
+
+router.post('/admin/user_accept', function(req, res, next) {
+    var _id = req.body._id;
+    User.findOneAndUpdate({_id: _id, status: -1}, {status: 1}, function(err, data) {
+        if (err)
+            return res.send(500, { error: err });
+        return res.send();
+    });
+});
+
+router.post('/admin/user_reject', function(req, res, next) {
+    var _id = req.body._id;
+    User.findOneAndUpdate({_id: _id, status: -1}, {status: 0}, function(err, data) {
+        if (err)
+            return res.send(500, { error: err });
+        return res.send();
+    });
+});
 
 // ================== User ==================
 var User = mongoose.model('users', {
@@ -28,18 +83,8 @@ var User = mongoose.model('users', {
     dateOfBirth: String,
     status: Number,
     point: Number,
-    date: {
-        type: String,
-        default: Date.now()
-    }
-});
-
-var Admin = mongoose.model('admins', {
-    email: String,
-    password: String,
-    date: {
-        type: String,
-        default: Date.now()
+    registerDate: {
+        type: String
     }
 });
 
@@ -83,7 +128,7 @@ router.post('/user/update', function(req, res, next) {
     if (firstname != "" && firstname != undefined) {
         User.findOneAndUpdate({_id: _id}, {firstname: firstname}, function(err, data) {
             if (err)
-            return res.send(500, { error: err });
+                return res.send(500, { error: err });
             return res.send();
         });
     }
@@ -91,7 +136,7 @@ router.post('/user/update', function(req, res, next) {
     if (lastname != "" && lastname != undefined) {
         User.findOneAndUpdate({_id: _id}, {lastname: lastname}, function(err, data) {
             if (err)
-            return res.send(500, { error: err });
+                return res.send(500, { error: err });
             return res.send();
         });
     }
@@ -99,7 +144,7 @@ router.post('/user/update', function(req, res, next) {
     if (email != "" && email != undefined) {
         User.findOneAndUpdate({_id: _id}, {email: email}, function(err, data) {
             if (err)
-            return res.send(500, { error: err });
+                return res.send(500, { error: err });
             return res.send();
         });
     }
@@ -115,7 +160,7 @@ router.post('/user/update', function(req, res, next) {
     if (password != "" && password != undefined) {
         User.findOneAndUpdate({_id: _id}, {password: password}, function(err, data) {
             if (err)
-            return res.send(500, { error: err });
+                return res.send(500, { error: err });
             return res.send();
         });
     }
@@ -131,8 +176,7 @@ router.post('/user/login', function(req, res, next) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
         else {
-            if (users.length) {
-                // temp = 200, actually 302
+            if (users.length) {               
                 res.status(200).send(users);
             }
             else {
@@ -144,91 +188,14 @@ router.post('/user/login', function(req, res, next) {
 
 router.post('/user/enroll', function(req, res, next) {
     var _id = req.body._id;
-    User.findOneAndUpdate({_id: _id, status: 0}, {status: '-1'}, function(err, data) {
-        console.log(data);
+    User.findOneAndUpdate({_id: _id, status: 0}, {status: '-1'}, function(err, data) {        
         if (err)
-        return res.send(500, { error: err });
+            return res.send(500, { error: err });
         return res.send();
     });
 });
-
-router.post('/admin/login', function(req, res, next) {
-    var email = req.body.email;
-    var password = req.body.password;
-
-    var admin = new Admin({email: email, password: password});
-    console.log(JSON.stringify(admin));
-    Admin.find({email: email, password: password}, {_id: 1}, function(err, users) {
-        if (err) {
-            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-        }
-        else {
-            if (users.length) {
-                res.status(200).send(users);
-            }
-            else {
-                res.status(HTTP_NOT_FOUND).send();
-            }
-        }
-    });
-});
-
-router.get('/admin/user_enroll', function(req, res, next) {
-    User.find({status: -1}, function(err, users) {
-        if (err) {
-            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-        }
-        res.send(users);
-    })
-});
-
-router.post('/admin/user_accept', function(req, res, next) {
-    var _id = req.body._id;
-
-    User.findOneAndUpdate({_id: _id, status: -1}, {status: 1}, function(err, data) {
-        if (err)
-        return res.send(500, { error: err });
-        return res.send();
-    });
-});
-
-router.post('/admin/user_reject', function(req, res, next) {
-    var _id = req.body._id;
-
-    console.log(_id);
-
-    User.findOneAndUpdate({_id: _id, status: -1}, {status: 0}, function(err, data) {
-        if (err)
-        return res.send(500, { error: err });
-        return res.send();
-    });
-});
-
-// npm install mongoose-paginate
-
-// router.get('/user/get/:limit/:page', function(req, res, next) {
-//     var limit = req.params.limit;
-//     var page = req.params.page;
-//
-//
-//     User.paginate({}, { page: page, limit: limit }, function(err, data) {
-//         res.send(data);
-//     });
-// });
-
-// var User = mongoose.model('users', {
-//     firstname: String,
-//     lastname: String,
-//     email: String,
-//     tel: String,
-//     password: String,
-//     dateOfBirth: String,
-//     status: Number,
-//     point: Number
-// });
 
 router.get('/user/get', function(req, res, next) {
-
     User.find({}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -237,18 +204,8 @@ router.get('/user/get', function(req, res, next) {
     })
 });
 
-/*router.get('/user/', function(req, res, next) {
-User.find(function(err, users) {
-if (err) {
-res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-}
-res.send(users);
-})
-});*/
-
 router.get('/user/get/:id', function(req, res, next) {
     var _id = req.params.id;
-
     User.find({_id: _id}, {firstname: true, lastname: true, email: true, tel: true, dateOfBirth: true, tel: true, status: true, point: true}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -280,14 +237,15 @@ var Request = mongoose.model('requests', {
     toLoc: String,
     reqLimitDate: String,
     reqLimitTime: String,
+    appointDate: String,
+    appointTime: String,
     shipLimitDate: String,
     shipLimitHour: String,
     shipLimitTime: String,
     price: String,
     comment: String,
-    date: {
-        type: String,
-        default: Date.now() // `Date.now()` returns the current unix timestamp as a number
+    createDate: {
+        type: String
     }
 });
 
@@ -350,8 +308,7 @@ router.post('/request/create', function(req, res, next) {
 router.post('/request/update', function(req, res, next) {
     var _id = req.body._id;
     var sender_id = req.body.sender_id;
-    var type = 'Pending';
-    var hasAccept = false;
+    var type = 'Pending';    
     var fromLoc = req.body.fromLoc;
     var toLoc = req.body.toLoc;
     var messenger_id = req.body.messenger_id;
@@ -371,7 +328,6 @@ router.post('/request/update', function(req, res, next) {
     var disclosure = req.body.disclosure;
     var price = req.body.price;
     var comment = req.body.comment;
-    console.log('suc');
 
     Request.findOneAndUpdate({_id: _id},
      {fromLoc: fromLoc,
@@ -392,111 +348,106 @@ router.post('/request/update', function(req, res, next) {
         comment: comment},
         function(err, data) {
             if (err)
-            return res.send(500, { error: err });
+                return res.send(500, { error: err });
             return res.send();
         });
+});
+
+
+router.get('/request/get_request/:reqtype/:sender_id', function(req, res, next) {
+    var reqtype = req.params.reqtype;
+    var sender_id = req.params.sender_id;
+    if (sender_id.charAt(0)=='!') {
+        sender_id = {$ne: sender_id.substring(1)};
+    };
+    Request.find({sender_id: sender_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1, reqLimitDate: -1}}, function(err, requests) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            res.status(200).send(requests);
+        }
     });
+});
 
-
-    router.get('/request/get_request/:reqtype/:sender_id', function(req, res, next) {
-        var reqtype = req.params.reqtype;
-        var sender_id = req.params.sender_id;
-        if (sender_id.charAt(0)=='!') {
-            sender_id = {$ne: sender_id.substring(1)};
-        };
-
-        Request.find({sender_id: sender_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1, reqLimitDate: -1}}, function(err, requests) {
-            if (err) {
-                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-            }
-            else {
-                res.status(200).send(requests);
-            }
-        });
+router.get('/request/get_quest/:reqtype/:messenger_id', function(req, res, next) {
+    var reqtype = req.params.reqtype;
+    var messenger_id = req.params.messenger_id;
+    if (messenger_id.charAt(0)=='!') {
+        messenger_id = {$ne: messenger_id.substring(1)};
+    };
+    Request.find({messenger_id: messenger_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1, reqLimitDate: -1}}, function(err, requests) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            res.status(200).send(requests);
+        }
     });
+});
 
-    router.get('/request/get_quest/:reqtype/:messenger_id', function(req, res, next) {
-        var reqtype = req.params.reqtype;
-        var messenger_id = req.params.messenger_id;
-        if (messenger_id.charAt(0)=='!') {
-            messenger_id = {$ne: messenger_id.substring(1)};
-        };
+router.get('/request/get/:request_id',function(req, res, next){
+    var request_id = req.params.request_id;
+    Request.find({_id: request_id}, function(err, trackings) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        res.send(trackings);
+    })
+});
 
-        Request.find({messenger_id: messenger_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1, reqLimitDate: -1}}, function(err, requests) {
-            if (err) {
-                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-            }
-            else {
-                res.status(200).send(requests);
-            }
-        });
+router.post('/request/remove', function(req, res, next) {
+    var _id = req.body._id;
+    Request.remove({_id: _id}, function(err) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            res.status(200).send();
+        }
     });
+});
 
-    router.get('/request/get/:request_id',function(req, res, next){
-        var request_id = req.params.request_id;
-        Request.find({_id: request_id}, function(err, trackings) {
-            if (err) {
-                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-            }
-            res.send(trackings);
-        })
-    });
+router.post('/request/accept/:messenger_id/:request_id', function(req, res, next) {
+    var _id = req.params.request_id;
+    var messenger_id = req.params.messenger_id;
 
-    router.post('/request/remove', function(req, res, next) {
-        var _id = req.body._id;
-
-        Request.remove({_id: _id}, function(err) {
-            if (err) {
-                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-            }
-            else {
-                res.status(200).send();
-            }
-        });
-    });
-
-    router.post('/request/accept/:messenger_id/:request_id', function(req, res, next) {
-        var _id = req.params.request_id;
-        var messenger_id = req.params.messenger_id;
-
-        Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Inprogress', messenger_id: messenger_id}, function(err, data) {
-            if (err)
+    Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Inprogress', messenger_id: messenger_id}, function(err, data) {
+        if (err)
             return res.send(500, { error: err });
-            return res.send();
-        });
+        return res.send();
     });
+});
 
-    router.post('/request/reserve/:messenger_id/:request_id', function(req, res, next) {
-        var _id = req.params.request_id;
-        var messenger_id = req.body.messenger_id;
-        var date = req.body.date;
-        var time = req.body.hour+":"+req.body.min;
-        Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Reserved', messenger_id: messenger_id, appointDate: date, appointTime: time}, function(err, data) {
-            if (err)
+router.post('/request/reserve/:request_id', function(req, res, next) {
+    var _id = req.params.request_id;
+    var messenger_id = req.body.messenger_id;
+    var date = req.body.date;
+    var time = req.body.hour+":"+req.body.min;
+    Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Reserved', messenger_id: messenger_id, appointDate: date, appointTime: time}, function(err, data) {
+        if (err)
             return res.send(500, { error: err });
-            return res.send();
-        });
+        return res.send();
     });
+});
 
-    router.post('/request/cancel/:request_id', function(req, res, next) {
-        var _id = req.params.request_id;        
-
-        Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Pending', messenger_id: null, appointDate: null, appointTime: null}, function(err, data) {
-            if (err)
+router.post('/request/cancel/:request_id', function(req, res, next) {
+    var _id = req.params.request_id;        
+    Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Pending', messenger_id: null, appointDate: null, appointTime: null}, function(err, data) {
+        if (err)
             return res.send(500, { error: err });
-            return res.send();
-        });
+        return res.send();
     });
+});
 
-    router.post('/request/finish/', function(req, res, next) {
-        var _id = req.body._id;
-
-        Request.findOneAndUpdate({_id: _id, type: 'Inprogress'}, {type: 'Finished'}, function(err, data) {
-            if (err)
+router.post('/request/finish/', function(req, res, next) {
+    var _id = req.body._id;
+    Request.findOneAndUpdate({_id: _id, type: 'Inprogress'}, {type: 'Finished'}, function(err, data) {
+        if (err)
             return res.send(500, { error: err });
-            return res.send();
-        });
+        return res.send();
     });
+});
 
 
     // ================== Tracking ==================
@@ -507,35 +458,25 @@ router.post('/request/update', function(req, res, next) {
         location: String
     });
 
-    router.post('/tracking/update', function(req, res, next) {
-        console.log(1)
+    router.post('/tracking/update', function(req, res, next) {    
         var user_id = req.body.user_id;
         var date = req.body.date;
-        var location = req.body.location;
-        console.log(user_id + " " + date + " " + location);
+        var location = req.body.location;        
 
         var request = new Request({messenger_id: user_id});
 
-        Request.find({messenger_id: user_id, type: "Inprogress"}, function(err, quests) {
-            console.log('a')
-            if (err) {
-                console.log('b')
+        Request.find({messenger_id: user_id, type: "Inprogress"}, function(err, quests) {            
+            if (err) {                
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
             }
-            else {
-                console.log(quests)
-                for (var i = 0; i < quests.length; i++) {
-                    console.log('d' + i)
+            else {                
+                for (var i = 0; i < quests.length; i++) {                    
                     var request_id = quests[i]._id;
-                    var tracking = new Tracking({request_id: request_id, date: date, location: location});
-                    console.log(request_id);
-                    tracking.save(function(err) {
-                        console.log('e')
-                        if (err) {
-                            console.log('f')
+                    var tracking = new Tracking({request_id: request_id, date: date, location: location});                    
+                    tracking.save(function(err) {                        
+                        if (err) {                            
                             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-                        }
-                        console.log('g')
+                        }                        
                         res.status(HTTP_CREATED).send();
                     });
                 }
@@ -545,24 +486,25 @@ router.post('/request/update', function(req, res, next) {
 
     });
 
-    router.get('/tracking/:id', function(req, res, next) {
-        var request_id = req.params.id;
-        Tracking.find({request_id: request_id}, function(err, trackings) {
-            if (err) {
-                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-            }
-
-            res.send(trackings);
-        })
-    });
+router.get('/tracking/:id', function(req, res, next) {
+    var request_id = req.params.id;
+    Tracking.find({request_id: request_id}, function(err, trackings) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        res.send(trackings);
+    })
+});
 
     //===================Request Acceptance==================
     var Acceptance = mongoose.model('accepts', {
         request_id: String,
         messenger_id: String,
-        date: {
-            type: String,
-            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
+        date: String,
+        hour: String,
+        min: String,
+        acceptDate: {
+            type: String        
         }
     });
 
@@ -589,22 +531,35 @@ router.post('/request/update', function(req, res, next) {
     router.post('/acceptance/add/:messenger_id/:request_id', function(req, res, next) {
         var messenger_id = req.params.messenger_id;
         var request_id = req.params.request_id;
+        var date = req.body.date;
+        var hour = req.body.hour;
+        var min = req.body.min;
         Request.findOneAndUpdate({_id: request_id, type: 'Pending'}, { hasAccept: true }, function(err, data) {
             if (err)
                 return res.send(500, { error: err });
             else{
-                var acceptance = new Acceptance({request_id: request_id, messenger_id: messenger_id});
+                var acceptance = new Acceptance({request_id: request_id, messenger_id: messenger_id, date: date, hour: hour, min: min});
                 acceptance.save(function(err) {
-                    console.log('e')
-                    if (err) {
-                        console.log('f')
+                    if (err) {                    
                         res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-                    }
-                    console.log('g')
+                    }                    
                     res.status(HTTP_CREATED).send();
                 });
-
                 return res.send();
+            };
+        });
+    });
+
+    router.post('/acceptance/edit/:accept_id', function(req, res, next) {
+        var _id = req.params.accept_id;        
+        var date = req.body.date;
+        var hour = req.body.hour;
+        var min = req.body.min;
+        Acceptance.findOneAndUpdate({_id: _id}, { date: date, hour: hour, min: min }, function(err, data) {
+            if (err)                
+                res.send(500, { error: err });
+            else{               
+                res.send();
             };
         });
     });
@@ -628,101 +583,99 @@ router.post('/request/update', function(req, res, next) {
                                     return res.send(500, { error: err });
                             });
                         }
-
                     }
-
                 });
                 res.status(200).send();
             }
         });
     });
 
-    router.post('/mailservice', function(req, res, next) {
-        var api_key = 'key-b233bd5306bce63c6df7e975b27cd00d';       
-        var domain = 'nop.rorpap.com';
-        var mailgun = new Mailgun({apiKey: api_key, domain: domain});
-        var data = {        
-          from: 'no-reply@rorpap.com',        
-          to: req.body.email,        
-          subject: req.body.topic,
-          html: req.body.html
-        }        
-        mailgun.messages().send(data, function (err, body) {
-            if (err) {                
-                console.log("got an error: ", err);
-            }            
-            else {
-                console.log('Success');
-                console.log(body);
-            }
-        });
-        res.send('test mail');
-    });
+// ============================== Mail ==========================
 
-    // ================== GCM ==================
+router.post('/mailservice', function(req, res, next) {
+    var api_key = 'key-b233bd5306bce63c6df7e975b27cd00d';       
+    var domain = 'nop.rorpap.com';
+    var mailgun = new Mailgun({apiKey: api_key, domain: domain});
+    var data = {        
+      from: 'no-reply@rorpap.com',        
+      to: req.body.email,        
+      subject: req.body.topic,
+      html: req.body.html
+  }        
+  mailgun.messages().send(data, function (err, body) {
+    if (err) {                
+        console.log("got an error: ", err);
+    }            
+    else {
+        console.log('Success');
+        console.log(body);
+    }
+});
+  res.send('test mail');
+});
 
-    var GCM = mongoose.model('gcms', {
-        user_id: String,
-        token: String,
-        date: {
-            type: String,
-            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
+// ================== GCM ==================
+
+var GCM = mongoose.model('gcms', {
+    user_id: String,
+    token: String,
+    createDate: {
+        type: String
+    }
+});
+
+router.post('/gcm/register', function(req, res, next) {
+    var user_id = req.body.user_id;
+    var token = req.body.token;
+
+    var gcm = new GCM({user_id: user_id, token: token});
+    console.log(JSON.stringify(gcm));
+    gcm.save(function(err) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
+        res.status(HTTP_CREATED).send();
     });
+});
 
-    router.post('/gcm/register', function(req, res, next) {
-        var user_id = req.body.user_id;
-        var token = req.body.token;
+router.post('/gcm/push', function(req, res, next) {
+    var type = req.body.type;
+    var signal = req.body.signal;
+    var title = req.body.title;
+    var content = req.body.content;
+    var user_id = req.body.user_id;
+    // var device_tokens = req.body.device_tokens;
+    GCM.distinct("token", {user_id: user_id}, function(err, data) {
+        var device_tokens = data;
 
-        var gcm = new GCM({user_id: user_id, token: token});
-        console.log(JSON.stringify(gcm));
-        gcm.save(function(err) {
-            if (err) {
-                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-            }
-            res.status(HTTP_CREATED).send();
+        var retry_times = 4; //the number of times to retry sending the message if it fails
+
+        var sender = new gcm.Sender('AIzaSyAfx5LifSQtCuxr86ZgVOg5b4VzAauLCDM'); //create a new sender
+        var message = new gcm.Message(); //create a new message
+
+        message.addData('type', type);
+        message.addData('signal', signal);
+        message.addData('title', title);
+        message.addData('content', content);
+
+        message.collapseKey = 'testing'; //grouping messages
+        message.delayWhileIdle = true; //delay sending while receiving device is offline
+        message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
+
+
+        // device_tokens.push(device_token);
+        sender.send(message, device_tokens, retry_times, function(result){
+            console.log(result);
+            console.log('push sent to: ' + device_tokens);
         });
-    });
+        res.send(JSON.stringify({sender: sender, message: message}));
+    });  
+});
 
-    router.post('/gcm/push', function(req, res, next) {
-        var type = req.body.type;
-        var signal = req.body.signal;
-        var title = req.body.title;
-        var content = req.body.content;
-        var user_id = req.body.user_id;
-        // var device_tokens = req.body.device_tokens;
-        GCM.distinct("token", {user_id: user_id}, function(err, data) {
-            var device_tokens = data;
-
-            var retry_times = 4; //the number of times to retry sending the message if it fails
-
-            var sender = new gcm.Sender('AIzaSyAfx5LifSQtCuxr86ZgVOg5b4VzAauLCDM'); //create a new sender
-            var message = new gcm.Message(); //create a new message
-
-            message.addData('type', type);
-            message.addData('signal', signal);
-            message.addData('title', title);
-            message.addData('content', content);
-
-            message.collapseKey = 'testing'; //grouping messages
-            message.delayWhileIdle = true; //delay sending while receiving device is offline
-            message.timeToLive = 3; //the number of seconds to keep the message on the server if the device is offline
-
-
-            // device_tokens.push(device_token);
-            sender.send(message, device_tokens, retry_times, function(result){
-                console.log(result);
-                console.log('push sent to: ' + device_tokens);
-            });
-            res.send(JSON.stringify({sender: sender, message: message}));
-        });
-    });
-
-    // ================== File ==================
-
-    var File = mongoose.model('files', {
-        user_id: String,
-        filename: String,
+//========================== File Upload ====================
+var File = mongoose.model('files', {
+    user_id: String,
+    filename: String,
         type: Number, // 0 avartar, 1 doc
         provedDate: Date,
         date: {
@@ -731,58 +684,58 @@ router.post('/request/update', function(req, res, next) {
         }
     });
 
-    var util = require('util');
-    var path = require('path');
-    var multer  = require('multer');
+var util = require('util');
+var path = require('path');
+var multer  = require('multer');
 
-    router.post('/file/upload', function(req, res, next) {
-        var storage = multer.diskStorage({
-            destination: function (req, file, cb) {
-                cb(null, 'public/uploads/');
-            },
-            filename: function (req, file, cb) {
-                cb(null, Date.now() + path.extname(file.originalname));
-            }
-        });
-        var upload = multer({ storage: storage }).single('file');
-
-        upload(req, res, function (err) {
-            if (err) {
-                console.log("err: " + err);
-                return "err";
-            }
-            console.log(util.inspect(req.file.filename, false, null));
-            res.send(req.file.filename);
-        });
+router.post('/file/upload', function(req, res, next) {
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, 'public/uploads/');
+        },
+        filename: function (req, file, cb) {
+            cb(null, Date.now() + path.extname(file.originalname));
+        }
     });
+    var upload = multer({ storage: storage }).single('file');
 
-    router.post('/file/save', function(req, res, next) {
-        var user_id = req.body.user_id;
-        var filename = req.body.filename;
-        var type = req.body.type;
-
-        var file = new File({user_id: user_id, filename: filename, type: type});
-
-        file.save(function(err) {
-            if (err) {
-                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-            }
-            res.status(HTTP_CREATED).send();
-        });
+    upload(req, res, function (err) {
+        if (err) {
+            console.log("err: " + err);
+            return "err";
+        }
+        console.log(util.inspect(req.file.filename, false, null));
+        res.send(req.file.filename);
     });
+});
 
-    router.post('/file/get', function(req, res, next) {
-        var user_id = req.body.user_id;
-        var type = req.body.type;
+router.post('/file/save', function(req, res, next) {
+    var user_id = req.body.user_id;
+    var filename = req.body.filename;
+    var type = req.body.type;
 
-        File.findOne({user_id: user_id, type: type}, null, {sort: {_id: -1}}, function(err, file) {
-            if (err) {
-                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-            }
-            else {
-                res.send(file);
-            }
-        });
+    var file = new File({user_id: user_id, filename: filename, type: type});
+
+    file.save(function(err) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        res.status(HTTP_CREATED).send();
     });
+});
 
-    module.exports = router;
+router.post('/file/get', function(req, res, next) {
+    var user_id = req.body.user_id;
+    var type = req.body.type;
+
+    File.findOne({user_id: user_id, type: type}, null, {sort: {_id: -1}}, function(err, file) {
+        if (err) {
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {
+            res.send(file);
+        }
+    });
+});
+
+module.exports = router;
