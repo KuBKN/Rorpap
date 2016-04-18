@@ -76,7 +76,7 @@
 								</span>
 								<span class="right" ng-if="request.type == 'Reserved'">
 									<a id="send{{$index}}" class="btn" style="background-color: #50C625; text-transform: none" ng-click="showSendingToken($index)">Send</a>
-									{{request.appointDate}} {{request.appointTime}}
+									<p>{{request.appointDate}} {{request.appointTime}}</p>
 								</span>
 							</div>
 							<div class="container hide-on-med-and-up" style="clear: both">
@@ -102,7 +102,7 @@
 							</span>
 							<div style="margin-bottom: 5px; margin-left: 5px">
 								<h6 ng-if="request.type!='Pending'">
-									Messenger: 
+									Messenger:
 									<a href="#!/profile_other" ng-click="seeUser(request.messenger)">{{request.messenger.firstname}} {{request.messenger.lastname}}</a>
 								</h6>
 								<h6>Dimension: {{request.size_w}} x {{request.size_l}} x {{request.size_h}} cm</h6>
