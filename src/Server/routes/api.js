@@ -298,7 +298,7 @@ router.post('/request/create', function(req, res, next) {
     var fromLoc = req.body.fromLoc;
     var toLoc = req.body.toLoc;
     var messenger_id = req.body.messenger_id;
-    
+
     var reqLimitDate = '01/01/2011'; //now.format('DD/MM/YYYY');
     var reqLimitTime = '01:01'; //now.format('mm:hh');
     var shipLimitDate = req.body.shipLimitDate;
@@ -479,7 +479,7 @@ router.post('/request/update', function(req, res, next) {
     });
 
     router.post('/request/cancel/:request_id', function(req, res, next) {
-        var _id = req.params.request_id;        
+        var _id = req.params.request_id;
 
         Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Pending', messenger_id: null, appointDate: null, appointTime: null}, function(err, data) {
             if (err)
@@ -638,19 +638,19 @@ router.post('/request/update', function(req, res, next) {
     });
 
     router.post('/mailservice', function(req, res, next) {
-        var api_key = 'key-b233bd5306bce63c6df7e975b27cd00d';       
+        var api_key = 'key-b233bd5306bce63c6df7e975b27cd00d';
         var domain = 'nop.rorpap.com';
         var mailgun = new Mailgun({apiKey: api_key, domain: domain});
-        var data = {        
-          from: 'no-reply@rorpap.com',        
-          to: req.body.email,        
+        var data = {
+          from: 'no-reply@rorpap.com',
+          to: req.body.email,
           subject: req.body.topic,
           html: req.body.html
-        }        
+        }
         mailgun.messages().send(data, function (err, body) {
-            if (err) {                
+            if (err) {
                 console.log("got an error: ", err);
-            }            
+            }
             else {
                 console.log('Success');
                 console.log(body);
@@ -675,12 +675,18 @@ router.post('/request/update', function(req, res, next) {
         var token = req.body.token;
 
         var gcm = new GCM({user_id: user_id, token: token});
-        console.log(JSON.stringify(gcm));
-        gcm.save(function(err) {
+        GCM.remove({user_id: user_id}, function(err) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
             }
-            res.status(HTTP_CREATED).send();
+            else {
+                gcm.save(function(err) {
+                    if (err) {
+                        res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+                    }
+                    res.status(HTTP_CREATED).send();
+                });
+            }
         });
     });
 
