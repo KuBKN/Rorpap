@@ -1,8 +1,8 @@
 <div class="center row" style="width: 85%; margin: 0 auto">
 	<br>
 	<div class="card col s1">
-		<a id="findrequest" href="#!/findrequest" style="text-decoration: none">	
-			<i class="material-icons" style="font-size: 2rem; height:100%; line-height:48px">search</i>	
+		<a id="findrequest" href="#!/findrequest" style="text-decoration: none">
+			<i class="material-icons" style="font-size: 2rem; height:100%; line-height:48px">search</i>
 		</a>
 	</div>
 	<div class="col s10">
@@ -27,12 +27,12 @@
 											<img ng-src="{{request.pimg.url}}" width="100%" height="120px">
 											<div ng-if="request.declarable" style="position: relative">
 												<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
-											</div>											
-										</div>	
+											</div>
+										</div>
 									</div>
 
-									<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">		
-										<div class="hide-on-med-and-up col s12 row" style="margin-bottom: 0px">						
+									<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">
+										<div class="hide-on-med-and-up col s12 row" style="margin-bottom: 0px">
 											<div class="col s3" style="padding: 0">
 												<h6 style="text-align: right">To:</h6>
 												<h6 style="text-align: right">Email:</h6>
@@ -45,10 +45,10 @@
 											</div>
 											<span>
 											{{request.accepto.date}} {{request.accepto.hour}}:{{request.accepto.min}}
-												<a class="btn right black-text" style="background-color:  #FCFCFC" ng-click="openModal($index)">Edit</a>								
+												<a class="btn right black-text" style="background-color:  #FCFCFC" ng-click="openModal($index)">Edit</a>
 											</span>
 										</div>
-										<div class="hide-on-small-only col s12 row">		
+										<div class="hide-on-small-only col s12 row">
 											<div class="col s3"  style="padding: 0">
 												<h5 style="text-align: right">To:</h5>
 												<h5 style="text-align: right">Email:</h5>
@@ -61,14 +61,14 @@
 											</div>
 											<span>
 											{{request.accepto.date}} {{request.accepto.hour}}:{{request.accepto.min}}
-												<a class="btn right black-text" style="background-color:  #FCFCFC" ng-click="openModal($index)">Edit</a>								
-											</span>						
-										</div>					
+												<a class="btn right black-text" style="background-color:  #FCFCFC" ng-click="openModal($index)">Edit</a>
+											</span>
+										</div>
 										<div class="container hide-on-med-and-up" style="clear: both">
 											<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
 											<span class="chip right">
 												{{request.pimg.name}}
-											</span>										
+											</span>
 										</div>
 									</div>
 								</div>
@@ -85,10 +85,7 @@
 											<i class="material-icons">schedule</i>
 											{{request.shipLimitHour}}:{{request.shipLimitTime}}
 										</span>
-										<div style="margin-bottom: 5px; margin-left: 5px">								
-											<h6>
-												{{request.reqLimitDate}} {{request.reqLimitTime}}
-											</h6>
+										<div style="margin-bottom: 5px; margin-left: 5px">
 											<h6>
 												Sender
 												<a href="#!/profile_other" ng-click="seeUser(request.sender)">{{request.sender.firstname}} {{request.sender.lastname}}</a>
@@ -128,7 +125,7 @@
 										<marker id="marker_t" position="{{marker_to.position}}"
 										optimized="{{marker_to.optimized}}"
 										icon="{{marker_to.icon}}"
-										visible="{{marker_to.visible}}"></marker>									
+										visible="{{marker_to.visible}}"></marker>
 									</ng-map>
 								</div>
 							</div>
@@ -137,13 +134,13 @@
 				</div>
 				<div id="modalAccept" class="modal" style="width: 280px; height: 260px">
 					<div class="modal-content" style="padding: 0px">
-						<form name="acceptForm">	  		
+						<form name="acceptForm">
 							<div class="col s12">
-								<label for="appoinmentDate">Transfer Date</label>
+								<label for="appoinmentDate">Pick Up Date</label>
 								<input type="date" id="appoinmentDate" ng-model="accept.date_t" datepicker required>
 							</div>
 							<div class="col s12">
-								<label>Transfer Time</label>
+								<label>Pick Up Time</label>
 								<div class="row">
 									<div class="col s5">
 										<select id="appoinmentHour" class="browser-default" ng-model="accept.hour" required>
@@ -158,14 +155,14 @@
 											<option ng-repeat="min in mins" value="{{min}}">{{min}}</option>
 										</select>
 									</div>
-								</div>				
+								</div>
 							</div>
 							<center>
-								<button id="acceptBtn" type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="editTime()" ng-disabled="acceptForm.$invalid">Edit</button>
-							</center>	
-						</form>			
+								<button id="acceptBtn" type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="editTime()" ng-disabled="acceptForm.$invalid">Save</button>
+							</center>
+						</form>
 					</div>
-				</div>	
+				</div>
 			</div>
 
 
@@ -182,12 +179,12 @@
 											<img ng-src="{{request.pimg.url}}" width="100%" height="120px">
 											<div ng-if="request.declarable" style="position: relative">
 												<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
-											</div>							
-										</div>	
+											</div>
+										</div>
 									</div>
 
-									<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">		
-										<div class="hide-on-med-and-up col s12 row" style="margin-bottom: 0px">						
+									<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">
+										<div class="hide-on-med-and-up col s12 row" style="margin-bottom: 0px">
 											<div class="col s3" style="padding: 0">
 												<h6 style="text-align: right">To:</h6>
 												<h6 style="text-align: right">Email:</h6>
@@ -201,31 +198,31 @@
 											<span ng-if="request.type == 'Reserved'">
 												{{request.appointDate}} {{request.appointTime}}
 												<a id="send{{$index}}" class="btn" style="background-color: #50C625; text-transform: none" ng-click="typeSendingToken($index)">Send</a>
-											</span>											
+											</span>
 											<span ng-if="request.type == 'Inprogress'" class="btn right" style="background-color: #50C625" ng-click="typeFinishToken($index)">Finish</span>
 										</div>
-										<div class="hide-on-small-only col s12 row">		
+										<div class="hide-on-small-only col s12 row">
 											<div class="col s3"  style="padding: 0">
 												<h5 style="text-align: right">To:</h5>
 												<h5 style="text-align: right">Email:</h5>
 												<h5 style="text-align: right">Tel:</h5>
 											</div>
-											<div class="col s9">							
-												<h5 style="text-align: left"><b>{{request.recipient_name}}</b></h5>						
+											<div class="col s9">
+												<h5 style="text-align: left"><b>{{request.recipient_name}}</b></h5>
 												<h5 style="text-align: left">{{request.recipient_email}}</h5>
 												<h5 style="text-align: left">{{request.recipient_tel}}</h5>
 											</div>
-											<span ng-if="request.type == 'Reserved'">		
+											<span ng-if="request.type == 'Reserved'">
 												{{request.appointDate}} {{request.appointTime}}
 												<a id="send{{$index}}" class="btn" style="background-color: #50C625; text-transform: none" ng-click="typeSendingToken($index)">Send</a>
-											</span>	
+											</span>
 											<span ng-if="request.type == 'Inprogress'" class="btn right" style="background-color: #50C625" ng-click="typeFinishToken($index)">Finish</span>
 										</div>
 										<div class="container hide-on-med-and-up">
 											<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
 											<span class="chip right">
 												{{request.pimg.name}}
-											</span>			
+											</span>
 										</div>
 									</div>
 								</div>
@@ -242,10 +239,7 @@
 											<i class="material-icons">schedule</i>
 											{{request.shipLimitHour}}:{{request.shipLimitTime}}
 										</span>
-										<div style="margin-bottom: 5px; margin-left: 5px">								
-											<h6>
-												{{request.reqLimitDate}} {{request.reqLimitTime}}
-											</h6>
+										<div style="margin-bottom: 5px; margin-left: 5px">
 											<h6>
 												Sender
 												<a href="#!/profile_other" ng-click="seeUser(request.sender)">{{request.sender.firstname}} {{request.sender.lastname}}</a>
@@ -260,7 +254,7 @@
 									<div class="col m12 s12">
 										<span class="right">
 											<a id="rcancel{{$index}}" class="btn" style="background-color: #e51c23" ng-if="request.type == 'Reserved'" ng-click="cancelReserved($index)">Cancel</a>
-										</span>										
+										</span>
 									</div>
 								</div>
 							</div>
@@ -276,7 +270,7 @@
 							<div class="card blue-grey darken-1">
 								<div class="card-content white-text">
 									<span class="card-title">Location</span>
-									
+
 									<ng-map center="{{map.center}}" zoom="{{map.zoom}}">
 										<marker id="marker_f" position="{{marker_from.position}}"
 										optimized="{{marker_from.optimized}}"
@@ -286,16 +280,16 @@
 										<marker id="marker_t" position="{{marker_to.position}}"
 										optimized="{{marker_to.optimized}}"
 										icon="{{marker_to.icon}}"
-										visible="{{marker_to.visible}}"></marker>	
+										visible="{{marker_to.visible}}"></marker>
 
-										<shape ng-if="trackable" 
+										<shape ng-if="trackable"
 										name="polyline"
 										path="{{ path }}"
 										geodesic="true"
 										stroke-color="#FF0000"
 										stroke-opacity="1.0"
 										stroke-weight="3">
-										</shape>								
+										</shape>
 									</ng-map>
 								</div>
 							</div>
@@ -322,7 +316,7 @@
 				  </div>
 				</div>
 			</div>
-			
+
 			<div id="history" class="row" ng-controller="HistoryQuestController">
 				<div class="col l6 s12">
 					<ul class="collapsible popout" data-collapsible="accordion">
@@ -336,12 +330,12 @@
 											<img ng-src="{{request.pimg.url}}" width="100%" height="120px">
 											<div ng-if="request.declarable" style="position: relative">
 												<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
-											</div>											
-										</div>	
+											</div>
+										</div>
 									</div>
 
-									<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">		
-										<div class="hide-on-med-and-up col s12 row" style="margin-bottom: 0px">						
+									<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">
+										<div class="hide-on-med-and-up col s12 row" style="margin-bottom: 0px">
 											<div class="col s3" style="padding: 0">
 												<h6 style="text-align: right">To:</h6>
 												<h6 style="text-align: right">Email:</h6>
@@ -351,9 +345,9 @@
 												<h6 style="text-align: left"><b>{{request.recipient_name}}</b></h6>
 												<h6 style="text-align: left">{{request.recipient_email}}</h6>
 												<h6 style="text-align: left">{{request.recipient_tel}}</h6>
-											</div>								
+											</div>
 										</div>
-										<div class="hide-on-small-only col s12 row">		
+										<div class="hide-on-small-only col s12 row">
 											<div class="col s3"  style="padding: 0">
 												<h5 style="text-align: right">To:</h5>
 												<h5 style="text-align: right">Email:</h5>
@@ -363,13 +357,13 @@
 												<h5 style="text-align: left"><b>{{request.recipient_name}}</b></h5>
 												<h5 style="text-align: left">{{request.recipient_email}}</h5>
 												<h5 style="text-align: left">{{request.recipient_tel}}</h5>
-											</div>								
-										</div>					
+											</div>
+										</div>
 										<div class="container hide-on-med-and-up" style="clear: both">
 											<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
 											<span class="chip right">
 												{{request.pimg.name}}
-											</span>										
+											</span>
 										</div>
 									</div>
 								</div>
@@ -399,7 +393,7 @@
 
 									<div class="col s4 m4 right green-text" style="text-align: right">
 										<h5>{{request.price}} Baht</h5>
-									</div>									
+									</div>
 							</div>
 
 						</li>
@@ -413,7 +407,7 @@
 							<div class="card blue-grey darken-1">
 								<div class="card-content white-text">
 									<span class="card-title">Location</span>
-									
+
 									<ng-map center="{{map.center}}" zoom="{{map.zoom}}">
 										<marker id="marker_f" position="{{marker_from.position}}"
 										optimized="{{marker_from.optimized}}"
@@ -439,7 +433,7 @@
 							</div>
 						</div>
 					</div>
-				</div>			
+				</div>
 			</div>
 		</div>
 	</div>

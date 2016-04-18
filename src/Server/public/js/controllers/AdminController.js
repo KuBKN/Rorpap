@@ -15,10 +15,9 @@ app.controller('AdminController', ['$scope', '$http', '$window', 'profileViewer'
 	}
     $scope.getEnrolled();
 
-    $scope.accept = function(index) {
-        $http.post('/api/admin/user_accept', $scope.users[index])
+    $scope.accept = function(user) {
+        $http.post('/api/admin/user_accept', user)
 			.success(function(data) {
-
                 window.location.reload();
 			})
 			.error(function(data) {
@@ -26,10 +25,9 @@ app.controller('AdminController', ['$scope', '$http', '$window', 'profileViewer'
 			});
     }
 
-    $scope.reject = function(index) {
-        $http.post('/api/admin/user_reject', $scope.users[index])
+    $scope.reject = function(user) {
+        $http.post('/api/admin/user_reject', user)
 			.success(function(data) {
-
                 window.location.reload();
 			})
 			.error(function(data) {
@@ -38,22 +36,33 @@ app.controller('AdminController', ['$scope', '$http', '$window', 'profileViewer'
     }
 
     // all
-    $scope.users = [];
+    $scope.users = {};
     $scope.users_loading = true;
-    $scope.getUsers = function() {
-		$http.get('/api/user/get')
+    $scope.getUsers = function(page) {
+		$http.get('/api/user/get/5/' + page)
 			.success(function(data) {
 				$scope.users = data;
                 $scope.users_loading = false;
+
+                console.log($scope.users);
 			})
 			.error(function(data) {
 				console.log(data);
 			});
 	}
-    $scope.getUsers();
+    $scope.getUsers(1);
 
     $scope.seeUser = function(user){
 		profileViewer.seeUser(user);
 	};
+
+    $scope.range = function(min, max, step) {
+    step = step || 1;
+    var input = [];
+    for (var i = min; i <= max; i += step) {
+        input.push(i);
+    }
+    return input;
+};
 
 }]);

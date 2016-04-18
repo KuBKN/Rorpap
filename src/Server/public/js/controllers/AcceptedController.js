@@ -28,13 +28,13 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 	$scope.requests = [];
 
 	$scope.getRequests = function(reqtype) {
-		$scope.requests = [];		
-		reqtype = "Pending";		
+		$scope.requests = [];
+		reqtype = "Pending";
 		var sender_id = $cookies.get('_id').replace(/\"/g, "");
 
 		$http.get('/api/request/get_request/' + reqtype + '/!' + sender_id)
 			.success(function(data) {
-				$scope.accepts = [];				
+				$scope.accepts = [];
 				$scope.acceptsR = [];
 				$scope.getAllAccept().then(function(result){
 					 angular.forEach(result, function(value,key){
@@ -43,10 +43,10 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 					 });
 					 data.sort(function(a,b) {return (a._id < b._id) ? 1 : (
 														(a._id > b._id) ? -1 : 0 )
-										} ); 									
+										} );
 					 angular.forEach(data, function(value, key) {
 					 	var indexA = $scope.acceptsR.indexOf(value._id);
-						if(indexA != -1){						
+						if(indexA != -1){
 							loadUser.getUser(value.sender_id).then(function(result){
 		   						value.sender = result;
 		   					});
@@ -55,7 +55,7 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 							$scope.requests.push(value);
 						}
 					});
-				});			
+				});
 			})
 			.error(function(data) {
 				console.log(data);
@@ -67,7 +67,7 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 	$scope.getAllAccept = function(){
 		var messenger_id = $cookies.get('_id').replace(/\"/g, "");
     	return $http.get('/api/acceptance/getbymess/' + messenger_id)
-			.then(function(data) {				
+			.then(function(data) {
 				return data.data;
 			});
     };
@@ -84,11 +84,11 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 	$scope.marker_to = {};
 
 	// TODO still be suck function use inteads of checking if collapse right now, 555
-	$scope.showInMap = function(index) {		
+	$scope.showInMap = function(index) {
 		$scope.marker_from = {};
 		$scope.marker_to = {};
 		$scope.map.zoom = 10;
-		$scope.path = [];		
+		$scope.path = [];
 		if (index != $scope.lastCollepsed) {
 			var loc = $scope.requests[index].fromLoc.split(', ');
 			$scope.marker_from.position = [loc[0],loc[1]];
@@ -110,7 +110,7 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 								, $scope.calculateCenter($scope.marker_from.position[1], $scope.marker_to.position[1])];
 
 			$scope.marker_from.visible = true;
-			$scope.marker_to.visible = true;			
+			$scope.marker_to.visible = true;
 
 			$scope.map.zoom = $scope.calculateZoom($scope.marker_from.position,$scope.marker_to.position);
 
@@ -145,7 +145,7 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 				.error(function(data) {
 					console.log(data);
 				});
-		};		
+		};
 	};
 
 	$scope.lastCollepsed = -1;
@@ -159,33 +159,33 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 		var n = 1;
 		for(var i= dis; i>564.24861; i/=2, n++){}
 		return 20-n;
-		
+
 	};
 
-	$scope.removeAccept = function(index) {		
+	$scope.removeAccept = function(index) {
 		$http.post('/api/acceptance/remove', $scope.requests[index].accepto)
-				.success(function(data) {					
-					window.location.reload();					
+				.success(function(data) {
+					window.location.reload();
 				})
 				.error(function(data) {
 					console.log(data);
 				});
 	};
 
-	$scope.accept = {};	
+	$scope.accept = {};
 
 	$scope.openModal = function(index){
-		$('#modalAccept').openModal();		
+		$('#modalAccept').openModal();
 		$scope.curAccept = $scope.requests[index].accepto;
 		console.log($scope.curAccept);
 	};
 
 	$scope.editTime = function(){
 		var date_t = $scope.accept.date_t;
-		$scope.accept.date = date_t.getDate()+"/"+(date_t.getMonth()+1)+"/"+date_t.getFullYear();		
+		$scope.accept.date = date_t.getDate()+"/"+(date_t.getMonth()+1)+"/"+date_t.getFullYear();
 		var id = $scope.curAccept._id;
 		$http.post('/api/acceptance/edit/'+id, $scope.accept)
-				.success(function(data) {					
+				.success(function(data) {
 					window.location.reload();					
 				})
 				.error(function(data) {

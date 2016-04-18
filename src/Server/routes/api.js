@@ -7,8 +7,8 @@ var router = express.Router();
 var mongoose = require("mongoose");
 mongoose.connect('mongodb://188.166.180.204/rorpap');
 
-// var mongoosePaginate = require('mongoose-paginate');
-// mongoose.plugin(mongoosePaginate);
+var mongoosePaginate = require('mongoose-paginate');
+mongoose.plugin(mongoosePaginate);
 
 var gcm = require('node-gcm');
 
@@ -27,8 +27,7 @@ var User = mongoose.model('users', {
     password: String,
     dateOfBirth: String,
     status: Number,
-    point: Number,
-    date: String
+    point: Number
 });
 
 var Admin = mongoose.model('admins', {
@@ -185,33 +184,45 @@ router.get('/admin/user_enroll', function(req, res, next) {
 router.post('/admin/user_accept', function(req, res, next) {
     var _id = req.body._id;
 
-    User.findOneAndUpdate({_id: _id, status: -1}, {status: 1, date: Date.now()}, function(err, data) {
+    User.findOneAndUpdate({_id: _id, status: -1}, {status: 1}, function(err, data) {
         if (err)
-        return res.send(500, { error: err });
-        return res.send();
+            return res.send(500, { error: err });
+        return res.send("OK");
     });
 });
 
 router.post('/admin/user_reject', function(req, res, next) {
     var _id = req.body._id;
 
-    console.log(_id);
-
-    User.findOneAndUpdate({_id: _id, status: -1}, {status: 0, date: Date.now()}, function(err, data) {
+    User.findOneAndUpdate({_id: _id, status: -1}, {status: 0}, function(err, data) {
         if (err)
-        return res.send(500, { error: err });
-        return res.send();
+            return res.send(500, { error: err });
+        return res.send("OK");
     });
 });
 
-router.get('/user/get', function(req, res, next) {
+router.get('/user/get/:limit/:page', function(req, res, next) {
+    var limit = Number(req.params.limit);
+    var page = Number(req.params.page);
 
-    User.find({}, function(err, users) {
+    // User.find({}, function(err, users) {
+        // if (err) {
+        //     res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        // }
+        // res.send(users);
+    // })
+
+    User.paginate({}, {limit: limit, page: page}, function(err, result) {
+        // result.docs
+        // result.total
+        // result.limit - 10
+        // result.page - 3
+        // result.pages
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
-        res.send(users);
-    })
+        res.send(result);
+    });
 });
 
 router.get('/user/get/:id', function(req, res, next) {
@@ -252,8 +263,7 @@ var Request = mongoose.model('requests', {
     shipLimitHour: String,
     shipLimitTime: String,
     price: String,
-    comment: String,
-    date: String
+    comment: String
 });
 
 router.post('/request/create', function(req, res, next) {
@@ -302,8 +312,7 @@ router.post('/request/create', function(req, res, next) {
         shipLimitHour: shipLimitHour,
         shipLimitTime: shipLimitTime,
         price: price,
-        comment: comment,
-        date: Date.now()});
+        comment: comment});
         request.save(function(err) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -354,8 +363,7 @@ router.post('/request/update', function(req, res, next) {
             weight: weight,
             disclosure: disclosure,
             price: price,
-            comment: comment,
-            date: Date.now()
+            comment: comment
         },
         function(err, data) {
             if (err)
@@ -426,19 +434,19 @@ router.post('/request/update', function(req, res, next) {
         var _id = req.params.request_id;
         var messenger_id = req.params.messenger_id;
 
-        Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Inprogress', messenger_id: messenger_id, date: Date.now()}, function(err, data) {
+        Request.findOneAndUpdate({_id: _id, type: 'Reserved'}, {type: 'Inprogress', messenger_id: messenger_id}, function(err, data) {
             if (err)
             return res.send(500, { error: err });
             return res.send();
         });
     });
 
-    router.post('/request/reserve/:messenger_id/:request_id', function(req, res, next) {
+    router.post('/request/reserve/:request_id', function(req, res, next) {
         var _id = req.params.request_id;
         var messenger_id = req.body.messenger_id;
         var date = req.body.date;
         var time = req.body.hour+":"+req.body.min;
-        Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Reserved', messenger_id: messenger_id, appointDate: date, appointTime: time, date: Date.now()}, function(err, data) {
+        Request.findOneAndUpdate({_id: _id, type: 'Pending'}, {type: 'Reserved', messenger_id: messenger_id, appointDate: date, appointTime: time}, function(err, data) {
             if (err)
             return res.send(500, { error: err });
             return res.send();
@@ -527,7 +535,9 @@ router.post('/request/update', function(req, res, next) {
     var Acceptance = mongoose.model('accepts', {
         request_id: String,
         messenger_id: String,
-        date: String
+        date: String,
+        hour: String,
+        min: String
     });
 
     router.get('/acceptance/getbyreq/:request_id', function(req, res, next) {
@@ -569,6 +579,22 @@ router.post('/request/update', function(req, res, next) {
                 });
 
                 return res.send();
+            };
+        });
+    });
+
+    router.post('/acceptance/edit/:accept_id', function(req, res, next) {
+        var _id = req.params.accept_id;
+        var date = req.body.date;
+        var hour = req.body.hour;
+        var min = req.body.min;
+
+        console.log(min + " " + hour);
+        Acceptance.findOneAndUpdate({_id: _id}, { date: date, hour: hour, min: min }, function(err, data) {
+            if (err)
+                res.send(500, { error: err });
+            else{
+                res.send();
             };
         });
     });

@@ -13,8 +13,8 @@
 	   <tbody>
 		 <tr ng-repeat="user in enrolledUsers">
 		   <td><a href="#!/profile_other" ng-click="seeUser(user)">{{ user.firstname + " " + user.lastname }}</a></td>
-		   <td><a class="btn cyan darken waves-effect waves-light ng-scope" ng-click="accept($index)">Accept <i class="material-icons right">send</i></a></td>
- 		   <td><a class="btn red darken waves-effect waves-light ng-scope" ng-click="reject($index)">Reject <i class="material-icons right">send</i></a></td>
+		   <td><a class="btn cyan darken waves-effect waves-light ng-scope" ng-click="accept(user)">Accept <i class="material-icons right">send</i></a></td>
+ 		   <td><a class="btn red darken waves-effect waves-light ng-scope" ng-click="reject(user)">Reject <i class="material-icons right">send</i></a></td>
 		 </tr>
 	   </tbody>
 	 </table>
@@ -34,7 +34,7 @@
  		 </tr>
  	   </thead>
  	   <tbody>
- 		 <tr ng-repeat="user in users">
+ 		 <tr ng-repeat="user in users.docs">
  		   <td><a href="#!/profile_other" ng-click="seeUser(user)">{{ user.firstname + " " + user.lastname }}</a></td>
  		   <td>{{ user.email }}</td>
 		   <td>{{ user.dateOfBirth }}</td>
@@ -42,9 +42,17 @@
  		 </tr>
  	   </tbody>
  	 </table>
+	 <p>{{ users.total }}</p>
+	 <ul class="pagination">
+		 <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+
+		 <li class="active"><a href="#!">1</a></li>
+		 <li class="waves-effect" ng-repeat="n in range(5,15)"><a href="#!">{{ n }}</a></li>
+
+		 <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+	 </ul>
 	 <div class="progress" ng-show="users_loading">
  		<div class="indeterminate"></div>
    	</div>
 
-	 <h3>Request Management</h3>
 </div>
