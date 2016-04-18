@@ -96,7 +96,7 @@ router.post('/user/create', function(req, res, next) {
     var password = req.body.password;
     var dateOfBirth = req.body.dateOfBirth;
 
-    var user = new User({firstname: firstname, lastname: lastname, email: email, tel: tel, password: password, dateOfBirth: dateOfBirth, status: 0});
+    var user = new User({firstname: firstname, lastname: lastname, email: email, tel: tel, password: password, dateOfBirth: dateOfBirth, status: 0, date: Date.now()});
     User.find({email: email, password: password}, function(err, users) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -124,6 +124,12 @@ router.post('/user/update', function(req, res, next) {
     var email = req.body.email;
     var tel = req.body.tel;
     var password = req.body.password;
+
+    User.findOneAndUpdate({_id: _id}, {date: Date.now()}, function(err, data) {
+        if (err)
+            return res.send(500, { error: err });
+        return res.send();
+    });
 
     if (firstname != "" && firstname != undefined) {
         User.findOneAndUpdate({_id: _id}, {firstname: firstname}, function(err, data) {
@@ -214,7 +220,6 @@ router.get('/user/get/:id', function(req, res, next) {
     })
 });
 
-
 // ================== Request ==================
 
 var Request = mongoose.model('requests', {
@@ -256,7 +261,7 @@ router.post('/request/create', function(req, res, next) {
     var fromLoc = req.body.fromLoc;
     var toLoc = req.body.toLoc;
     var messenger_id = req.body.messenger_id;
-    
+
     var reqLimitDate = '01/01/2011'; //now.format('DD/MM/YYYY');
     var reqLimitTime = '01:01'; //now.format('mm:hh');
     var shipLimitDate = req.body.shipLimitDate;
@@ -295,8 +300,8 @@ router.post('/request/create', function(req, res, next) {
         shipLimitHour: shipLimitHour,
         shipLimitTime: shipLimitTime,
         price: price,
-        comment: comment});
-        // res.send(request);
+        comment: comment,
+        date: Date.now()});
         request.save(function(err) {
             if (err) {
                 res.status(HTTP_INTERNAL_SERVER_ERROR).send();
@@ -330,22 +335,24 @@ router.post('/request/update', function(req, res, next) {
     var comment = req.body.comment;
 
     Request.findOneAndUpdate({_id: _id},
-     {fromLoc: fromLoc,
-        toLoc: toLoc,
-        shipLimitDate: shipLimitDate,
-        shipLimitHour: shipLimitHour,
-        shipLimitTime: shipLimitTime,
-        recipient_name: recipient_name,
-        recipient_email: recipient_email,
-        recipient_tel: recipient_tel,
-        img: img,
-        size_w: size_w,
-        size_l: size_l,
-        size_h: size_h,
-        weight: weight,
-        disclosure: disclosure,
-        price: price,
-        comment: comment},
+        {fromLoc: fromLoc,
+            toLoc: toLoc,
+            shipLimitDate: shipLimitDate,
+            shipLimitHour: shipLimitHour,
+            shipLimitTime: shipLimitTime,
+            recipient_name: recipient_name,
+            recipient_email: recipient_email,
+            recipient_tel: recipient_tel,
+            img: img,
+            size_w: size_w,
+            size_l: size_l,
+            size_h: size_h,
+            weight: weight,
+            disclosure: disclosure,
+            price: price,
+            comment: comment,
+            date: Date.now()
+        },
         function(err, data) {
             if (err)
                 return res.send(500, { error: err });
@@ -450,41 +457,41 @@ router.post('/request/finish/', function(req, res, next) {
 });
 
 
-    // ================== Tracking ==================
+// ================== Tracking ==================
 
-    var Tracking = mongoose.model('trackings', {
-        request_id: String,
-        date: String,
-        location: String
+var Tracking = mongoose.model('trackings', {
+    request_id: String,
+    date: String,
+    location: String
+});
+
+router.post('/tracking/update', function(req, res, next) {    
+    var user_id = req.body.user_id;
+    var date = req.body.date;
+    var location = req.body.location;        
+
+    var request = new Request({messenger_id: user_id});
+
+    Request.find({messenger_id: user_id, type: "Inprogress"}, function(err, quests) {            
+        if (err) {                
+            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+        }
+        else {                
+            for (var i = 0; i < quests.length; i++) {                    
+                var request_id = quests[i]._id;
+                var tracking = new Tracking({request_id: request_id, date: date, location: location});                    
+                tracking.save(function(err) {                        
+                    if (err) {                            
+                        res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+                    }                        
+                    res.status(HTTP_CREATED).send();
+                });
+            }
+            res.status(200).send();
+        }
     });
 
-    router.post('/tracking/update', function(req, res, next) {    
-        var user_id = req.body.user_id;
-        var date = req.body.date;
-        var location = req.body.location;        
-
-        var request = new Request({messenger_id: user_id});
-
-        Request.find({messenger_id: user_id, type: "Inprogress"}, function(err, quests) {            
-            if (err) {                
-                res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-            }
-            else {                
-                for (var i = 0; i < quests.length; i++) {                    
-                    var request_id = quests[i]._id;
-                    var tracking = new Tracking({request_id: request_id, date: date, location: location});                    
-                    tracking.save(function(err) {                        
-                        if (err) {                            
-                            res.status(HTTP_INTERNAL_SERVER_ERROR).send();
-                        }                        
-                        res.status(HTTP_CREATED).send();
-                    });
-                }
-                res.status(200).send();
-            }
-        });
-
-    });
+});
 
 router.get('/tracking/:id', function(req, res, next) {
     var request_id = req.params.id;
@@ -619,22 +626,27 @@ router.post('/mailservice', function(req, res, next) {
 var GCM = mongoose.model('gcms', {
     user_id: String,
     token: String,
-    createDate: {
-        type: String
-    }
+    date: String
 });
+
 
 router.post('/gcm/register', function(req, res, next) {
     var user_id = req.body.user_id;
     var token = req.body.token;
 
-    var gcm = new GCM({user_id: user_id, token: token});
-    console.log(JSON.stringify(gcm));
-    gcm.save(function(err) {
+    var gcm = new GCM({user_id: user_id, token: token, date: Date.now()});
+    GCM.remove({user_id: user_id}, function(err) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
-        res.status(HTTP_CREATED).send();
+        else {
+            gcm.save(function(err) {
+                if (err) {
+                    res.status(HTTP_INTERNAL_SERVER_ERROR).send();
+                }
+                res.status(HTTP_CREATED).send();
+            });
+        }
     });
 });
 
@@ -678,10 +690,7 @@ var File = mongoose.model('files', {
     filename: String,
         type: Number, // 0 avartar, 1 doc
         provedDate: Date,
-        date: {
-            type: String,
-            default: Date.now() // `Date.now()` returns the current unix timestamp as a number
-        }
+        date: String
     });
 
 var util = require('util');
@@ -714,7 +723,7 @@ router.post('/file/save', function(req, res, next) {
     var filename = req.body.filename;
     var type = req.body.type;
 
-    var file = new File({user_id: user_id, filename: filename, type: type});
+    var file = new File({user_id: user_id, filename: filename, type: type, date: Date.now()});
 
     file.save(function(err) {
         if (err) {
