@@ -212,8 +212,13 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 
 	};
 
-	$scope.cancelReserved = function(index){
-		var request_id = $scope.requests[index]._id;
+	 $scope.showCancelModal = function(index){
+    	$scope.curRequest = $scope.requests[index];	
+        $('#cancelModal').openModal();    
+    };
+
+	$scope.cancelReserved = function(){
+		var request_id = $scope.curRequest._id;		
     	$http.post('/api/request/cancel/'+request_id)
 			.success(function(data) {
 				window.location.reload();
