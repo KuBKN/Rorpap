@@ -1,37 +1,29 @@
-<br>
-
-<div class="container row" style="min-height: 600px; width:85%">
-
+<div class="container row" style="min-height: 600px; width:90%; min-width: 400px">
+	<br>
 	<div class="container hide-on-med-and-down col m2" style="min-weight: 500px">
-		<div class="collection" style="border-style: none">
-
-			<div style="margin-bottom: 15px">
-				<a href="#!/newrequest" id="newRequest" class="btn" style="width: 100%"><font size ="1">New Request</font></a>
-			</div>
-
-			<a href="#" onclick="return false;" class="collection-item" style="border-style: none; background-color: #FFE2C2" ng-click="getRequests()"><font size="3">My Request	</font></a>
-
-			<a href="#" onclick="return false;" class="collection-item" style="font-weight:normal" ng-click="getRequests('Reserved')"><font size="3" color="#e5d149">Reserved</font></a>
-
-			<a href="#" onclick="return false;" class="collection-item" style="font-weight:normal" ng-click="getRequests('Pending')"><font size="3" color="#CE0000">Pending</font></a>
-
-			<a href="#" onclick="return false;" class="collection-item" style="font-weight:normal" ng-click="getRequests('Inprogress')"><font size="3" color="#0007DA">In Progress</font></a>
-
+		<div style="margin: 15px 0px">
+			<a href="#!/newrequest" id="newRequest" class="btn" style="width: 100%">
+				<font size ="1">New Request</font></a>
+		</div>
+		<div class="card collection" style="border-style: none">
+			<a href="#" onclick="return false;" class="collection-item" style="border-style: none; background-color: #FFE2C2" ng-click="getRequests()">
+				<font size="3">My Request	</font></a>
+			<a href="#" onclick="return false;" class="collection-item" style="font-weight:normal" ng-click="getRequests('Reserved')">
+				<font size="3" color="#e5d149">Reserved</font></a>
+			<a href="#" onclick="return false;" class="collection-item" style="font-weight:normal" ng-click="getRequests('Pending')">
+				<font size="3" color="#CE0000">Pending</font></a>
+			<a href="#" onclick="return false;" class="collection-item" style="font-weight:normal" ng-click="getRequests('Inprogress')">
+				<font size="3" color="#0007DA">In Progress</font></a>
 			<a href="#" onclick="return false;" class="collection-item" style="font-weight:normal" ng-click="getRequests('Finished')">
-				<font size="3" color="#00D042">Finished</font></a>
-
-			<a class="collection-item" style="background-color: #FFE2C2"><font size="4">My Dashboard</font></a>
+				<font size="3" color="#00D042">Finished</font></a>			
 		</div>
 	</div>
 
-	<div class="col l6 s12" style="max-width: 700px; margin: 0 auto">
+	<div class="col l6 s12">
 		<ul class="collapsible popout" data-collapsible="accordion">
-
 			<li id="request{{$index}}" class="request" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-type','-_id']">
-
-				<div class="collapsible-header" style="padding: 1vw" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
+				<div class="collapsible-header" style="padding: 10px 20px" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
 					<div class="row" style="margin-bottom: 0px">
-
 						<div class="col m4 s12 hide-on-small-and-down">
 							<div style="background-color: white; padding: 5px; border-style: solid">
 								<img ng-src="{{request.pimg.url}}" width="100%" height="120px">
@@ -41,49 +33,63 @@
 							</div>
 						</div>
 
-						<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">
-
-							<div class="hide-on-med-and-up col s8 row" style="margin-bottom: 0px">
-								<div class="col s4" style="padding: 0">
-									<h6 style="text-align: right">To:</h6>
-									<h6 style="text-align: right">Email:</h6>
-									<h6 style="text-align: right">Tel:</h6>
-								</div>
-								<div class="col s8">
-									<h6><b>{{request.recipient_name}}</b></h6>
-									<h6>{{request.recipient_email}}</h6>
-									<h6>{{request.recipient_tel}}</h6>
+						<div class="col m8 s12" style="margin-bottom: 0px; padding: 0">
+							<div class="hide-on-med-and-up" style="margin-bottom: 0px">								
+								<h5 style="text-align: left">{{request.recipient_name}}
+									<style type="text/css">
+										span.badge.new:after { content: " messenger";}
+									</style>
+									<span class="new badge right" style="right: 0; line-height: 30px; height: 30px; width: 90px; position: relative" ng-click="openModal($index)" ng-if="request.type=='Pending' && request.hasAccept">
+										{{ request.acceptNum }}
+									</span>
+									<span ng-if="request.type == 'Reserved'" class="right white-text" style="background-color: #ee6e73; padding: 5px">
+										<h6>{{request.appointDate}} {{request.appointTime}}</h6></span>
+								</h5>
+								<h6 style="text-align: left; padding-left: 20px">
+									{{request.recipient_email}}									
+								</h6>
+								<h6 style="text-align: left; padding-left: 20px">
+									{{request.recipient_tel}}
+									<img ng-if="request.disclosure" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
+									<span class="chip right">
+										{{request.pimg.name}}
+									</span>
+								</h6>
+								<div style="clear: both">
+									<span class="chip left">
+										<i class="material-icons">event</i>
+										{{request.shipLimitDate}}
+									</span>
+									<span class="chip left">
+										<i class="material-icons">schedule</i>
+										{{request.shipLimitHour}}:{{request.shipLimitTime}}
+									</span>									
 								</div>
 							</div>
-							<div class="hide-on-small-only col s8 row">
-								<div class="col s4"  style="padding: 0">
-									<h5 style="text-align: right">To:</h5>
-									<h5 style="text-align: right">Email:</h5>
-									<h5 style="text-align: right">Tel:</h5>
-								</div>
-								<div class="col s8">
-									<h5><b>{{request.recipient_name}}</b></h5>
-									<h5>{{request.recipient_email}}</h5>
-									<h5>{{request.recipient_tel}}</h5>
-								</div>
-							</div>
-							<div class="col s4" style="padding-right: 0; margin-bottom: 20px; position: relative">
-								<style type="text/css">
-									span.badge.new:after { content: " messenger";}
-								</style>
-								<span class="new badge right" style="right: 0; line-height: 30px; height: 30px; width: 90px; position: relative" ng-click="openModal($index)" ng-if="request.type=='Pending' && request.hasAccept">
-									{{ request.acceptNum }}
+							<div class="hide-on-small-only">								
+								<h5>{{request.recipient_name}}
+									<span class="new badge right" style="right: 0; line-height: 30px; height: 30px; width: 90px; position: relative" ng-click="openModal($index)" ng-if="request.type=='Pending' && request.hasAccept">
+										{{ request.acceptNum }}
+									</span>
+									<span ng-if="request.type == 'Reserved'" class="right white-text" style="background-color: #ee6e73; padding: 5px">
+										<h6>{{request.appointDate}} {{request.appointTime}}</h6></span>
+								</h5>
+								<h6 style="padding-left: 20px">{{request.recipient_email}}</h6>
+								<h6 style="padding-left: 20px">{{request.recipient_tel}}</h6>
+								<span class="chip left">
+									<i class="material-icons">event</i>
+									{{request.shipLimitDate}}
 								</span>
-								<span class="right" ng-if="request.type == 'Reserved'">
-									<a id="send{{$index}}" class="btn" style="background-color: #50C625; text-transform: none" ng-click="showSendingToken($index)">Send</a>
-									<p>{{request.appointDate}} {{request.appointTime}}</p>
+								<span class="chip left">
+									<i class="material-icons">schedule</i>
+									{{request.shipLimitHour}}:{{request.shipLimitTime}}
 								</span>
 							</div>
-							<div class="container hide-on-med-and-up" style="clear: both">
-								<img ng-if="request.disclosure" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
-								<span class="chip right">
-									{{request.pimg.name}}
+							<div style="padding-right: 0; margin-bottom: 20px; position: relative">
+									<a id="send{{$index}}" ng-if="request.type == 'Reserved'" class="btn right" style="background-color: #50C625; text-transform: none" ng-click="showSendingToken($index)">Send</a>
 								</span>
+							</div>
+							<div class="container hide-on-med-and-up" style="clear: both">								
 							</div>
 						</div>
 					</div>
@@ -91,15 +97,7 @@
 
 				<div class="collapsible-body" style="background-color: #F8F8F8">
 					<div class="row" style="padding: 10px">
-						<div class="col s8 m8">
-							<span class="chip">
-								<i class="material-icons">event</i>
-								{{request.shipLimitDate}}
-							</span>
-							<span class="chip">
-								<i class="material-icons">schedule</i>
-								{{request.shipLimitHour}}:{{request.shipLimitTime}}
-							</span>
+						<div class="col s8 m8">							
 							<div style="margin-bottom: 5px; margin-left: 5px">
 								<h6 ng-if="request.type!='Pending'">
 									Messenger:

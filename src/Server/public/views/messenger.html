@@ -1,4 +1,4 @@
-<div class="center row" style="width: 85%; margin: 0 auto">
+<div class="center row" style="width: 90%; min-width: 600px; margin: 0 auto">
 	<br>
 
 		<a id="findrequest" href="#!/findrequest" style="text-decoration: none">
@@ -7,7 +7,12 @@
 
 			</div>
 		</a>
+<<<<<<< HEAD
 	<div class="col s10">
+=======
+	</div>
+	<div class="col s11">
+>>>>>>> ec1e2c6bf2d6b36a482e89f3d89c300e5b395522
 		<div class="card">
 			<ul class="tabs" id="page_tabs">
 				<li class="tab col s4"><a ng-click="reRednerMap()" id="tab_accepted" href="#accepted">Accepted</a></li>
@@ -20,58 +25,63 @@
 				<div class="col l6 s12">
 					<ul class="collapsible popout" data-collapsible="accordion">
 						<li id="arequest{{$index}}" class="request" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-_id']">
-
-							<div class="collapsible-header" style="padding: 1vw" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
+							<div class="collapsible-header" style="padding: 10px" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
 								<div class="row" style="margin-bottom: 0px">
-
 									<div class="col m4 s12 hide-on-small-and-down">
 										<div style="background-color: white; padding: 5px; border-style: solid">
 											<img ng-src="{{request.pimg.url}}" width="100%" height="120px">
-											<div ng-if="request.declarable" style="position: relative">
+											<div ng-if="request.disclosure" style="position: relative">
 												<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
 											</div>
 										</div>
 									</div>
-
-									<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">
-										<div class="hide-on-med-and-up col s12 row" style="margin-bottom: 0px">
-											<div class="col s3" style="padding: 0">
-												<h6 style="text-align: right">To:</h6>
-												<h6 style="text-align: right">Email:</h6>
-												<h6 style="text-align: right">Tel:</h6>
-											</div>
-											<div class="col s9">
-												<h6 style="text-align: left"><b>{{request.recipient_name}}</b></h6>
-												<h6 style="text-align: left">{{request.recipient_email}}</h6>
-												<h6 style="text-align: left">{{request.recipient_tel}}</h6>
-											</div>
-											<span>
-											{{request.accepto.date}} {{request.accepto.hour}}:{{request.accepto.min}}
+									<div class="col m8 s12" style="margin-bottom: 0px; padding: 0">
+										<div class="hide-on-med-and-up" style="margin-bottom: 0px">
+											<h5 style="text-align: left">{{request.recipient_name}}</h5>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_email}}
+											</h6>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_tel}}
+												<img ng-if="request.disclosure" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
+												<span class="chip right">
+													{{request.pimg.name}}
+												</span>												
+											</h6>
+											<div style="clear: both; margin-top: 20px">
+												<span class="chip left">
+													<i class="material-icons">event</i>
+													{{request.shipLimitDate}}
+												</span>
+												<span class="chip left">
+													<i class="material-icons">schedule</i>
+													{{request.shipLimitHour}}:{{request.shipLimitTime}}
+												</span>
+												<a class="btn black-text right" style="background-color:  #FCFCFC" ng-click="openModal($index)">{{request.accepto.date}} {{request.accepto.hour}}:{{request.accepto.min}}</a>
+											</div>											
+										</div>
+										<div class="hide-on-small-only">
+											<h5 style="text-align: left">{{request.recipient_name}}</h5>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_email}}</h6>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_tel}}
+												<span class="right">
+													{{request.accepto.date}} {{request.accepto.hour}}:{{request.accepto.min}}
+												</span>
+											</h6>
+											<div style="clear: both; margin-top: 10px">
+												<span class="chip left">
+													<i class="material-icons">event</i>
+													{{request.shipLimitDate}}
+												</span>
+												<span class="chip left">
+													<i class="material-icons">schedule</i>
+													{{request.shipLimitHour}}:{{request.shipLimitTime}}
+												</span>											
 												<a class="btn right black-text" style="background-color:  #FCFCFC" ng-click="openModal($index)">Edit</a>
-											</span>
-										</div>
-										<div class="hide-on-small-only col s12 row">
-											<div class="col s3"  style="padding: 0">
-												<h5 style="text-align: right">To:</h5>
-												<h5 style="text-align: right">Email:</h5>
-												<h5 style="text-align: right">Tel:</h5>
-											</div>
-											<div class="col s9">
-												<h5 style="text-align: left"><b>{{request.recipient_name}}</b></h5>
-												<h5 style="text-align: left">{{request.recipient_email}}</h5>
-												<h5 style="text-align: left">{{request.recipient_tel}}</h5>
-											</div>
-											<span>
-											{{request.accepto.date}} {{request.accepto.hour}}:{{request.accepto.min}}
-												<a class="btn right black-text" style="background-color:  #FCFCFC" ng-click="openModal($index)">Edit</a>
-											</span>
-										</div>
-										<div class="container hide-on-med-and-up" style="clear: both">
-											<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
-											<span class="chip right">
-												{{request.pimg.name}}
-											</span>
-										</div>
+											</div>																						
+										</div>										
 									</div>
 								</div>
 							</div>
@@ -79,14 +89,6 @@
 							<div class="collapsible-body" style="background-color: #F8F8F8; text-align: left">
 								<div class="row" style="padding: 10px">
 									<div class="col s8 m8">
-										<span class="chip">
-											<i class="material-icons">event</i>
-											{{request.shipLimitDate}}
-										</span>
-										<span class="chip">
-											<i class="material-icons">schedule</i>
-											{{request.shipLimitHour}}:{{request.shipLimitTime}}
-										</span>
 										<div style="margin-bottom: 5px; margin-left: 5px">
 											<h6>
 												Sender
@@ -97,7 +99,6 @@
 											Comment: {{request.comment}}
 										</div>
 									</div>
-
 									<div class="col s4 m4 right green-text" style="text-align: right"><h5>{{request.price}} Baht</h5></div>
 									<div class="col m12 s12">
 										<span class="right">
@@ -106,9 +107,7 @@
 									</div>
 								</div>
 							</div>
-
 						</li>
-
 					</ul>
 				</div>
 
@@ -167,65 +166,77 @@
 				</div>
 			</div>
 
-
 			<div id="inprogress" class="row" ng-controller="InProgressQuestController">
 				<div class="col l6 s12">
 					<ul class="collapsible popout" data-collapsible="accordion">
 						<li id="irequest{{$index}}" class="request" style="margin: 10px 0" ng-repeat="request in requests | orderBy:['-type','-_id']">
 
-							<div class="collapsible-header" style="padding: 1vw" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
+							<div class="collapsible-header" style="padding: 10px" ng-style="{'background-color': reqBackground(request.type)}" ng-click="showInMap($index)">
 								<div class="row" style="margin-bottom: 0px">
-
 									<div class="col m4 s12 hide-on-small-and-down">
 										<div style="background-color: white; padding: 5px; border-style: solid">
 											<img ng-src="{{request.pimg.url}}" width="100%" height="120px">
-											<div ng-if="request.declarable" style="position: relative">
+											<div ng-if="request.disclosure" style="position: relative">
 												<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
 											</div>
 										</div>
 									</div>
 
-									<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">
-										<div class="hide-on-med-and-up col s12 row" style="margin-bottom: 0px">
-											<div class="col s3" style="padding: 0">
-												<h6 style="text-align: right">To:</h6>
-												<h6 style="text-align: right">Email:</h6>
-												<h6 style="text-align: right">Tel:</h6>
+									<div class="col m8 s12" style="margin-bottom: 0px; padding: 0">
+										<div class="hide-on-med-and-up" style="margin-bottom: 0px">
+											<h5 style="text-align: left">
+												{{request.recipient_name}}
+												<span ng-if="request.type == 'Reserved'" class="right white-text" style="background-color: #ee6e73; padding: 5px">
+													<h6>{{request.appointDate}} {{request.appointTime}}</h6></span>
+											</h5>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_email}}
+											</h6>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_tel}}
+												<img ng-if="request.disclosure" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
+												<span class="chip right">
+													{{request.pimg.name}}
+												</span>												
+											</h6>
+											<div style="clear: both; margin-top: 20px; padding-left: 20px">
+												<span class="chip left">
+													<i class="material-icons">event</i>
+													{{request.shipLimitDate}}
+												</span>
+												<span class="chip left">
+													<i class="material-icons">schedule</i>
+													{{request.shipLimitHour}}:{{request.shipLimitTime}}
+												</span>										
+												<span ng-if="request.type == 'Reserved'">													
+													<a id="send{{$index}}" class="btn right" style="background-color: #50C625; text-transform: none" ng-click="typeSendingToken($index)">Start</a>
+												</span>
+												<span ng-if="request.type == 'Inprogress'" class="btn right" style="background-color: #50C625" ng-click="typeFinishToken($index)">Finish</span>
 											</div>
-											<div class="col s9">
-												<h6 style="text-align: left"><b>{{request.recipient_name}}</b></h6>
-												<h6 style="text-align: left">{{request.recipient_email}}</h6>
-												<h6 style="text-align: left">{{request.recipient_tel}}</h6>
-											</div>
-											<span ng-if="request.type == 'Reserved'">
-												{{request.appointDate}} {{request.appointTime}}
-												<a id="send{{$index}}" class="btn" style="background-color: #50C625; text-transform: none" ng-click="typeSendingToken($index)">Send</a>
+										</div>
+										<div class="hide-on-small-only">
+											<h5 style="text-align: left">{{request.recipient_name}}
+												<span ng-if="request.type == 'Reserved'" class="right white-text" style="background-color: #ee6e73; padding: 5px">
+														<h6>{{request.appointDate}} {{request.appointTime}}</h6>
+												</span>
+											</h5>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_email}}</h6>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_tel}}</h6>
+											<span class="chip left">
+												<i class="material-icons">event</i>
+												{{request.shipLimitDate}}
+											</span>
+											<span class="chip left">
+												<i class="material-icons">schedule</i>
+												{{request.shipLimitHour}}:{{request.shipLimitTime}}
+											</span>
+											<span ng-if="request.type == 'Reserved'">												
+												<a id="send{{$index}}" class="btn right" style="background-color: #50C625; text-transform: none" ng-click="typeSendingToken($index)">Start</a>
 											</span>
 											<span ng-if="request.type == 'Inprogress'" class="btn right" style="background-color: #50C625" ng-click="typeFinishToken($index)">Finish</span>
-										</div>
-										<div class="hide-on-small-only col s12 row">
-											<div class="col s3"  style="padding: 0">
-												<h5 style="text-align: right">To:</h5>
-												<h5 style="text-align: right">Email:</h5>
-												<h5 style="text-align: right">Tel:</h5>
-											</div>
-											<div class="col s9">
-												<h5 style="text-align: left"><b>{{request.recipient_name}}</b></h5>
-												<h5 style="text-align: left">{{request.recipient_email}}</h5>
-												<h5 style="text-align: left">{{request.recipient_tel}}</h5>
-											</div>
-											<span ng-if="request.type == 'Reserved'">
-												{{request.appointDate}} {{request.appointTime}}
-												<a id="send{{$index}}" class="btn" style="background-color: #50C625; text-transform: none" ng-click="typeSendingToken($index)">Send</a>
-											</span>
-											<span ng-if="request.type == 'Inprogress'" class="btn right" style="background-color: #50C625" ng-click="typeFinishToken($index)">Finish</span>
-										</div>
-										<div class="container hide-on-med-and-up">
-											<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
-											<span class="chip right">
-												{{request.pimg.name}}
-											</span>
-										</div>
+										</div>										
 									</div>
 								</div>
 							</div>
@@ -233,21 +244,13 @@
 							<div class="collapsible-body" style="background-color: #F8F8F8; text-align: left">
 								<div class="row" style="padding: 10px">
 									<div class="col s8 m8">
-										<span class="chip">
-											<i class="material-icons">event</i>
-											{{request.shipLimitDate}}
-										</span>
-										<span class="chip">
-											<i class="material-icons">schedule</i>
-											{{request.shipLimitHour}}:{{request.shipLimitTime}}
-										</span>
 										<div style="margin-bottom: 5px; margin-left: 5px">
-											<h6>
-												Sender
+											<h6>Sender
 												<a href="#!/profile_other" ng-click="seeUser(request.sender)">{{request.sender.firstname}} {{request.sender.lastname}}</a>
 											</h6>
 											<h6>Dimension: {{request.size_w}} x {{request.size_l}} x {{request.size_h}} cm</h6>
-											<h6>Weight: {{request.weight}} kg</h6>			Comment: {{request.comment}}
+											<h6>Weight: {{request.weight}} kg</h6>
+											Comment: {{request.comment}}
 										</div>
 									</div>
 
@@ -330,41 +333,53 @@
 									<div class="col m4 s12 hide-on-small-and-down">
 										<div style="background-color: white; padding: 5px; border-style: solid">
 											<img ng-src="{{request.pimg.url}}" width="100%" height="120px">
-											<div ng-if="request.declarable" style="position: relative">
+											<div ng-if="request.disclosure" style="position: relative">
 												<img src="images/parcels/green_box.png" width="45px" height="33px" style="position: absolute; right: 1px; bottom: 5px">
 											</div>
 										</div>
 									</div>
 
-									<div class="col m8 s12 row" style="margin-bottom: 0px; padding: 0">
-										<div class="hide-on-med-and-up col s12 row" style="margin-bottom: 0px">
-											<div class="col s3" style="padding: 0">
-												<h6 style="text-align: right">To:</h6>
-												<h6 style="text-align: right">Email:</h6>
-												<h6 style="text-align: right">Tel:</h6>
-											</div>
-											<div class="col s9">
-												<h6 style="text-align: left"><b>{{request.recipient_name}}</b></h6>
-												<h6 style="text-align: left">{{request.recipient_email}}</h6>
-												<h6 style="text-align: left">{{request.recipient_tel}}</h6>
+									<div class="col m8 s12" style="margin-bottom: 0px; padding: 0">
+										<div class="hide-on-med-and-up" style="margin-bottom: 0px">
+											<h5 style="text-align: left">
+												{{request.recipient_name}}												
+											</h5>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_email}}
+											</h6>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_tel}}
+											</h6>
+											<div style="clear: both; margin-top: 20px; padding-left: 20px">
+												<span class="chip left">
+													<i class="material-icons">event</i>
+													{{request.shipLimitDate}}
+												</span>
+												<span class="chip left">
+													<i class="material-icons">schedule</i>
+													{{request.shipLimitHour}}:{{request.shipLimitTime}}
+												</span>
+												<span class="chip right">
+													{{request.pimg.name}}
+												</span>		
+												<img ng-if="request.disclosure" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
 											</div>
 										</div>
-										<div class="hide-on-small-only col s12 row">
-											<div class="col s3"  style="padding: 0">
-												<h5 style="text-align: right">To:</h5>
-												<h5 style="text-align: right">Email:</h5>
-												<h5 style="text-align: right">Tel:</h5>
-											</div>
-											<div class="col s9">
-												<h5 style="text-align: left"><b>{{request.recipient_name}}</b></h5>
-												<h5 style="text-align: left">{{request.recipient_email}}</h5>
-												<h5 style="text-align: left">{{request.recipient_tel}}</h5>
-											</div>
-										</div>
-										<div class="container hide-on-med-and-up" style="clear: both">
-											<img ng-if="request.declarable" class="right" src="images/parcels/green_box.png" width="45px" height="33px" style="right: 1px; bottom: 5px">
-											<span class="chip right">
-												{{request.pimg.name}}
+
+										<div class="hide-on-small-only">
+											<h5 style="text-align: left">
+												{{request.recipient_name}}</h5>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_email}}</h6>
+											<h6 style="text-align: left; padding-left: 20px">
+												{{request.recipient_tel}}</h6>											
+											<span class="chip left">
+												<i class="material-icons">event</i>
+												{{request.shipLimitDate}}
+											</span>
+											<span class="chip left">
+												<i class="material-icons">schedule</i>
+												{{request.shipLimitHour}}:{{request.shipLimitTime}}
 											</span>
 										</div>
 									</div>
