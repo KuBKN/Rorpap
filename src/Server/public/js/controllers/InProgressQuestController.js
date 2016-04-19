@@ -20,10 +20,10 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 
 	$scope.getRequests = function() {
 		$scope.requests = [];
-		var messenger_id = $cookies.get('_id').replace(/\"/g, "");		
-		var reqtype = "Reserved";		
+		var messenger_id = $cookies.get('_id').replace(/\"/g, "");
+		var reqtype = "Reserved";
 		$http.get('/api/request/get_quest/' + reqtype + '/' + messenger_id)
-			.success(function(data) {				
+			.success(function(data) {
 				data.sort(function(a,b) {return (a._id < b._id) ? 1 : (
 														(a._id > b._id) ? -1 : 0);
 				});
@@ -33,17 +33,17 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
    						value.sender = result;
    					});
    					value.pimg = requestParcelImg.getByIndex(value.img);
-					$scope.requests.push(value);					
+					$scope.requests.push(value);
 				});
 
 			})
 			.error(function(data) {
 				console.log(data);
 			});
-		
-		reqtype = "Inprogress";		
+
+		reqtype = "Inprogress";
 		$http.get('/api/request/get_quest/' + reqtype + '/' + messenger_id)
-			.success(function(data) {			
+			.success(function(data) {
 
 				data.sort(function(a,b) {return (a._id < b._id) ? 1 : (
 														(a._id > b._id) ? -1 : 0);
@@ -51,10 +51,10 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 				angular.forEach(data, function(value, key) {
 					loadUser.getUser(value.sender_id).then(function(result){
    						value.sender = result;
-   					});   					
+   					});
    					value.pimg = requestParcelImg.getByIndex(value.img);
-					$scope.requests.push(value);										
-				});				
+					$scope.requests.push(value);
+				});
 
 			})
 			.error(function(data) {
@@ -66,34 +66,34 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 
 	$scope.rindex;
 
-	$scope.typeSendingToken = function(index){		
+	$scope.typeSendingToken = function(index){
 		$('#modalTSendingToken').openModal();
-		$scope.rindex = index;		
+		$scope.rindex = index;
 	};
 
-	$scope.typeFinishToken = function(index){		
+	$scope.typeFinishToken = function(index){
 		$('#modalTFinishToken').openModal();
 		$scope.rindex = index;
 	};
 
-    $scope.submitSendingToken = function(){    	    	
+    $scope.submitSendingToken = function(){
     	var req = $scope.requests[$scope.rindex];
     	var rtoken = ""+req.sender_id.substring(req.sender_id.length-2)+req._id.substring(req._id.length-2);
 
     	var messenger_id = req.messenger_id;
     	var user = $cookies.get('_id').replace(/\"/g, "");
-    
-    	if(rtoken == $scope.sendingToken && messenger_id == user){    		    		
+
+    	if(rtoken == $scope.sendingToken && messenger_id == user){
 	    	var request_id = req._id;
 	    	var message = mailMessage.getMessage('sendTokenToRec',req);
 	    	console.log(message);
-	   //  	$http.post('/api/mailservice/',message)
-				// .success(function(data) {
-					
-				// })
-				// .error(function(data) {
-				// 	console.log(data);
-				// });
+	    	$http.post('/api/mailservice/',message)
+				.success(function(data) {
+
+				})
+				.error(function(data) {
+					console.log(data);
+				});
 	    	$http.post('/api/request/accept/'+messenger_id+'/'+request_id)
 				.success(function(data) {
 					window.location.reload();
@@ -109,10 +109,10 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 
 	$scope.submitFinishToken = function(){
 		console.log($scope.finishToken);
-    	var req = $scope.requests[$scope.rindex];    
+    	var req = $scope.requests[$scope.rindex];
 
-    	if($scope.finishToken == "Send"){    		    		
-	    	var request_id = req._id;	    	
+    	if($scope.finishToken == "Send"){
+	    	var request_id = req._id;
 	    	$http.post('/api/request/finish', req)
 				.success(function(data) {
 					window.location.reload();
@@ -135,11 +135,11 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 	$scope.marker_to = {};
 
 	// TODO still be suck function use inteads of checking if collapse right now, 555
-	$scope.showInMap = function(index) {		
+	$scope.showInMap = function(index) {
 		$scope.marker_from = {};
 		$scope.marker_to = {};
 		$scope.map.zoom = 10;
-		$scope.path = [];		
+		$scope.path = [];
 		if (index != $scope.lastCollepsed) {
 			var loc = $scope.requests[index].fromLoc.split(', ');
 			$scope.marker_from.position = [loc[0],loc[1]];
@@ -161,7 +161,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 								, $scope.calculateCenter($scope.marker_from.position[1], $scope.marker_to.position[1])];
 
 			$scope.marker_from.visible = true;
-			$scope.marker_to.visible = true;			
+			$scope.marker_to.visible = true;
 
 			$scope.map.zoom = $scope.calculateZoom($scope.marker_from.position,$scope.marker_to.position);
 
@@ -183,7 +183,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 			$http.get('/api/tracking/' + $scope.requests[index]._id)
 				.success(function(data) {
 
-					$scope.path = [];					
+					$scope.path = [];
 					for (var i = 0; i < data.length; i++) {
 						var loc = data[i].location.split(',');
 						var dot = [Number(loc[0]), Number(loc[1])];
@@ -195,7 +195,7 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 				.error(function(data) {
 					console.log(data);
 				});
-		};		
+		};
 	};
 
 	$scope.lastCollepsed = -1;
@@ -209,11 +209,11 @@ app.controller('InProgressQuestController', ['$scope', '$http','$cookies', 'prof
 		var n = 1;
 		for(var i= dis; i>564.24861; i/=2, n++){}
 		return 20-n;
-		
+
 	};
 
 	$scope.cancelReserved = function(index){
-		var request_id = $scope.requests[index]._id;		
+		var request_id = $scope.requests[index]._id;
     	$http.post('/api/request/cancel/'+request_id)
 			.success(function(data) {
 				window.location.reload();
