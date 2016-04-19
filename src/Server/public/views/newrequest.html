@@ -55,22 +55,22 @@
 
   			    <div class="input-field col s4">
  					<label for="size_width" class="active">Width (cm)</label>
- 					<input type="number" step="0.1" min="0.1" id="size_width" ng-model="request.size_w" class="validate" required>
+ 					<input type="number" step="0.1" min="0.1" id="size_width" ng-model="request.size_w" class="validate" ng-change="setPrice()" required>
   				</div>
 
   				<div class="input-field col s4">
  					<label for="size_lenght" class="active">Length (cm)</label>
- 					<input type="number" step="0.1" min="0.1" id="size_lenght" ng-model="request.size_l" class="validate" required>
+ 					<input type="number" step="0.1" min="0.1" id="size_lenght" ng-model="request.size_l" class="validate" ng-change="setPrice()" required>
   				</div>
 
   			    <div class="input-field col s4">
  					<label for="size_height" class="active">Height (cm)</label>
- 					<input type="number" step="0.1" min="0.1" id="size_height" ng-model="request.size_h" class="validate" required>
+ 					<input type="number" step="0.1" min="0.1" id="size_height" ng-model="request.size_h" class="validate" ng-change="setPrice()" required>
   				</div>
 
 				<div class="input-field col s6">
 					<label for="weight" class="active">Weight (kg) [max 15kg]</label>
- 					<input type="number" step="0.1" min="0.1" max="15" id="weight"ng-model="request.weight" class="validate" required>
+ 					<input type="number" step="0.1" min="0.1" max="15" id="weight" ng-model="request.weight" class="validate" ng-change="setPrice()" required>
 				</div>
 				<div class="input-field col s6">
 					<input type="checkbox" class="filled-in" id="filled-in-box" ng-model="request.disclosure"/>
@@ -92,7 +92,7 @@
 			<div ng-if="fullEdit" class="col s11 offset-s1 row" style="margin-bottom: 30px; padding: 0">
 				<div class="col s12 m6">
 					<label for="reqEndDate">Shipment End Date</label>
-					<input type="date" id="reqEndDate" ng-model="request.shipLimitDate_tmp" datepicker required/>
+					<input type="date" id="reqEndDate" ng-model="request.shipLimitDate_tmp" ng-change="setPrice()" datepicker required/>
 				</div>
 				<div class="col s12 m6">
 					<label>End Time</label>
@@ -113,10 +113,10 @@
 					</div>
 				</div>
 
-				<div class="input-field col s12" action="#">
+				<div class="input-field col s12" action="#" ng-hide="priceMin == 0 && priceMax == 0">
 					<label>Price : {{request.price}} baht</label><br>
 					<p class="range-field">
-						<input type="range" id="price" ng-model="request.price" min="35" max="100" />
+						<input type="range" id="price" ng-model="request.price" min="{{ priceMin }}" max="{{ priceMax }}" />
 					</p>
 				</div>
 			</div>
