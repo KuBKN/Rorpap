@@ -50,19 +50,19 @@
 				</li>
 			</ul>
 
-			<ul id="nav-mobile" class="side-nav">
-				<li id="beamessSNav" style="border-style: solid; border-color: white">
-					<a href="#!/beamessenger" ng-if="user.status == 0 || !_id" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" ng-if="!messenger">
-						<font size="4" color="#ffa337"><center><b>Be a Messenger</b></center></font>
+			<ul id="nav-mobile" class="side-nav orange lighten-1">
+				<li id="beamessSNav" class="orange lighten-1">
+					<a href="#!/beamessenger" ng-if="user.status == 0 || !logIned" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" ng-if="!messenger">
+						<font size="4" color="white"><center><b>Be a Messenger</b></center></font>
 					</a>
-					<a id="myquestSNav" href="#!/myquest" ng-if="user.status == 1" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
-						<font size="4" color="#ffa337"><center><b>My Quest</b></center></font>
+					<a id="messengerSNav" href="#!/messenger" ng-if="user.status == 1" style="text-decoration: none; margin: 13px 0; line-height: 200%; border-style: solid; border-color: white" >
+						<font size="4" color="white"><center><b>Messenger</b></center></font>
 					</a>
 				</li>
 
-				<li ng-repeat="mmenu in mmenus">
+				<li ng-repeat="mmenu in mmenus" class="orange lighten-1" style="padding: 0">
 					<a id="{{ menu.id }}SNav" style="text-decoration: none" class="{{ mmenu.class }}" href="{{ mmenu.href }}" data-activates="{{ mmenu.dactivate }}">
-						<font size="{{ mmenu.size }}" color="{{ mmenu.color }}"><center><b>{{ mmenu.title }}</b></center></font>
+						<font size="{{ mmenu.size }}" color="white"><center><b>{{ mmenu.title }}</b></center></font>
 					</a>
 				</li>
 
