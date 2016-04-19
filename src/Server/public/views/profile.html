@@ -1,118 +1,99 @@
-<!-- <div class="container"> -->
-	<div class="row" style="width: 80%; left: auto; right: auto">
+<div class="row" style="width: 80%; left: auto; right: auto">
+	<br>
+	<div class="col s6">
+		<h5>Profile</h5>
+		<div class="input-field row">
+			<label for="firstName" class="active">First Name</label>
+			<input type="text" id="firstName" ng-model="user.firstname" class="col s10" disabled required>
+			<div class="col s2 btn" ng-click="enabled('firstName')">Edit</div>
+		</div>
+
+		<div class="input-field row">
+			<label for="lastName" class="active">Last Name</label>
+			<input type="text" id="lastName" ng-model="user.lastname" class="col s10" disabled required>
+			<div class="col s2 btn" ng-click="enabled('lastName')">Edit</div>
+		</div>
+
+		<div class="input-field row">
+			<label for="emailAddress" class="active">E-mail address</label>
+			<input type="email" id="emailAddress" ng-model="user.email" class="col s10 validate" disabled required>
+			<div class="col s2 btn" ng-click="enabled('emailAddress')">Edit</div>
+		</div>
+
+		<div class="input-field row">
+			<label for="tel" class="active">Tel.</label>
+			<input type="tel" id="tel" ng-model="user.tel" class="col s10 validate" disabled required>
+			<div class="col s2 btn" ng-click="enabled('tel')">Edit</div>
+		</div>
+
+		<a href="" ng-click="showPassword()">Change password</a>
+		<br><br>
+
+		<div id="changePassword" style="border-style: solid; padding: 10px; display: none">
+			Leave Password be blank to not update
+			<div class="input-field row">
+				<label for="password1">Password</label>
+				<input type="password" id="password1" ng-model="user.password1" class="col s10" required>
+			</div>
+
+			<div class="input-field row">
+				<label for="password2">Re-type password</label>
+				<input type="password" id="password2" ng-model="user.password2" class="col s10" password-confirmation="password1" required>
+			</div>
+		</div>
 		<br>
-		<div class="col s6">
-			<h5>Profile</h5>
-			<div class="input-field row">
-				<label for="firstName" class="active">First Name</label>
-				<input type="text" id="firstName" ng-model="user.firstname" class="col s10" disabled required>
-				<div class="col s2 btn" ng-click="enabled('firstName')">Edit</div>
+		<center><button id="updateProfileBtn" type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="update()">Update</button></center>
+	</div>
+
+	<div class="col s5 offset-s1">
+		<h5>Your role: {{ user.status == 1 ? "Sender and Messenger" : "Sender"}}</h5>
+
+		<p ng-if="user.status == 0">Your can be a Messenger also, just provide us more identifying stuffs</p>
+		<button ng-if="user.status == 0" class="btn cyan darken waves-effect waves-teal" ng-click="enroll()">Enroll
+			<i class="material-icons right">send</i>
+		</button>
+
+		<p ng-if="user.status == -1">Please wait for admin accepting...</p>
+		<button ng-if="user.status == -1" class="btn cyan darken waves-effect waves-teal" disabled>Enroll
+			<i class="material-icons right">send</i>
+		</button>
+
+		<p ng-if="user.status == 1">Accept some requests?</p>
+		<a href="#!/findrequest" ng-if="user.status == 1" class="btn cyan darken waves-effect waves-teal">Find Request
+			<i class="material-icons right">send</i>
+		</a>
+
+		<div class="card" ng-hide="doc.hidden">
+			<div class="card-content">
+				<p>Identify Document</p>
+			</div>
+			<div class="card-image">
+				<img src="{{ doc.filename }}">
+				<span class="card-title">{{ doc.provedDate }}</span>
 			</div>
 
-			<div class="input-field row">
-				<label for="lastName" class="active">Last Name</label>
-				<input type="text" id="lastName" ng-model="user.lastname" class="col s10" disabled required>
-				<div class="col s2 btn" ng-click="enabled('lastName')">Edit</div>
-			</div>
-
-			<div class="input-field row">
-				<label for="emailAddress" class="active">E-mail address</label>
-				<input type="email" id="emailAddress" ng-model="user.email" class="col s10 validate" disabled required>
-				<div class="col s2 btn" ng-click="enabled('emailAddress')">Edit</div>
-			</div>
-
-			<div class="input-field row">
-				<label for="tel" class="active">Tel.</label>
-				<input type="tel" id="tel" ng-model="user.tel" class="col s10 validate" disabled required>
-				<div class="col s2 btn" ng-click="enabled('tel')">Edit</div>
-			</div>
-
-			<a href="" ng-click="showPassword()">Change password</a>
-			<br><br>
-
-			<div id="changePassword" style="border-style: solid; padding: 10px; display: none">
-				Leave Password be blank to not update
-				<div class="input-field row">
-					<label for="password1">Password</label>
-					<input type="password" id="password1" ng-model="user.password1" class="col s10" required>
-				</div>
-
-				<div class="input-field row">
-					<label for="password2">Re-type password</label>
-					<input type="password" id="password2" ng-model="user.password2" class="col s10" password-confirmation="password1" required>
-				</div>
-			</div>
-			<br>
-			<center><button id="updateProfileBtn" type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="update()">Update</button></center>
-
-
-
-
-
-
-				<div class="card">
-						<div class="card-action">
-							<form ng-app="rorpap" name="form">
-								<div class="file-field input-field">
-									<div class="btn">
-										<span>File</span>
-										<input type="file" ngf-select="" ng-model="file" name="file" ngf-accept="'image/*'"
-										required="" class="ng-pristine ng-invalid ng-invalid-required" accept="image/*">
-									</div>
-									<div class="file-path-wrapper">
-										<input class="file-path validate" type="text">
-									</div>
-								</div>
-
-								<a class="waves-effect waves-light btn" ng-click="upload()" ng-hide="doc.uploaded || doc.filename != ''"><i class="material-icons right">cloud</i>Upload</a>
-								<a class="waves-effect waves-light btn" ng-click="upload()" ng-hide="doc.uploaded || doc.filename == ''"><i class="material-icons right">cloud</i>Update</a>
-								<a class="waves-effect waves-light btn" ng-click="save()" ng-show="doc.uploaded"><i class="material-icons right">cloud</i>Save</a>
-							</form>
+		</div>
+		<div class="card" style="margin-top: 20px">
+			<div class="card-action">
+				<form ng-app="rorpap" name="form">
+					<label>Upload Document</label>
+					<div class="file-field input-field">
+						<div class="btn">
+							<span>File</span>
+							<input type="file" ngf-select="" ng-model="file" name="file" ngf-accept="'image/*'"
+							required="" class="ng-pristine ng-invalid ng-invalid-required" accept="image/*">
+						</div>
+						<div class="file-path-wrapper">
+							<input class="file-path validate" type="text">
 						</div>
 					</div>
 
-
-
-
-
-
-
-
-
-
-
-		</div>
-
-		<div class="col s5 offset-s1">
-			<h5>Your role: {{ user.status == 1 ? "Sender and Messenger" : "Sender"}}</h5>
-
-			<p ng-if="user.status == 0">Your can be a Messenger also, just provide us more identifying stuffs</p>
-			<button ng-if="user.status == 0" class="btn cyan darken waves-effect waves-teal" ng-click="enroll()">Enroll
-				<i class="material-icons right">send</i>
-			</button>
-
-			<p ng-if="user.status == -1">Please wait for admin accepting...</p>
-			<button ng-if="user.status == -1" class="btn cyan darken waves-effect waves-teal" disabled>Enroll
-				<i class="material-icons right">send</i>
-			</button>
-
-			<p ng-if="user.status == 1">Accept some requests?</p>
-			<a href="#!/findrequest" ng-if="user.status == 1" class="btn cyan darken waves-effect waves-teal">Find Request
-				<i class="material-icons right">send</i>
-			</a>
-
-			<div class="card" ng-hide="doc.hidden">
-				<div class="card-content">
-		          <p>Identify Document</p>
-		        </div>
-				<div class="card-image">
-					<img src="{{ doc.filename }}">
-					<span class="card-title">{{ doc.provedDate }}</span>
-				</div>
-
+					<a class="waves-effect waves-light btn" ng-click="upload()" ng-hide="doc.uploaded || doc.filename != ''"><i class="material-icons right">cloud</i>Upload</a>
+					<a class="waves-effect waves-light btn" ng-click="upload()" ng-hide="doc.uploaded || doc.filename == ''"><i class="material-icons right">cloud</i>Update</a>
+					<a class="waves-effect waves-light btn" ng-click="save()" ng-show="doc.uploaded"><i class="material-icons right">cloud</i>Save</a>
+				</form>
 			</div>
-
 		</div>
+
 	</div>
-<!-- </div> -->
-<center><a class="btn" ng-click="sendmail()">send mail</a></center>
+</div>

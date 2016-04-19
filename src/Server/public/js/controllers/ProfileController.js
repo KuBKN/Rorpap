@@ -55,24 +55,6 @@ app.controller('ProfileController', ['$scope', '$http', '$window', 'loadUser', '
             });
     }
 
-    $scope.sendmail = function(){
-        console.log('in function');
-        $http.post('/api/mailservice').success(function(data){
-            console.log('success\n');
-            console.log(data);
-        }).error(function(){
-            console.log('error');
-        });
-    };
-
-
-
-
-
-
-
-
-
     $scope.upload = function() {
         console.log($scope.file);
       if ($scope.form.file.$valid && $scope.file) {
@@ -86,16 +68,12 @@ app.controller('ProfileController', ['$scope', '$http', '$window', 'loadUser', '
             data: {
                 file: file
             }
-        }).then(function (resp) {
-            // console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+        }).then(function (resp) {            
             $scope.doc.hidden = false;
             $scope.doc.filename = "uploads/" + resp.data;
             $scope.doc.uploaded = true;
-        }, function (resp) {
-            // console.log('Error status: ' + resp.status);
-        }, function (evt) {
-            // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            // console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        }, function (resp) {            
+        }, function (evt) {        
         });
     };
 
