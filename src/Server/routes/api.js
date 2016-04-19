@@ -256,9 +256,7 @@ var Request = mongoose.model('requests', {
     type: String,
     hasAccept: Boolean,
     fromLoc: String,
-    toLoc: String,
-    reqLimitDate: String,
-    reqLimitTime: String,
+    toLoc: String,   
     appointDate: String,
     appointTime: String,
     shipLimitDate: String,
@@ -277,8 +275,6 @@ router.post('/request/create', function(req, res, next) {
     var toLoc = req.body.toLoc;
     var messenger_id = req.body.messenger_id;
 
-    var reqLimitDate = '01/01/2011'; //now.format('DD/MM/YYYY');
-    var reqLimitTime = '01:01'; //now.format('mm:hh');
     var shipLimitDate = req.body.shipLimitDate;
     var shipLimitHour = req.body.shipLimitHour;
     var shipLimitTime = req.body.shipLimitTime;
@@ -308,9 +304,7 @@ router.post('/request/create', function(req, res, next) {
         weight: weight,
         disclosure: disclosure,
         fromLoc: fromLoc,
-        toLoc: toLoc,
-        reqLimitDate: reqLimitDate,
-        reqLimitTime: reqLimitTime,
+        toLoc: toLoc,        
         shipLimitDate: shipLimitDate,
         shipLimitHour: shipLimitHour,
         shipLimitTime: shipLimitTime,
@@ -332,9 +326,7 @@ router.post('/request/update', function(req, res, next) {
     var type = 'Pending';
     var fromLoc = req.body.fromLoc;
     var toLoc = req.body.toLoc;
-    var messenger_id = req.body.messenger_id;
-    var reqLimitDate = '01/01/2011'; //now.format('DD/MM/YYYY');
-    var reqLimitTime = '01:01'; //now.format('mm:hh');
+    var messenger_id = req.body.messenger_id;    
     var shipLimitDate = req.body.shipLimitDate;
     var shipLimitHour = req.body.shipLimitHour;
     var shipLimitTime = req.body.shipLimitTime;
@@ -382,7 +374,7 @@ router.get('/request/get_request/:reqtype/:sender_id', function(req, res, next) 
     if (sender_id.charAt(0)=='!') {
         sender_id = {$ne: sender_id.substring(1)};
     };
-    Request.find({sender_id: sender_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1, reqLimitDate: -1}}, function(err, requests) {
+    Request.find({sender_id: sender_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1}}, function(err, requests) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }
@@ -398,7 +390,7 @@ router.get('/request/get_quest/:reqtype/:messenger_id', function(req, res, next)
     if (messenger_id.charAt(0)=='!') {
         messenger_id = {$ne: messenger_id.substring(1)};
     };
-    Request.find({messenger_id: messenger_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1, reqLimitDate: -1}}, function(err, requests) {
+    Request.find({messenger_id: messenger_id, type: {$regex: '.*' + reqtype + '.*'}}, null, {sort: {type: -1}}, function(err, requests) {
         if (err) {
             res.status(HTTP_INTERNAL_SERVER_ERROR).send();
         }

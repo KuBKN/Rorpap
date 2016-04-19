@@ -143,6 +143,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 		$http.post('/api/acceptance/add/' + messenger_id + "/" + $scope.curreq._id, $scope.accept)
 		.success(function(data) {
 			console.log(data);
+			location.path('/messenger');
 			window.location.reload();
 		})
 		.error(function(data) {
