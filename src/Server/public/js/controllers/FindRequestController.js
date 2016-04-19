@@ -1,4 +1,4 @@
-app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileViewer', 'loadUser', 'requestColor', 'requestParcelImg', function($scope, $http, $cookies, profileViewer, loadUser, requestColor, requestParcelImg, uiGmapGoogleMapApi){
+app.controller('FindRequestController', ['$scope', '$http','$cookies', '$location', 'profileViewer', 'loadUser', 'requestColor', 'requestParcelImg', function($scope, $http, $cookies, $location, profileViewer, loadUser, requestColor, requestParcelImg, uiGmapGoogleMapApi){
 	
 	$scope.requests = [];
 
@@ -143,7 +143,7 @@ app.controller('FindRequestController', ['$scope', '$http','$cookies', 'profileV
 		$http.post('/api/acceptance/add/' + messenger_id + "/" + $scope.curreq._id, $scope.accept)
 		.success(function(data) {
 			console.log(data);
-			location.path('/messenger');
+			$location.path('/messenger');
 			window.location.reload();
 		})
 		.error(function(data) {
