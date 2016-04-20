@@ -8,7 +8,7 @@
 			<font size="2">E-mail: {{ user.email }}<br>
 			Birth Date: {{ user.dateOfBirth }}<br>
 			Tel: {{ user.tel }}<br>
-			Status: {{ user.status }}<br>
+			Status: {{ user.status == 1 ? "Messenger" : (user.status == 0 ? "Sender" : "Enrolled") }}<br>
 			Point: {{ user.point }}</font>
 			<br>
 			<a href="javascript:void(0)" ng-click="doc.show = !doc.show" ng-hide="doclink.hidden">Official Document</a>
@@ -23,13 +23,6 @@
 				</div>
 			</div>
 
-			First Name: {{ user.firstname }} <br>
-			Last Name: {{ user.lastname }} <br>
-			E-mail: {{ user.email }} <br>
-			Birth Date: {{ user.dateOfBirth }} <br>
-			Tel: {{ user.tel }} <br>
-			Status: {{ user.status }} <br>
-			Point: {{ user.point }}
 		</div>
 
 	</div>
