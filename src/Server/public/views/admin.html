@@ -34,7 +34,7 @@
  		 </tr>
  	   </thead>
  	   <tbody>
- 		 <tr ng-repeat="user in users.docs">
+ 		 <tr ng-repeat="user in users">
  		   <td><a href="#!/profile_other" ng-click="seeUser(user)">{{ user.firstname + " " + user.lastname }}</a></td>
  		   <td>{{ user.email }}</td>
 		   <td>{{ user.dateOfBirth }}</td>
@@ -42,15 +42,6 @@
  		 </tr>
  	   </tbody>
  	 </table>
-	 <p>{{ users.total }}</p>
-	 <ul class="pagination">
-		 <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-
-		 <li class="active"><a href="#!">1</a></li>
-		 <li class="waves-effect" ng-repeat="n in range(5,15)"><a href="#!">{{ n }}</a></li>
-
-		 <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-	 </ul>
 	 <div class="progress" ng-show="users_loading">
  		<div class="indeterminate"></div>
    	</div>

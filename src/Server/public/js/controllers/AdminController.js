@@ -38,8 +38,8 @@ app.controller('AdminController', ['$scope', '$http', '$window', 'profileViewer'
     // all
     $scope.users = {};
     $scope.users_loading = true;
-    $scope.getUsers = function(page) {
-		$http.get('/api/user/get/5/' + page)
+    $scope.getUsers = function() {
+		$http.get('/api/user/get')
 			.success(function(data) {
 				$scope.users = data;
                 $scope.users_loading = false;
@@ -50,7 +50,7 @@ app.controller('AdminController', ['$scope', '$http', '$window', 'profileViewer'
 				console.log(data);
 			});
 	}
-    $scope.getUsers(1);
+    $scope.getUsers();
 
     $scope.seeUser = function(user){
 		profileViewer.seeUser(user);

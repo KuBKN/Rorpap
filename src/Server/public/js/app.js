@@ -8,11 +8,11 @@ app.config(function($routeProvider, $locationProvider ) {
 	}).when('/about', {
         templateUrl: './views/about.html'
 	}).when('/myrequest', {
-		controller: 'MyRequestController',	
+		controller: 'MyRequestController',
 		templateUrl: './views/myrequest.html',
 		resolve:{
-	        "check":function(loadUser,$location){   	        	
-	            if(!loadUser.isLogIned()){ 
+	        "check":function(loadUser,$location){
+	            if(!loadUser.isLogIned()){
 	                $location.path('/');    //redirect user to home.
 	                alert("You don't have access here")
 	            }
@@ -28,8 +28,8 @@ app.config(function($routeProvider, $locationProvider ) {
 		controller: 'ProfileController',
 		templateUrl: './views/profile.html',
 		resolve:{
-	        "check":function(loadUser,$location){   	        	
-	            if(!loadUser.isLogIned()){ 
+	        "check":function(loadUser,$location){
+	            if(!loadUser.isLogIned()){
 	                $location.path('/');    //redirect user to home.
 	                alert("You don't have access here")
 	            }
@@ -39,8 +39,8 @@ app.config(function($routeProvider, $locationProvider ) {
 		controller: 'FindRequestController',
 		templateUrl: './views/findrequest.html',
 		resolve:{
-	        "check":function(loadUser,$location){   	        	
-	            if(!loadUser.isLogIned()){ 
+	        "check":function(loadUser,$location){
+	            if(!loadUser.isLogIned()){
 	                $location.path('/');    //redirect user to home.
 	                alert("You don't have access here")
 	            }
@@ -50,8 +50,8 @@ app.config(function($routeProvider, $locationProvider ) {
 		controller: 'MessengerController',
 		templateUrl: './views/messenger.html',
 		resolve:{
-	        "check":function(loadUser,$location){   	        	
-	            if(!loadUser.isLogIned()){ 
+	        "check":function(loadUser,$location){
+	            if(!loadUser.isLogIned()){
 	                $location.path('/');    //redirect user to home.
 	                alert("You don't have access here")
 	            }
@@ -127,18 +127,18 @@ app.service('requestColor', function(){
 });
 
 app.service('requestParcelImg', function(){
-	var allImgs = [{ url: 'images/parcels/parcel01.jpg',						
+	var allImgs = [{ url: 'images/parcels/parcel01.jpg',
 						name: 'Paper'},
-					{ url: 'images/parcels/parcel02.jpg',						
+					{ url: 'images/parcels/parcel02.jpg',
 						name: 'Small'},
-					{ url: 'images/parcels/parcel03.jpg',						
+					{ url: 'images/parcels/parcel03.jpg',
 						name: 'Flat'},
-					{ url: 'images/parcels/parcel04.jpg',						
+					{ url: 'images/parcels/parcel04.jpg',
 						name: 'Medium'},
-					{ url: 'images/parcels/parcel05.jpg',						
+					{ url: 'images/parcels/parcel05.jpg',
 						name: 'Big'},
-					{ url: 'images/parcels/parcel06.jpg',						
-						name: 'Long'}];	
+					{ url: 'images/parcels/parcel06.jpg',
+						name: 'Long'}];
 
 	this.getAll = function(){
 		return allImgs;
@@ -146,7 +146,7 @@ app.service('requestParcelImg', function(){
 
 	this.getByIndex = function(index){
 		return allImgs[index];
-	};	
+	};
 });
 
 app.factory('requestEditor', function() {
@@ -177,21 +177,15 @@ app.service('trackingRequest',function(){
 
 app.service('mailMessage',function(){
 
-	var sendTokenToRec = function(req){ 
+	var sendTokenToRec = function(req){
 		return {email: req.recipient_email,
 				topic: 'Receive Token',
 				html: '<h4>Hello, Your shipment has started!</h4><br>You can track your shipment by using this tracking number.<br><label style="background-color: yellow">'+req._id+'</label><br><br>Please use this token to receive your parcel.<br><h2><label style="background-color: yellow">'+'Send'+'</label></h2>'}
 			}
-	var sendAbandonToRec = function(req){ 
-		return {email: req.recipient_email,
-				topic: 'Request Abandoned',
-				html: '<h4>Hello, Your shipment has been canceled!</h4><br>Please wait until the next messenger get this shipment<br>Request No. <label style="background-color: yellow">'+req._id+'</label>'}
-			}
-	
+
 	this.getMessage = function(type,request){
-		if(type=="sendTokenToRec"){
-			return sendTokenToRec(request) }
-		else if(type=="sendAbandonToRec"){
-			return sendAbandonToRec(request) }
+		if (type=="sendTokenToRec") {
+			return sendTokenToRec(request)
+        }
 	}
 });
