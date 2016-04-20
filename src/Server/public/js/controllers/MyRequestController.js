@@ -79,8 +79,13 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
 
 	$scope.getRequests();
 
-	$scope.removeRequest = function(index) {
-		$http.post('/api/request/remove', $scope.requests[index])
+	$scope.showRemoveModal = function(index){
+		$scope.curRequest = $scope.requests[index];	
+        $('#removeModal').openModal();    
+	};
+
+	$scope.removeRequest = function() {		
+		$http.post('/api/request/remove', $scope.curRequest)
 		.success(function(data) {
 
 			window.location.reload();
@@ -270,8 +275,13 @@ app.controller('MyRequestController', ['$scope', '$http', '$cookies', '$location
     	$location.path('/newrequest');
     };
 
-    $scope.cancelRequest = function(index){
-    	var request_id = $scope.requests[index]._id;
+    $scope.showCancelModal = function(index){
+    	$scope.curRequest = $scope.requests[index];	
+        $('#cancelModal').openModal();    
+    };
+
+    $scope.cancelRequest = function(){
+    	var request_id = $scope.curRequest._id;    	
     	$http.post('/api/request/cancel/'+request_id)
 			.success(function(data) {
 				window.location.reload();

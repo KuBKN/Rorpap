@@ -162,8 +162,13 @@ app.controller('AcceptedController', ['$scope', '$http','$cookies', 'profileView
 
 	};
 
-	$scope.removeAccept = function(index) {
-		$http.post('/api/acceptance/remove', $scope.requests[index].accepto)
+	$scope.showRemoveModal = function(index){
+    	$scope.curRequest = $scope.requests[index];	
+        $('#removeModal').openModal();    
+    };
+
+	$scope.removeAccept = function() {		
+		$http.post('/api/acceptance/remove', $scope.curRequest.accepto)
 				.success(function(data) {
 					window.location.reload();
 				})

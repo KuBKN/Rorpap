@@ -17,8 +17,7 @@ app.controller('HeaderController', ['$scope', '$window', 'loadUser', function($s
     		href: '#!/myrequest',
     		class: '',
     		dactivate: '',
-    		size: 4,
-    		color: '#ffa337'
+    		size: 4
     	},
     	{
             id: 'about',
@@ -26,17 +25,23 @@ app.controller('HeaderController', ['$scope', '$window', 'loadUser', function($s
     		href: '#!/about',
     		class: '',
     		dactivate: '',
-    		size: 4,
-    		color: '#ffa337'
+    		size: 4
     	},
+        {
+            id: 'about',
+            title: 'About',
+            href: '#!/about',
+            class: '',
+            dactivate: '',
+            size: 3
+        },
     	{
             id: 'signup',
     		title: 'Sign Up',
     		href: '#modalSignup',
     		class: 'modal-trigger',
     		dactivate: '',
-    		size: 4,
-    		color: '#ffa337'
+    		size: 4
     	},
     	{
             id: 'login',
@@ -44,8 +49,7 @@ app.controller('HeaderController', ['$scope', '$window', 'loadUser', function($s
     		href: '#modalLogin',
     		class: 'modal-trigger',
     		dactivate: '',
-    		size: 4,
-    		color: '#ffa337'
+    		size: 4
     	},
 		{
             id: 'profile',
@@ -53,8 +57,7 @@ app.controller('HeaderController', ['$scope', '$window', 'loadUser', function($s
     		href: '',
     		class: 'dropdown-button',
     		dactivate: 'dropdown1',
-    		size: 4,
-    		color: '#ffa337'
+    		size: 4
     	},
     	{
             id: 'account',
@@ -62,8 +65,7 @@ app.controller('HeaderController', ['$scope', '$window', 'loadUser', function($s
     		href: '#!/profile',
     		class: '',
     		dactivate: '',
-    		size: 3,
-    		color: '#ffa337'
+    		size: 3
     	},
     	{
             id: 'logout',
@@ -71,18 +73,17 @@ app.controller('HeaderController', ['$scope', '$window', 'loadUser', function($s
     		href: '#modalLogout',
     		class: 'modal-trigger',
     		dactivate: '',
-    		size: 3,
-    		color: '#ff7171'
+    		size: 3
     	},
     	];
 
     	var umenus;
     	var mumenus;
     	if($scope.logIned){
-    		umenus = [0,1,4];
-    		mumenus = [0,5,1,6];
+    		umenus = [0,1,5];
+    		mumenus = [0,6,2,7];
     	}else{
-    		umenus = [1,2,3];
+    		umenus = [1,3,4];
     		mumenus = umenus;
     	}
 

@@ -97,7 +97,7 @@
 									<div class="col s4 m4 right green-text" style="text-align: right"><h5>{{request.price}} Baht</h5></div>
 									<div class="col m12 s12">
 										<span class="right">
-											<a id="acancel{{$index}}" class="btn" style="background-color: #e51c23" ng-click="removeAccept($index)">Cancel</a>
+											<a id="acancel{{$index}}" class="btn" style="background-color: #e51c23" ng-click="showRemoveModal($index)">Cancel</a>
 										</span>
 									</div>
 								</div>
@@ -157,6 +157,17 @@
 								<button id="acceptBtn" type="submit" class="btn btn-default" style="background-color: #ffa338" ng-click="editTime()" ng-disabled="acceptForm.$invalid">Save</button>
 							</center>
 						</form>
+					</div>
+				</div>
+				<div id="removeModal" class="modal" style="width: 320px">
+					<div class="modal-content" style="padding: 20px 10px;">
+
+						Confirm for remove?<br><br>
+
+						<center>
+						<a id="confirmRemove" class="btn modal-close" style="background-color: #e51c23" ng-click="removeAccept()">Remove</a>
+						<a id="cancelRemove" class="btn modal-close white black-text">Cancel</a>
+						</center>
 					</div>
 				</div>
 			</div>
@@ -253,7 +264,7 @@
 
 									<div class="col m12 s12">
 										<span class="right">
-											<a id="rcancel{{$index}}" class="btn" style="background-color: #e51c23" ng-if="request.type == 'Reserved'" ng-click="cancelReserved($index)">Cancel</a>
+											<a id="rcancel{{$index}}" class="btn" style="background-color: #e51c23" ng-if="request.type == 'Reserved'" ng-click="showCancelModal($index)">Cancel</a>
 										</span>
 									</div>
 								</div>
@@ -314,6 +325,17 @@
 				      </div>
 				      <center><a class="btn" style="background-color: #e51c23" ng-click="submitFinishToken()">Submit</a></center>
 				  </div>
+				</div>
+				<div id="cancelModal" class="modal" style="width: 320px">
+					<div class="modal-content" style="padding: 20px 10px;">
+
+						Confirm for cancel?<br><br>
+
+						<center>
+						<a id="okCancel" class="btn modal-close" style="background-color: #e51c23" ng-click="cancelReserved()">Confirm</a>
+						<a id="backCancel" class="btn modal-close white black-text">Back</a>
+						</center>
+					</div>
 				</div>
 			</div>
 
